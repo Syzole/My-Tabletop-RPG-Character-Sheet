@@ -1,4 +1,8 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -46,4 +50,4 @@ form label {
 form input {
   padding: 0.5rem;
   margin-left: 1rem;
-}
+} */
