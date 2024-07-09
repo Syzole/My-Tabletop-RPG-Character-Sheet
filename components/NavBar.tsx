@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-const spacing = "px-10";
+const spacing = "p-5";
 
 interface NavLinkProps {
 	href: string;
@@ -10,15 +10,15 @@ interface NavLinkProps {
 }
 
 const NavLink = ({ href, text }: NavLinkProps ) => (
-	<li className={`${spacing}`}>
+	<li className={`${spacing} `}>
 		<Link href={href}>{text}</Link>
 	</li>
 );
 
 export default function NavBar() {
 	return (
-		<nav>
-			<ul className="flex">
+		<nav className="h-auto min-w-fit max-w-screen justify-center items-center bg-green-600">
+			<ul className="flex flex-wrap space-x-6 mx-auto">
 				<NavLink
 					href="/"
 					text="Home"
