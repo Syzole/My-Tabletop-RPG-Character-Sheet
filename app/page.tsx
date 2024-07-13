@@ -1,4 +1,6 @@
 import React from "react";
+import { Prisma } from "@prisma/client";
+//this is me testing tailwindcss
 
 export default function Home() {
 	return (
