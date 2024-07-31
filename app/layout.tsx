@@ -1,28 +1,25 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../styles/globals.css";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
+
+import '../styles/globals.css'
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "My Dnd app",
-  description: "Will be made to run Dnd games",
+	title: "My dnd",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-			<html lang="en">
-				<body className="flex flex-col min-h-screen">
-					<Header />
-					<NavBar />
-					{children}
-				</body>
-			</html>
-		);
+	return (
+		<html
+			lang="en"
+			data-theme="light"
+		>
+			<body className={inter.className}>{children}</body>
+		</html>
+	);
 }

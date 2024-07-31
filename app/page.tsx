@@ -1,14 +1,9 @@
-import React from "react";
-import { Prisma } from "@prisma/client";
-//this is me testing tailwindcss
+import DnDCharacterStatsSheet from './Dnd 1.0 Sheet/DnDCharacterStatsSheet';
 
-export default function Home() {
+export default function Page() {
 	return (
-		<main className="flex items-center justify-center flex-grow text-center bg-black">
-			<div className="p-5 text-white">
-				<h2>Welcome to D&D Beyond Clone</h2>
-				<p>Select an option from the navigation bar to get started.</p>
-			</div>
-		</main>
+		<div>
+			<DnDCharacterStatsSheet />
+		</div>
 	);
 }

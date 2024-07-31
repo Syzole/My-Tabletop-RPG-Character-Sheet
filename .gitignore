@@ -38,8 +38,13 @@ next-env.d.ts
 
 #supabase
 .vscode
-supabase
 test.mjs
 
-#prisma
-prisma
+# my suggestions
+prisma/migrations
+prisma/dev.db
+prisma/dev.db-journal
+data
+characters
+test.mjs
+testcharecter.tsx

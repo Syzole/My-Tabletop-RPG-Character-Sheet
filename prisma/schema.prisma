@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Spells {
+  at_higher_levels String?
+  casting_time     String
+  classes          String
+  components       String
+  duration         String
+  level            String
+  name             String  @id @unique
+  optional_classes String?
+  page             String
+  range            String
+  school           String
+  source           String
+  description      String
+  level_numeric    Int
+  ritual           Boolean @default(false)
+  concentration    Boolean @default(false)
+  attack_save      String?
+}
+
+model Items {
+  name       String  @id
+  source     String
+  page       Int
+  rarity     String
+  type       String?
+  attunement String?
+  properties String?
+  weight     String?
+  value      String?
+  text       String
+}
+
+model Classes {
+  class_name              String         @id @unique
+  hit_die                 String
+  primary_ability         String
+  saves                   String[]
+  armor_proficiencies     String[]
+  weapon_proficiencies    String[]
+  skill_proficiencies     String[]
+  max_skill_proficiencies Int
+  starting_Equipment      Json[]
+  tool_proficiencies      String[]
+  subclasses              Subclass[]
+  class_levels            Class_Levels[]
+}
+
+model Class_Levels {
+  level          Int
+  class_name     String
+  class_features Class_Features[]
+  classes        Classes          @relation(fields: [class_name], references: [class_name])
+
+  @@id([level, class_name])
+  @@map("Class Levels")
+}
+
+model Class_Features {
+  feature_name String
+  class_name   String
+  level        Int
+  description  String
+  action_type  ActionType
+  class_levels Class_Levels @relation(fields: [level, class_name], references: [level, class_name], onDelete: Cascade)
+
+  @@id([feature_name, class_name, level])
+  @@map("Class Features")
+}
+
+model Subclass {
+  subclass_name     String              @id @unique
+  class_name        String
+  classes           Classes             @relation(fields: [class_name], references: [class_name])
+  subclass_features Subclass_Features[]
+}
+
+model Subclass_Features {
+  feature_name  String     @id
+  subclass_name String
+  level         Int
+  description   String
+  action_type   ActionType
+  subclass      Subclass   @relation(fields: [subclass_name], references: [subclass_name], onDelete: Cascade)
+
+  @@map("Subclass Features")
+}
+
+enum ActionType {
+  Attack
+  Action
+  BonusAction
+  Reaction
+  Other
+  LimitedUse
+  Passive
+}
