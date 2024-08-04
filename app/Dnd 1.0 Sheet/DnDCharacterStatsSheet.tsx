@@ -11,9 +11,13 @@ import StatBox2 from "./Components/StatBox2";
 import DeathSave from "./Components/DeathSave";
 import AttackTable from "./Components/AttackTable";
 import Currency from "./Components/Currency";
-import torvok from "../../characters/torvok.json";
+import torvokData from "../../characters/John.json";
+import { ProficiencyLevel, Proficiencies } from "./DnDCharacter";
 
 import "./dndstyles.css";
+
+let torvok = new DnDCharacter();
+Object.assign(torvok, torvokData);
 
 interface IDnDCharacterStatsSheetProps {
 	character?: DnDCharacter;
@@ -40,7 +44,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 
 	updateCharacter(name: string, value: any) {
 		const oldCharacter = this.getCharacter();
-		const newCharacter: DnDCharacter = {};
+		const newCharacter: DnDCharacter = new DnDCharacter();
 		Object.assign(newCharacter, oldCharacter);
 		newCharacter[name] = value;
 
@@ -64,12 +68,27 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 		return character;
 	}
 
+	formatProficiencies = (proficiencies: Proficiencies) => {
+		if (!proficiencies) return "";
+
+		// check if proficiencies is in the right format, if not return an empty string
+
+		if (!proficiencies.armor || !proficiencies.weapons || !proficiencies.tools || !proficiencies.languages) {
+			//make into a single string
+			return proficiencies;
+		}
+
+		// Convert the proficiency object to a string
+		return [
+			"Armor: " + (proficiencies.armor.length > 0 ? proficiencies.armor.join(", ") : "None"),
+			"Weapons: " + (proficiencies.weapons.length > 0 ? proficiencies.weapons.join(", ") : "None"),
+			"Tools: " + (proficiencies.tools.length > 0 ? proficiencies.tools.join(", ") : "None"),
+			"Languages: " + (proficiencies.languages.length > 0 ? proficiencies.languages.join(", ") : "None"),
+		].join("\n");
+	};
+
 	render() {
 		let character = this.getCharacter();
-
-		//load test character
-
-		//character = torvok;
 
 		return (
 			<div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex flex-col justify-center items-center">
@@ -177,50 +196,32 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 										<Statbox
 											label="Strength"
 											name="str"
-											value={character.str}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											value={character.stats.str}
 										/>
 										<Statbox
 											label="Dexterity"
 											name="dex"
-											value={character.dex}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											value={character.stats.dex}
 										/>
 										<Statbox
 											label="Constitution"
 											name="con"
-											value={character.con}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											value={character.stats.con}
 										/>
 										<Statbox
 											label="Intelligence"
 											name="int"
-											value={character.int}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											value={character.stats.int}
 										/>
 										<Statbox
 											label="Wisdom"
 											name="wis"
-											value={character.wis}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											value={character.stats.wis}
 										/>
 										<Statbox
 											label="Charisma"
 											name="cha"
-											value={character.cha}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											value={character.stats.cha}
 										/>
 									</div>
 								</div>
@@ -229,18 +230,12 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 										label="Inspiration"
 										name="inspiration"
 										value={character.inspiration}
-										onChange={(name: string, value: any) => {
-											this.updateCharacter(name, value);
-										}}
 									/>
 									<StatRow
 										classes="rounded"
 										label="Proficiency Bonus"
 										name="proficiencyBonus"
 										value={character.proficiencyBonus}
-										onChange={(name: string, value: any) => {
-											this.updateCharacter(name, value);
-										}}
 									/>
 									<div className="d-and-d-box">
 										<div style={{ textAlign: "left" }}>
@@ -249,54 +244,36 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="strSave"
 												value={character.strSave}
 												checked={character.strSaveChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Dexterity"
 												name="dexSave"
 												value={character.dexSave}
 												checked={character.dexSaveChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Constitution"
 												name="conSave"
 												value={character.conSave}
 												checked={character.conSaveChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Intelligence"
 												name="intSave"
 												value={character.intSave}
 												checked={character.intSaveChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Wisdom"
 												name="wisSave"
 												value={character.wisSave}
 												checked={character.wisSaveChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Charisma"
 												name="chaSave"
 												value={character.chaSave}
 												checked={character.chaSaveChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 										</div>
 										<label
@@ -314,9 +291,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillAcrobatics"
 												value={character.skillAcrobatics}
 												checked={character.skillAcrobaticsChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Animal Handling"
@@ -324,9 +298,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillAnimalHandling"
 												value={character.skillAnimalHandling}
 												checked={character.skillAnimalHandlingChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Arcana"
@@ -334,9 +305,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillArcana"
 												value={character.skillArcana}
 												checked={character.skillArcanaChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Athletics"
@@ -344,9 +312,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillAthletics"
 												value={character.skillAthletics}
 												checked={character.skillAthleticsChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Deception"
@@ -354,9 +319,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillDeception"
 												value={character.skillDeception}
 												checked={character.skillDeceptionChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="History"
@@ -364,9 +326,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillHistory"
 												value={character.skillHistory}
 												checked={character.skillHistoryChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Insight"
@@ -374,9 +333,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillInsight"
 												value={character.skillInsight}
 												checked={character.skillInsightChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Intimidation"
@@ -384,9 +340,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillIntimidation"
 												value={character.skillIntimidation}
 												checked={character.skillIntimidationChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Investigation"
@@ -394,9 +347,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillInvestigation"
 												value={character.skillInvestigation}
 												checked={character.skillInvestigationChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Medicine"
@@ -404,9 +354,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillMedicine"
 												value={character.skillMedicine}
 												checked={character.skillMedicineChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Nature"
@@ -414,9 +361,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillNature"
 												value={character.skillNature}
 												checked={character.skillNatureChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Perception"
@@ -424,9 +368,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillPerception"
 												value={character.skillPerception}
 												checked={character.skillPerceptionChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Performance"
@@ -434,9 +375,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillPerformance"
 												value={character.skillPerformance}
 												checked={character.skillPerformanceChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Persuasion"
@@ -444,9 +382,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillPersuasion"
 												value={character.skillPersuasion}
 												checked={character.skillPersuasionChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Religion"
@@ -454,9 +389,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillReligion"
 												value={character.skillReligion}
 												checked={character.skillReligionChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Sleight of Hand"
@@ -464,9 +396,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillSlightOfHand"
 												value={character.skillSlightOfHand}
 												checked={character.skillSlightOfHandChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Stealth"
@@ -474,9 +403,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillStealth"
 												value={character.skillStealth}
 												checked={character.skillStealthChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 											<Skill
 												label="Survival"
@@ -484,9 +410,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												name="skillSurvival"
 												value={character.skillSurvival}
 												checked={character.skillSurvivalChecked}
-												onChange={(name: string, value: any) => {
-													this.updateCharacter(name, value);
-												}}
 											/>
 										</div>
 										<label
@@ -503,16 +426,12 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									classes="rounded rounded-sides"
 									label="Passive Wisdom (Perception)"
 									name="passivePerception"
-									value={character.passivePerception}
-									onChange={(name: string, value: any) => {
-										this.updateCharacter(name, value);
-									}}
+									value={character.calculateSkillModifier("perception") + 10}
 								/>
 							</div>
 							<div className="d-and-d-box mt-4 flex flex-col grow">
 								<textarea
-									value={character.otherProficiencies ? character.otherProficiencies : ""}
-									onChange={(e) => this.updateCharacter("otherProficiencies", e.target.value)}
+									value={character.proficiencies ? (this.formatProficiencies(character.proficiencies) as string) : ""}
 									rows={12}
 									className="flex-grow"
 								/>
@@ -535,19 +454,13 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 											label="Class"
 											name="ac"
 											value={character.ac}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
 										/>
 									</div>
 									<div className="col-4 pr-2 pl-2">
 										<StatBox2
 											label="Initiative"
 											name="init"
-											value={character.init}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											value={"+" + character.getInitiative()}
 										/>
 									</div>
 									<div className="col-4 pl-2">
@@ -555,9 +468,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 											label="Speed"
 											name="speed"
 											value={character.speed}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
 										/>
 									</div>
 								</div>

@@ -69,7 +69,7 @@ function SpellTable(props: {
   return (
     <div className={classes} style={props.style}>
       {props.showLabels ? (
-        <div className='d-and-d-spell-header-labels'>
+        <div className='d-and-d-spell-header-labels flex'>
           <label style={{ width: '20px' }}>Spell Level</label>
           <label style={{ width: '80px' }}>Slots Total</label>
           <label style={{ width: 'calc(100% - 100px)' }}>Slots Remaining</label>

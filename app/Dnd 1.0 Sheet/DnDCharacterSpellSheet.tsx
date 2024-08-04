@@ -8,6 +8,8 @@ import StatBox2 from "./Components/StatBox2";
 
 import "./dndstyles.css";
 import SpellTable from "./Components/SpellTable";
+import torvok from "../../characters/gandelf.json";
+
 
 interface IDnDCharacterSpellsSheetProps {
 	character?: DnDCharacter;
@@ -20,7 +22,7 @@ interface IDnDCharacterSpellsSheetState {
 }
 
 const initialState: IDnDCharacterSpellsSheetState = {
-	character: {},
+	character: torvok,
 };
 
 class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetProps, IDnDCharacterSpellsSheetState> {
@@ -36,7 +38,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 		const oldCharacter = this.getCharacter();
 		const newCharacter: DnDCharacter = {};
 		Object.assign(newCharacter, oldCharacter);
-		newCharacter.name = value;
+		newCharacter[name] = value;
 
 		if (!this.props.character) {
 			// NOT CONTROLLED
@@ -62,10 +64,10 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 		const character = this.getCharacter();
 
 		return (
-			<div className="d-and-d-character-sheet container-xl mt-5 mb-5">
-				<div>
-					<div className="row mb-4">
-						<div className="col-md-3 pr-2 pl-2">
+			<div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex">
+				<div className="grow">
+					<div className="row mb-4 flex">
+						<div className="col-md-3 pr-2 pl-2 grow">
 							<div className="d-and-d-page-title">D&D</div>
 							<div className="d-and-d-attribute-collection char-name pr-3 pl-3">
 								<input
@@ -86,7 +88,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 							</label>
 						</div>
 						<div
-							className="col-md-9 pr-2 pl-2"
+							className="col-md-9 pr-2 pl-2 grow"
 							style={{ marginTop: "18px" }}
 						>
 							<div className="d-and-d-attribute-collection gray pr-3 pl-3">
@@ -173,8 +175,8 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 						</div>
 					</div>
 
-					<div className="row">
-						<div className="col-md-4">
+					<div className="row flex">
+						<div className="col-md-4 grow pr-3">
 							<div className="d-and-d-box">
 								<SpellTable
 									level={0}
@@ -216,7 +218,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 							</div>
 						</div>
 
-						<div className="col-md-4">
+						<div className="col-md-4 grow px-3">
 							<div className="d-and-d-box">
 								<SpellTable
 									level={3}
@@ -260,7 +262,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 							</div>
 						</div>
 
-						<div className="col-md-4">
+						<div className="col-md-4 grow pl-3">
 							<div className="d-and-d-box">
 								<SpellTable
 									level={6}

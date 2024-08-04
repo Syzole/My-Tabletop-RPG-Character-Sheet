@@ -3,7 +3,7 @@ import React from 'react'
 function StatRow(props: {
   classes?: string
   value: string | number | readonly string[] | undefined
-  onChange: (arg0: any, arg1: string) => void
+  //onChange: (arg0: any, arg1: string) => void
   name: any
   label: React.ReactNode
 }) {
@@ -18,7 +18,7 @@ function StatRow(props: {
         <input
           type='text'
           value={props.value ? props.value : ''}
-          onChange={(e) => props.onChange(props.name, e.target.value)}
+          //onChange={(e) => props.onChange(props.name, e.target.value)}
         />
       </div>
       <div className='d-and-d-statrow-label'>

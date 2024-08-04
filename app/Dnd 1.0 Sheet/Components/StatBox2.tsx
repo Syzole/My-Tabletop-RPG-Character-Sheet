@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 function StatBox2(props: {
   classes?: string
   value: string | number | readonly string[] | undefined
-  onChange: (arg0: any, arg1: string) => void
+  //onChange: (arg0: any, arg1: string) => void
   name: any
   labelTop?: {} | null | undefined
   label?: React.ReactNode
@@ -20,12 +20,12 @@ function StatBox2(props: {
           <input
             type='text'
             value={props.value ? props.value : ''}
-            onChange={(e) => props.onChange(props.name, e.target.value)}
+            //onChange={(e) => props.onChange(props.name, e.target.value)}
           />
         </div>
         {props.labelTop != null ? (
           <div>
-            <label className='label-top'>{props.labelTop}</label>
+            <label className='label-top'>{props.labelTop as ReactNode}</label>
           </div>
         ) : null}
         {props.label != null ? (

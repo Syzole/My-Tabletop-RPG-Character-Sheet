@@ -10,7 +10,7 @@ function AttackTable(props: {
   function updateValue(index: string, field: string, v: string) {
     const value = getValue().slice()
     value[Number(index)][field] = v
-    props.onChange(props.name, value)
+    // props.onChange(props.name, value) // Commented out the onChange function
   }
 
   function getValue() {
