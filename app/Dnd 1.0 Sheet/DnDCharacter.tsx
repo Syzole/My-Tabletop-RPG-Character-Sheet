@@ -233,6 +233,19 @@ export default class DnDCharacter {
 		return modifier;
 	}
 
+	calculateSavingThrowModifier(stat: keyof Stats): number {
+		const statModifier = this.getStatModifier(this.stats[stat]);
+		let modifier = statModifier;
+
+		switch (this.savingThrowProficiencies[stat]) {
+			case SavingThrowProficiencyLevel.Proficient:
+				modifier += this.proficiencyBonus;
+				break;
+		}
+
+		return modifier;
+	}
+
 	getInitiative(): number {
 		let initiative = this.getStatModifier(this.stats.dex);
 		if (this.jackOfAllTrades) {
