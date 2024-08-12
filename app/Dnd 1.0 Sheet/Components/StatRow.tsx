@@ -21,7 +21,7 @@ function StatRow(props: {
 					readOnly // Added the readOnly attribute
 				/>
 			</div>
-			<div className="d-and-d-statrow-label">
+			<div className="d-and-d-statrow-label text-8xl">
 				<label>{props.label}</label>
 			</div>
 		</div>

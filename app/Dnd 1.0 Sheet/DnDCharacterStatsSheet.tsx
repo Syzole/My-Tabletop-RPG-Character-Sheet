@@ -2,7 +2,7 @@
 import React from "react";
 
 // eslint-disable-next-line no-unused-vars
-import DnDCharacter from "./DnDCharacter";
+import DnDCharacter from "../../characters/CharecterManagement/DnDCharacter";
 
 import Statbox from "./Components/StatBox";
 import StatRow from "./Components/StatRow";
@@ -11,11 +11,15 @@ import StatBox2 from "./Components/StatBox2";
 import DeathSave from "./Components/DeathSave";
 import AttackTable from "./Components/AttackTable";
 import Currency from "./Components/Currency";
+
+
+// below is the import for the DnDCharacter class
 import torvokData from "../../characters/John.json";
-import {Proficiencies } from "./DnDCharacter";
-import { allSkills } from "@/data/Definitions";
+import { Proficiencies } from "@/characters/CharecterManagement/types";
+import { allSkills } from "@/characters/CharecterManagement/definitions";
 
 import "./dndstyles.css";
+
 
 let torvok = new DnDCharacter();
 Object.assign(torvok, torvokData);
@@ -197,32 +201,32 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 										<Statbox
 											label="Strength"
 											name="str"
-											defaultValue={character.stats.str}
+											defaultValue={character.baseStats.str}
 										/>
 										<Statbox
 											label="Dexterity"
 											name="dex"
-											defaultValue={character.stats.dex}
+											defaultValue={character.baseStats.dex}
 										/>
 										<Statbox
 											label="Constitution"
 											name="con"
-											defaultValue={character.stats.con}
+											defaultValue={character.baseStats.con}
 										/>
 										<Statbox
 											label="Intelligence"
 											name="int"
-											defaultValue={character.stats.int}
+											defaultValue={character.baseStats.int}
 										/>
 										<Statbox
 											label="Wisdom"
 											name="wis"
-											defaultValue={character.stats.wis}
+											defaultValue={character.baseStats.wis}
 										/>
 										<Statbox
 											label="Charisma"
 											name="cha"
-											defaultValue={character.stats.cha}
+											defaultValue={character.baseStats.cha}
 										/>
 									</div>
 								</div>
@@ -286,12 +290,13 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									</div>
 									<div className="d-and-d-box">
 										<div style={{ textAlign: "left" }}>
-											{allSkills.map((skill) => (
+											{Array.from(allSkills.entries()).map(([label, name]) => (
 												<Skill
-													label={skill}
-													name={skill}
-													defaultValue={character.calculateSkillModifier(skill.toString())}
-													checked={character.skillProficiencies[skill] === "Proficient"}
+													key={name} // Ensure a unique key prop for each Skill component
+													label={label} // Display name of the skill
+													name={name} // Internal identifier for the skill
+													defaultValue={character.calculateSkillModifier(name)} // Skill modifier
+													checked={character.skillProficiencies[name] === "Proficient" || character.skillProficiencies[name] === "Expertise"} // Proficiency check
 												/>
 											))}
 										</div>
@@ -314,7 +319,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 							</div>
 							<div className="d-and-d-box mt-4 flex flex-col grow">
 								<textarea
-									defaultValue={character.proficiencies ? (this.formatProficiencies(character.proficiencies) as string) : ""}
+									defaultValue={character ? (this.formatProficiencies(character.proficiencies) as string) : ""}
 									rows={12}
 									className="flex-grow"
 								/>
@@ -343,7 +348,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 										<StatBox2
 											label="Initiative"
 											name="init"
-											defaultValue={"+" + character.getInitiative()}
+											defaultValue={"+" + character.initiative}
 										/>
 									</div>
 									<div className="col-4 pl-2">
@@ -470,10 +475,9 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 
 							<div className="d-and-d-box mt-3 text-center flex flex-col">
 								<AttackTable
-									rows={3}
+									rows={character.attacks ? character.attacks.length : 1}
 									name="attacks"
 									defaultValue={character.attacks}
-									
 								/>
 								<textarea
 									defaultValue={character.attacksText ? character.attacksText : ""}

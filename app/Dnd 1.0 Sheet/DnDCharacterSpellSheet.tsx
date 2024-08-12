@@ -2,13 +2,16 @@
 import React from "react";
 
 // eslint-disable-next-line no-unused-vars
-import DnDCharacter from "./DnDCharacter";
+import DnDCharacter from "../../characters/CharecterManagement/DnDCharacter";
 
 import StatBox2 from "./Components/StatBox2";
 
 import "./dndstyles.css";
 import SpellTable from "./Components/SpellTable";
-import torvok from "../../characters/gandelf.json";
+import torvokData from "../../characters/Gandalf.json";
+
+let torvok = new DnDCharacter();
+Object.assign(torvok, torvokData);
 
 
 interface IDnDCharacterSpellsSheetProps {
@@ -36,7 +39,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 
 	updateCharacter(name: string, value: any) {
 		const oldCharacter = this.getCharacter();
-		const newCharacter: DnDCharacter = {};
+		const newCharacter: DnDCharacter = new DnDCharacter();
 		Object.assign(newCharacter, oldCharacter);
 		newCharacter[name] = value;
 
@@ -74,6 +77,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 									type="text"
 									value={character.spellcastingClass ? character.spellcastingClass : ""}
 									onChange={(e) => this.updateCharacter("spellcastingClass", e.target.value)}
+									readOnly
 								/>
 							</div>
 							<label
@@ -96,10 +100,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 									<div className="col-4 pr-4 pl-4">
 										<StatBox2
 											name="preparedSpellsTotal"
-											value={character.preparedSpellsTotal}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											defaultValue={character.preparedSpellsTotal}
 										/>
 										<label
 											style={{
@@ -125,10 +126,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 									<div className="col-4 pr-4 pl-4">
 										<StatBox2
 											name="spellSaveDC"
-											value={character.spellSaveDC}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											defaultValue={character.spellSaveDC}
 										/>
 										<label
 											style={{
@@ -144,10 +142,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 									<div className="col-4 pr-4 pl-4">
 										<StatBox2
 											name="spellAttackBonus"
-											value={character.spellAttackBonus}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											defaultValue={character.spellAttackBonus}
 										/>
 										<label
 											style={{

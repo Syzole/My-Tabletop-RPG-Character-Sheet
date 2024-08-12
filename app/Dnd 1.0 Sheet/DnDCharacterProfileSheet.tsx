@@ -3,12 +3,17 @@
 import React from "react";
 
 // eslint-disable-next-line no-unused-vars
-import DnDCharacter from "./DnDCharacter";
+import DnDCharacter from "../../characters/CharecterManagement/DnDCharacter";
 
 import StatRow from "./Components/StatRow";
 import Image from "./Components/Image";
 
 import "./dndstyles.css";
+
+import torvokData from "../../characters/Gandalf.json";
+
+let torvok = new DnDCharacter();
+Object.assign(torvok, torvokData);
 
 interface IDnDCharacterProfileSheetProps {
 	character?: DnDCharacter;
@@ -21,7 +26,7 @@ interface IDnDCharacterProfileSheetState {
 }
 
 const initialState: IDnDCharacterProfileSheetState = {
-	character: {},
+	character: torvok,
 };
 
 class DnDCharacterProfileSheet extends React.Component<IDnDCharacterProfileSheetProps, IDnDCharacterProfileSheetState> {
@@ -35,7 +40,7 @@ class DnDCharacterProfileSheet extends React.Component<IDnDCharacterProfileSheet
 
 	updateCharacter(name: string, value: any) {
 		const oldCharacter = this.getCharacter();
-		const newCharacter: DnDCharacter = {};
+		const newCharacter: DnDCharacter = new DnDCharacter();
 		Object.assign(newCharacter, oldCharacter);
 		newCharacter.name = value;
 
@@ -278,10 +283,7 @@ class DnDCharacterProfileSheet extends React.Component<IDnDCharacterProfileSheet
 											classes="m-2 rounded rounded-sides wide-input"
 											label="Total Non-Consumable Magic Items"
 											name="totalNonConsumableMagicItems"
-											value={character.totalNonConsumableMagicItems}
-											onChange={(name: string, value: any) => {
-												this.updateCharacter(name, value);
-											}}
+											defaultValue={character.totalNonConsumableMagicItems}
 										/>
 
 										<textarea
