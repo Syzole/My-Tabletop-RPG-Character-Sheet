@@ -2,7 +2,7 @@
 import React from "react";
 
 // eslint-disable-next-line no-unused-vars
-import DnDCharacter from "../../characters/CharecterManagement/DnDCharacter";
+import DnDCharacter from "@/lib/DnDCharacter";
 
 import Statbox from "./Components/StatBox";
 import StatRow from "./Components/StatRow";
@@ -15,8 +15,8 @@ import Currency from "./Components/Currency";
 
 // below is the import for the DnDCharacter class
 import torvokData from "../../characters/John.json";
-import { Proficiencies } from "@/characters/CharecterManagement/types";
-import { allSkills } from "@/characters/CharecterManagement/definitions";
+import { Proficiencies } from "@/lib/types";
+import { allSkills } from "@/lib/definitions";
 
 import "./dndstyles.css";
 

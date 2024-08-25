@@ -9,27 +9,39 @@ datasource db {
 }
 
 model Item {
-  name       String   @id
-  source     String?
-  page       Int?
+  name       String @id
+  value      Int?
+  weight     Float?
+  source     String[]
   rarity     String
-  type       String[]
-  weight     Float
-  value      Int
+  type       String
   properties Json?
 
+  @@unique([name, properties], name: "unique_name_properties")
+  @@index([name], name: "idx_item_name")
+  @@index([type], name: "idx_item_type")
   @@map("Items")
 }
 
 model Class {
-  name                  String          @id
-  hd_faces              Int
-  savingThrowProfs      String[]
-  startingProficiencies Json
-  startingEquipment     Json
-  multiclassing         Json
-  class_features        Class_Feature[]
-  subclasses            Subclass[]
+  name                       String          @id
+  startingProficiencies      Json
+  startingEquipment          Json
+  multiclassing              Json
+  cantripProgression         Int[]
+  casterProgression          String?
+  classFeatures              String[]
+  classTableGroups           Json?
+  hd                         Int
+  optionalfeatureProgression Json?
+  page                       Int
+  proficiency                String[]
+  source                     String
+  spellcastingAbility        String?
+  spellsKnownProgression     Int[]
+  subclassTitle              String
+  Class_Feature              Class_Feature[]
+  Subclass                   Subclass[]
 
   @@map("Classes")
 }
@@ -51,7 +63,7 @@ model Subclass {
   description       String?
   class_name        String
   properties        Json?
-  subclass_name     String             @id @unique
+  subclass_name     String             @id
   subclass_features Subclass_Feature[]
   classes           Class              @relation(fields: [class_name], references: [name], onDelete: Cascade)
 
@@ -63,7 +75,7 @@ model Subclass_Feature {
   level         Int
   description   String
   properties    Json?
-  action_type   featureType
+  type          featureType
   feature_name  String      @id
   subclass      Subclass    @relation(fields: [subclass_name], references: [subclass_name], onDelete: Cascade)
 

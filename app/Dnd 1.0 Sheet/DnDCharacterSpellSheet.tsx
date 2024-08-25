@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
 
-// eslint-disable-next-line no-unused-vars
-import DnDCharacter from "../../characters/CharecterManagement/DnDCharacter";
+import DnDCharacter from "../../lib/DnDCharacter";
 
 import StatBox2 from "./Components/StatBox2";
 
@@ -41,7 +40,7 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 		const oldCharacter = this.getCharacter();
 		const newCharacter: DnDCharacter = new DnDCharacter();
 		Object.assign(newCharacter, oldCharacter);
-		newCharacter[name] = value;
+		newCharacter[ name ] = value;
 
 		if (!this.props.character) {
 			// NOT CONTROLLED
@@ -75,50 +74,50 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 							<div className="d-and-d-attribute-collection char-name pr-3 pl-3">
 								<input
 									type="text"
-									value={character.spellcastingClass ? character.spellcastingClass : ""}
-									onChange={(e) => this.updateCharacter("spellcastingClass", e.target.value)}
+									value={ character.spellcastingClass ? character.spellcastingClass : "" }
+									onChange={ (e) => this.updateCharacter("spellcastingClass", e.target.value) }
 									readOnly
 								/>
 							</div>
 							<label
-								style={{
+								style={ {
 									width: "100%",
 									textAlign: "right",
 									textTransform: "uppercase",
 									fontSize: "11px",
-								}}
+								} }
 							>
 								Spellcasting Class/Ability
 							</label>
 						</div>
 						<div
 							className="col-md-9 pr-2 pl-2 grow"
-							style={{ marginTop: "18px" }}
+							style={ { marginTop: "18px" } }
 						>
 							<div className="d-and-d-attribute-collection gray pr-3 pl-3">
 								<div className="row pl-3 pr-3">
 									<div className="col-4 pr-4 pl-4">
 										<StatBox2
 											name="preparedSpellsTotal"
-											defaultValue={character.preparedSpellsTotal}
+											defaultValue={ character.preparedSpellsTotal }
 										/>
 										<label
-											style={{
+											style={ {
 												textTransform: "none",
 												width: "100%",
 												textAlign: "center",
 												marginBottom: "0",
-											}}
+											} }
 										>
 											Prepared Spells
 										</label>
 										<label
-											style={{
+											style={ {
 												textTransform: "none",
 												width: "100%",
 												textAlign: "center",
 												marginBottom: "0",
-											}}
+											} }
 										>
 											Total
 										</label>
@@ -126,15 +125,15 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 									<div className="col-4 pr-4 pl-4">
 										<StatBox2
 											name="spellSaveDC"
-											defaultValue={character.spellSaveDC}
+											defaultValue={ character.spellSaveDC }
 										/>
 										<label
-											style={{
+											style={ {
 												textTransform: "none",
 												width: "100%",
 												textAlign: "center",
 												marginBottom: "0",
-											}}
+											} }
 										>
 											Spell Save DC
 										</label>
@@ -142,25 +141,25 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 									<div className="col-4 pr-4 pl-4">
 										<StatBox2
 											name="spellAttackBonus"
-											defaultValue={character.spellAttackBonus}
+											defaultValue={ character.spellAttackBonus }
 										/>
 										<label
-											style={{
+											style={ {
 												textTransform: "none",
 												width: "100%",
 												textAlign: "center",
 												marginBottom: "0",
-											}}
+											} }
 										>
 											Spell Attack
 										</label>
 										<label
-											style={{
+											style={ {
 												textTransform: "none",
 												width: "100%",
 												textAlign: "center",
 												marginBottom: "0",
-											}}
+											} }
 										>
 											Bonus
 										</label>
@@ -174,41 +173,41 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 						<div className="col-md-4 grow pr-3">
 							<div className="d-and-d-box">
 								<SpellTable
-									level={0}
-									rows={9}
+									level={ 0 }
+									rows={ 9 }
 									name="cantrips"
-									value={character.cantrips}
-									onChange={(name: string, value: any) => {
+									value={ character.cantrips }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
-									style={{ marginBottom: "23px" }}
+									} }
+									style={ { marginBottom: "23px" } }
 								/>
 								<SpellTable
-									level={1}
-									rows={12}
+									level={ 1 }
+									rows={ 12 }
 									showLabels
 									name="lvl1Spells"
 									slotsName="lvl1SpellSlotsTotal"
 									slotsUsedName="lvl1SpellSlotsUsed"
-									value={character.lvl1Spells}
-									slotsValue={character.lvl1SpellSlotsTotal}
-									slotsUsedValue={character.lvl1SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl1Spells }
+									slotsValue={ character.lvl1SpellSlotsTotal }
+									slotsUsedValue={ character.lvl1SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 								<SpellTable
-									level={2}
-									rows={13}
+									level={ 2 }
+									rows={ 13 }
 									name="lvl2Spells"
 									slotsName="lvl2SpellSlotsTotal"
 									slotsUsedName="lvl2SpellSlotsUsed"
-									value={character.lvl2Spells}
-									slotsValue={character.lvl2SpellSlotsTotal}
-									slotsUsedValue={character.lvl2SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl2Spells }
+									slotsValue={ character.lvl2SpellSlotsTotal }
+									slotsUsedValue={ character.lvl2SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 							</div>
 						</div>
@@ -216,43 +215,43 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 						<div className="col-md-4 grow px-3">
 							<div className="d-and-d-box">
 								<SpellTable
-									level={3}
-									rows={13}
+									level={ 3 }
+									rows={ 13 }
 									name="lvl3Spells"
 									slotsName="lvl3SpellSlotsTotal"
 									slotsUsedName="lvl3SpellSlotsUsed"
-									value={character.lvl3Spells}
-									slotsValue={character.lvl3SpellSlotsTotal}
-									slotsUsedValue={character.lvl3SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl3Spells }
+									slotsValue={ character.lvl3SpellSlotsTotal }
+									slotsUsedValue={ character.lvl3SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 								<SpellTable
-									level={4}
-									rows={13}
+									level={ 4 }
+									rows={ 13 }
 									name="lvl4Spells"
 									slotsName="lvl4SpellSlotsTotal"
 									slotsUsedName="lvl4SpellSlotsUsed"
-									value={character.lvl4Spells}
-									slotsValue={character.lvl4SpellSlotsTotal}
-									slotsUsedValue={character.lvl4SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl4Spells }
+									slotsValue={ character.lvl4SpellSlotsTotal }
+									slotsUsedValue={ character.lvl4SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 								<SpellTable
-									level={5}
-									rows={9}
+									level={ 5 }
+									rows={ 9 }
 									name="lvl5Spells"
 									slotsName="lvl5SpellSlotsTotal"
 									slotsUsedName="lvl5SpellSlotsUsed"
-									value={character.lvl5Spells}
-									slotsValue={character.lvl5SpellSlotsTotal}
-									slotsUsedValue={character.lvl5SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl5Spells }
+									slotsValue={ character.lvl5SpellSlotsTotal }
+									slotsUsedValue={ character.lvl5SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 							</div>
 						</div>
@@ -260,56 +259,56 @@ class DnDCharacterSpellsSheet extends React.Component<IDnDCharacterSpellsSheetPr
 						<div className="col-md-4 grow pl-3">
 							<div className="d-and-d-box">
 								<SpellTable
-									level={6}
-									rows={9}
+									level={ 6 }
+									rows={ 9 }
 									name="lvl6Spells"
 									slotsName="lvl6SpellSlotsTotal"
 									slotsUsedName="lvl6SpellSlotsUsed"
-									value={character.lvl6Spells}
-									slotsValue={character.lvl6SpellSlotsTotal}
-									slotsUsedValue={character.lvl6SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl6Spells }
+									slotsValue={ character.lvl6SpellSlotsTotal }
+									slotsUsedValue={ character.lvl6SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 								<SpellTable
-									level={7}
-									rows={9}
+									level={ 7 }
+									rows={ 9 }
 									name="lvl7Spells"
 									slotsName="lvl7SpellSlotsTotal"
 									slotsUsedName="lvl7SpellSlotsUsed"
-									value={character.lvl7Spells}
-									slotsValue={character.lvl7SpellSlotsTotal}
-									slotsUsedValue={character.lvl7SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl7Spells }
+									slotsValue={ character.lvl7SpellSlotsTotal }
+									slotsUsedValue={ character.lvl7SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 								<SpellTable
-									level={8}
-									rows={7}
+									level={ 8 }
+									rows={ 7 }
 									name="lvl8Spells"
 									slotsName="lvl8SpellSlotsTotal"
 									slotsUsedName="lvl8SpellSlotsUsed"
-									value={character.lvl8Spells}
-									slotsValue={character.lvl8SpellSlotsTotal}
-									slotsUsedValue={character.lvl8SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl8Spells }
+									slotsValue={ character.lvl8SpellSlotsTotal }
+									slotsUsedValue={ character.lvl8SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 								<SpellTable
-									level={9}
-									rows={7}
+									level={ 9 }
+									rows={ 7 }
 									name="lvl9Spells"
 									slotsName="lvl9SpellSlotsTotal"
 									slotsUsedName="lvl9SpellSlotsUsed"
-									value={character.lvl9Spells}
-									slotsValue={character.lvl9SpellSlotsTotal}
-									slotsUsedValue={character.lvl9SpellSlotsUsed}
-									onChange={(name: string, value: any) => {
+									value={ character.lvl9Spells }
+									slotsValue={ character.lvl9SpellSlotsTotal }
+									slotsUsedValue={ character.lvl9SpellSlotsUsed }
+									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
-									}}
+									} }
 								/>
 							</div>
 						</div>
