@@ -4,21 +4,23 @@ import React from "react";
 // eslint-disable-next-line no-unused-vars
 import DnDCharacter from "@/lib/DnDCharacter";
 
-import Statbox from "./Components/StatBox";
-import StatRow from "./Components/StatRow";
-import Skill from "./Components/Skill";
-import StatBox2 from "./Components/StatBox2";
-import DeathSave from "./Components/DeathSave";
-import AttackTable from "./Components/AttackTable";
-import Currency from "./Components/Currency";
+import AttackTable from "../Components/AttackTable";
+import Currency from "../Components/Currency";
+import DeathSave from "../Components/DeathSave";
+import FeaturesList from "../Components/FeaturesList";
+import Skill from "../Components/Skill";
+import Statbox from "../Components/StatBox";
+import StatBox2 from "../Components/StatBox2";
+import StatRow from "../Components/StatRow";
 
 
 // below is the import for the DnDCharacter class
-import torvokData from "../../characters/John.json";
-import { Proficiencies } from "@/lib/types";
 import { allSkills } from "@/lib/definitions";
+import { Proficiencies } from "@/lib/types";
+import torvokData from "../../../characters/John.json";
 
 import "./dndstyles.css";
+import ItemsList from "../Components/ItemList";
 
 
 let torvok = new DnDCharacter();
@@ -51,7 +53,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 		const oldCharacter = this.getCharacter();
 		const newCharacter: DnDCharacter = new DnDCharacter();
 		Object.assign(newCharacter, oldCharacter);
-		newCharacter[name] = defaultValue;
+		newCharacter[ name ] = defaultValue;
 
 		if (!this.props.character) {
 			// NOT CONTROLLED
@@ -104,17 +106,17 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 							<div className="d-and-d-attribute-collection char-name pr-3 pl-3">
 								<input
 									type="text"
-									defaultValue={character.name ? character.name : ""}
-									onChange={(e) => this.updateCharacter("name", e.target.defaultValue)}
+									defaultValue={ character.name ? character.name : "" }
+									onChange={ (e) => this.updateCharacter("name", e.target.defaultValue) }
 								/>
 							</div>
 							<label
-								style={{
+								style={ {
 									width: "100%",
 									textAlign: "right",
 									textTransform: "uppercase",
 									fontSize: "11px",
-								}}
+								} }
 							>
 								Character Name
 							</label>
@@ -125,32 +127,32 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<div className="col-md-3 col-6 pl-0 pr-0">
 										<input
 											type="text"
-											defaultValue={character.classLevel ? character.classLevel : ""}
-											onChange={(e) => this.updateCharacter("classLevel", e.target.defaultValue)}
+											defaultValue={ character.classLevel ? character.classLevel : "" }
+											onChange={ (e) => this.updateCharacter("classLevel", e.target.defaultValue) }
 										/>
 										<label>Class & Level</label>
 									</div>
 									<div className="col-md-3 col-6 pl-0 pr-0">
 										<input
 											type="text"
-											defaultValue={character.background ? character.background : ""}
-											onChange={(e) => this.updateCharacter("background", e.target.defaultValue)}
+											defaultValue={ character.background ? character.background : "" }
+											onChange={ (e) => this.updateCharacter("background", e.target.defaultValue) }
 										/>
 										<label>Background</label>
 									</div>
 									<div className="col-md-3 col-6 pl-0 pr-0">
 										<input
 											type="text"
-											defaultValue={character.playerName ? character.playerName : ""}
-											onChange={(e) => this.updateCharacter("playerName", e.target.defaultValue)}
+											defaultValue={ character.playerName ? character.playerName : "" }
+											onChange={ (e) => this.updateCharacter("playerName", e.target.defaultValue) }
 										/>
 										<label>Player Name</label>
 									</div>
 									<div className="col-md-3 col-6 pl-0 pr-0">
 										<input
 											type="text"
-											defaultValue={character.faction ? character.faction : ""}
-											onChange={(e) => this.updateCharacter("faction", e.target.defaultValue)}
+											defaultValue={ character.faction ? character.faction : "" }
+											onChange={ (e) => this.updateCharacter("faction", e.target.defaultValue) }
 										/>
 										<label>Faction</label>
 									</div>
@@ -159,32 +161,32 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<div className="col-md-3 col-6 pl-0 pr-0 w-72">
 										<input
 											type="text"
-											defaultValue={character.race ? character.race : ""}
-											onChange={(e) => this.updateCharacter("race", e.target.defaultValue)}
+											defaultValue={ character.race ? character.race : "" }
+											onChange={ (e) => this.updateCharacter("race", e.target.defaultValue) }
 										/>
 										<label>Race</label>
 									</div>
 									<div className="col-md-3 col-6 pl-0 pr-0">
 										<input
 											type="text"
-											defaultValue={character.alignment ? character.alignment : ""}
-											onChange={(e) => this.updateCharacter("alignment", e.target.defaultValue)}
+											defaultValue={ character.alignment ? character.alignment : "" }
+											onChange={ (e) => this.updateCharacter("alignment", e.target.defaultValue) }
 										/>
 										<label>Alignment</label>
 									</div>
 									<div className="col-md-3 col-6 pl-0 pr-0">
 										<input
 											type="text"
-											defaultValue={character.xp ? character.xp : ""}
-											onChange={(e) => this.updateCharacter("xp", e.target.defaultValue)}
+											defaultValue={ character.xp ? character.xp : "" }
+											onChange={ (e) => this.updateCharacter("xp", e.target.defaultValue) }
 										/>
 										<label>Experience Points</label>
 									</div>
 									<div className="col-md-3 col-6 pl-0 pr-0">
 										<input
 											type="text"
-											defaultValue={character.dciNo ? character.dciNo : ""}
-											onChange={(e) => this.updateCharacter("dciNo", e.target.defaultValue)}
+											defaultValue={ character.dciNo ? character.dciNo : "" }
+											onChange={ (e) => this.updateCharacter("dciNo", e.target.defaultValue) }
 										/>
 										<label>DCI Number</label>
 									</div>
@@ -201,32 +203,32 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 										<Statbox
 											label="Strength"
 											name="str"
-											defaultValue={character.baseStats.str}
+											defaultValue={ character.baseStats.str }
 										/>
 										<Statbox
 											label="Dexterity"
 											name="dex"
-											defaultValue={character.baseStats.dex}
+											defaultValue={ character.baseStats.dex }
 										/>
 										<Statbox
 											label="Constitution"
 											name="con"
-											defaultValue={character.baseStats.con}
+											defaultValue={ character.baseStats.con }
 										/>
 										<Statbox
 											label="Intelligence"
 											name="int"
-											defaultValue={character.baseStats.int}
+											defaultValue={ character.baseStats.int }
 										/>
 										<Statbox
 											label="Wisdom"
 											name="wis"
-											defaultValue={character.baseStats.wis}
+											defaultValue={ character.baseStats.wis }
 										/>
 										<Statbox
 											label="Charisma"
 											name="cha"
-											defaultValue={character.baseStats.cha}
+											defaultValue={ character.baseStats.cha }
 										/>
 									</div>
 								</div>
@@ -234,75 +236,75 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<StatRow
 										label="Inspiration"
 										name="inspiration"
-										defaultValue={character.inspiration}
+										defaultValue={ character.inspiration }
 									/>
 									<StatRow
 										classes="rounded"
 										label="Proficiency Bonus"
 										name="proficiencyBonus"
-										defaultValue={character.proficiencyBonus}
+										defaultValue={ character.proficiencyBonus }
 									/>
 									<div className="d-and-d-box">
-										<div style={{ textAlign: "left" }}>
+										<div style={ { textAlign: "left" } }>
 											<Skill
 												label="Strength"
 												name="strSave"
-												defaultValue={character.calculateSavingThrowModifier("str")}
-												checked={character.savingThrowProficiencies.str === "Proficient"}
+												defaultValue={ character.calculateSavingThrowModifier("str") }
+												checked={ character.savingThrowProficiencies.str === "Proficient" }
 											/>
 											<Skill
 												label="Dexterity"
 												name="dexSave"
-												defaultValue={character.calculateSavingThrowModifier("dex")}
-												checked={character.savingThrowProficiencies.dex === "Proficient"}
+												defaultValue={ character.calculateSavingThrowModifier("dex") }
+												checked={ character.savingThrowProficiencies.dex === "Proficient" }
 											/>
 											<Skill
 												label="Constitution"
 												name="conSave"
-												defaultValue={character.calculateSavingThrowModifier("con")}
-												checked={character.savingThrowProficiencies.con === "Proficient"}
+												defaultValue={ character.calculateSavingThrowModifier("con") }
+												checked={ character.savingThrowProficiencies.con === "Proficient" }
 											/>
 											<Skill
 												label="Intelligence"
 												name="intSave"
-												defaultValue={character.calculateSavingThrowModifier("int")}
-												checked={character.savingThrowProficiencies.int === "Proficient"}
+												defaultValue={ character.calculateSavingThrowModifier("int") }
+												checked={ character.savingThrowProficiencies.int === "Proficient" }
 											/>
 											<Skill
 												label="Wisdom"
 												name="wisSave"
-												defaultValue={character.calculateSavingThrowModifier("wis")}
-												checked={character.savingThrowProficiencies.wis === "Proficient"}
+												defaultValue={ character.calculateSavingThrowModifier("wis") }
+												checked={ character.savingThrowProficiencies.wis === "Proficient" }
 											/>
 											<Skill
 												label="Charisma"
 												name="chaSave"
-												defaultValue={character.calculateSavingThrowModifier("cha")}
-												checked={character.savingThrowProficiencies.cha === "Proficient"}
+												defaultValue={ character.calculateSavingThrowModifier("cha") }
+												checked={ character.savingThrowProficiencies.cha === "Proficient" }
 											/>
 										</div>
 										<label
 											className="d-and-d-title"
-											style={{ marginTop: "10px" }}
+											style={ { marginTop: "10px" } }
 										>
 											Saving Throws
 										</label>
 									</div>
 									<div className="d-and-d-box">
-										<div style={{ textAlign: "left" }}>
-											{Array.from(allSkills.entries()).map(([label, name]) => (
+										<div style={ { textAlign: "left" } }>
+											{ Array.from(allSkills.entries()).map(([ label, name ]) => (
 												<Skill
-													key={name} // Ensure a unique key prop for each Skill component
-													label={label} // Display name of the skill
-													name={name} // Internal identifier for the skill
-													defaultValue={character.calculateSkillModifier(name)} // Skill modifier
-													checked={character.skillProficiencies[name] === "Proficient" || character.skillProficiencies[name] === "Expertise"} // Proficiency check
+													key={ name } // Ensure a unique key prop for each Skill component
+													label={ label } // Display name of the skill
+													name={ name } // Internal identifier for the skill
+													defaultValue={ character.calculateSkillModifier(name) } // Skill modifier
+													checked={ character.skills[ name ].proficient === "Proficient" || character.skills[ name ].proficient === "Expertise" } // Proficiency check
 												/>
-											))}
+											)) }
 										</div>
 										<label
 											className="d-and-d-title"
-											style={{ marginTop: "10px" }}
+											style={ { marginTop: "10px" } }
 										>
 											Skills
 										</label>
@@ -314,18 +316,18 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									classes="rounded rounded-sides"
 									label="Passive Wisdom (Perception)"
 									name="passivePerception"
-									defaultValue={character.calculateSkillModifier("perception") + 10}
+									defaultValue={ character.calculateSkillModifier("perception") + 10 }
 								/>
 							</div>
 							<div className="d-and-d-box mt-4 flex flex-col grow">
 								<textarea
-									defaultValue={character ? (this.formatProficiencies(character.proficiencies) as string) : ""}
-									rows={12}
+									defaultValue={ character ? (this.formatProficiencies(character.proficiencies) as string) : "" }
+									rows={ 12 }
 									className="flex-grow"
 								/>
 								<label
 									className="d-and-d-title"
-									style={{ marginTop: "10px" }}
+									style={ { marginTop: "10px" } }
 								>
 									Other Proficiencies & Languages
 								</label>
@@ -333,7 +335,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 						</div>
 
 						<div className="col-md-4 pr-6 w-1/3 flex flex-col">
-							<div className="d-and-d-box gray grow">
+							<div className="d-and-d-box gray">
 								<div className="row flex">
 									<div className="col-4 pr-2">
 										<StatBox2
@@ -341,69 +343,69 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 											labelTop="Armour"
 											label="Class"
 											name="ac"
-											defaultValue={character.ac}
+											defaultValue={ character.calculateAC() }
 										/>
 									</div>
 									<div className="col-4 pr-2 pl-2">
 										<StatBox2
 											label="Initiative"
 											name="init"
-											defaultValue={"+" + character.initiative}
+											defaultValue={ "+" + character.initiative }
 										/>
 									</div>
 									<div className="col-4 pl-2">
 										<StatBox2
 											label="Speed"
 											name="speed"
-											defaultValue={character.speed}
+											defaultValue={ character.speed }
 										/>
 									</div>
 								</div>
 
 								<div
 									className="d-and-d-box white"
-									style={{
+									style={ {
 										borderRadius: "8px 8px 0 0",
 										marginBottom: "5px",
 										paddingBottom: "5px",
-									}}
+									} }
 								>
 									<div className="d-and-d-gray-text">
-										<label style={{ width: "95px" }}>Hit Point Maximum</label>
+										<label style={ { width: "95px" } }>Hit Point Maximum</label>
 										<input
 											type="text"
-											style={{ width: "calc(100% - 95px)" }}
+											style={ { width: "calc(100% - 95px)" } }
 											className="d-and-d-linput"
-											defaultValue={character.maxHp ? character.maxHp : ""}
-											onChange={(e) => this.updateCharacter("maxHp", e.target.defaultValue)}
+											defaultValue={ character.maxHp ? character.maxHp : "" }
+											onChange={ (e) => this.updateCharacter("maxHp", e.target.defaultValue) }
 										/>
 									</div>
 									<input
 										type="text"
 										className="d-and-d-cinput"
-										defaultValue={character.hp ? character.hp : ""}
-										onChange={(e) => this.updateCharacter("hp", e.target.defaultValue)}
+										defaultValue={ character.hp ? character.hp : "" }
+										onChange={ (e) => this.updateCharacter("hp", e.target.defaultValue) }
 									/>
 									<label
 										className="d-and-d-title"
-										style={{ marginTop: "5px" }}
+										style={ { marginTop: "5px" } }
 									>
 										Current Hit Points
 									</label>
 								</div>
 								<div
 									className="d-and-d-box white mb-2"
-									style={{ borderRadius: "0 0 8px 8px", paddingBottom: "5px" }}
+									style={ { borderRadius: "0 0 8px 8px", paddingBottom: "5px" } }
 								>
 									<input
 										type="text"
 										className="d-and-d-cinput"
-										defaultValue={character.tempHp ? character.tempHp : ""}
-										onChange={(e) => this.updateCharacter("tempHp", e.target.defaultValue)}
+										defaultValue={ character.tempHp ? character.tempHp : "" }
+										onChange={ (e) => this.updateCharacter("tempHp", e.target.defaultValue) }
 									/>
 									<label
 										className="d-and-d-title"
-										style={{ marginTop: "5px" }}
+										style={ { marginTop: "5px" } }
 									>
 										Temporary Hit Points
 									</label>
@@ -413,27 +415,27 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<div className="col-6 pr-1">
 										<div
 											className="d-and-d-box white mb-0"
-											style={{ paddingBottom: "5px" }}
+											style={ { paddingBottom: "5px" } }
 										>
 											<div className="d-and-d-gray-text">
-												<label style={{ width: "25px" }}>Total</label>
+												<label style={ { width: "25px" } }>Total</label>
 												<input
 													type="text"
-													style={{ width: "calc(100% - 25px)" }}
+													style={ { width: "calc(100% - 25px)" } }
 													className="d-and-d-linput"
-													defaultValue={character.hitDiceMax ? character.hitDiceMax : ""}
-													onChange={(e) => this.updateCharacter("hitDiceMax", e.target.defaultValue)}
+													defaultValue={ character.hitDiceMax ? character.hitDiceMax : "" }
+													onChange={ (e) => this.updateCharacter("hitDiceMax", e.target.defaultValue) }
 												/>
 											</div>
 											<input
 												type="text"
 												className="d-and-d-cinput"
-												defaultValue={character.hitDice ? character.hitDice : ""}
-												onChange={(e) => this.updateCharacter("hitDice", e.target.defaultValue)}
+												defaultValue={ character.hitDice ? character.hitDice : "" }
+												onChange={ (e) => this.updateCharacter("hitDice", e.target.defaultValue) }
 											/>
 											<label
 												className="d-and-d-title"
-												style={{ marginTop: "5px" }}
+												style={ { marginTop: "5px" } }
 											>
 												Hit Dice
 											</label>
@@ -442,29 +444,29 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<div className="col-6 pl-1 flex-1 text-center">
 										<div
 											className="d-and-d-box white mb-0"
-											style={{ paddingBottom: "5px" }}
+											style={ { paddingBottom: "5px" } }
 										>
 											<DeathSave
 												classes="d-and-d-save-success"
 												label="Successes"
 												name="deathsaveSuccesses"
-												defaultValue={character.deathsaveSuccesses}
-												onChange={(name: string, defaultValue: any) => {
+												defaultValue={ character.deathsaveSuccesses }
+												onChange={ (name: string, defaultValue: any) => {
 													this.updateCharacter(name, defaultValue);
-												}}
+												} }
 											/>
 											<DeathSave
 												classes="d-and-d-save-failure"
 												label="Failures"
 												name="deathsaveFailures"
-												defaultValue={character.deathsaveFailures}
-												onChange={(name: string, defaultValue: any) => {
+												defaultValue={ character.deathsaveFailures }
+												onChange={ (name: string, defaultValue: any) => {
 													this.updateCharacter(name, defaultValue);
-												}}
+												} }
 											/>
 											<label
 												className="d-and-d-title"
-												style={{ marginTop: "6px" }}
+												style={ { marginTop: "6px" } }
 											>
 												Death Saves
 											</label>
@@ -475,82 +477,77 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 
 							<div className="d-and-d-box mt-3 text-center flex flex-col">
 								<AttackTable
-									rows={character.attacks ? character.attacks.length : 1}
+									rows={ character.attacks ? character.attacks.length : 1 }
 									name="attacks"
-									defaultValue={character.attacks}
+									defaultValue={ character.attacks }
 								/>
 								<textarea
-									defaultValue={character.attacksText ? character.attacksText : ""}
-									onChange={(e) => this.updateCharacter("attacksText", e.target.defaultValue)}
-									rows={6}
+									defaultValue={ character.attacksText ? character.attacksText : "" }
+									onChange={ (e) => this.updateCharacter("attacksText", e.target.defaultValue) }
+									rows={ 6 }
 								/>
 								<label
 									className="d-and-d-title"
-									style={{ marginTop: "10px" }}
+									style={ { marginTop: "10px" } }
 								>
 									Attacks & Spellcasting
 								</label>
 							</div>
 
-							<div className="d-and-d-box mt-4 text-center">
+							<div className="d-and-d-box mt-3 text-left grow flex flex-col justify-between">
 								<div className="columns-2 flex flex-row">
 									<div
 										className="col flex flex-col"
-										style={{ width: "100px", paddingRight: "125px" }}
+										style={ { width: "100px", paddingRight: "125px" } }
 									>
 										<Currency
 											label="CP"
 											name="cp"
-											defaultValue={character.cp}
-											onChange={(name: string, defaultValue: any) => {
+											defaultValue={ character.cp }
+											onChange={ (name: string, defaultValue: any) => {
 												this.updateCharacter(name, defaultValue);
-											}}
+											} }
 										/>
 										<Currency
 											label="SP"
 											name="sp"
-											defaultValue={character.sp}
-											onChange={(name: string, defaultValue: any) => {
+											defaultValue={ character.sp }
+											onChange={ (name: string, defaultValue: any) => {
 												this.updateCharacter(name, defaultValue);
-											}}
+											} }
 										/>
 										<Currency
 											label="EP"
 											name="ep"
-											defaultValue={character.ep}
-											onChange={(name: string, defaultValue: any) => {
+											defaultValue={ character.ep }
+											onChange={ (name: string, defaultValue: any) => {
 												this.updateCharacter(name, defaultValue);
-											}}
+											} }
 										/>
 										<Currency
 											label="GP"
 											name="gp"
-											defaultValue={character.gp}
-											onChange={(name: string, defaultValue: any) => {
+											defaultValue={ character.gp }
+											onChange={ (name: string, defaultValue: any) => {
 												this.updateCharacter(name, defaultValue);
-											}}
+											} }
 										/>
 										<Currency
 											label="PP"
 											name="pp"
-											defaultValue={character.pp}
-											onChange={(name: string, defaultValue: any) => {
+											defaultValue={ character.pp }
+											onChange={ (name: string, defaultValue: any) => {
 												this.updateCharacter(name, defaultValue);
-											}}
+											} }
 										/>
 									</div>
-									<div className="size-full">
-										<textarea
-											className="d-and-d-equipment-indent"
-											defaultValue={character.equipment ? character.equipment : ""}
-											onChange={(e) => this.updateCharacter("equipment", e.target.defaultValue)}
-											rows={14}
-										/>
+									<div className="size-full flex-col">
+										<ItemsList items={ character.inventory || [] } />
 									</div>
 								</div>
 								<label
 									className="d-and-d-title"
-									style={{ marginTop: "10px" }}
+									style={ { marginTop: "10px" } }
 								>
 									Equipment
 								</label>
@@ -560,83 +557,78 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 						<div className="col-md-4 flex flex-col">
 							<div
 								className="d-and-d-box gray"
-								style={{ marginBottom: "17px" }}
+								style={ { marginBottom: "17px" } }
 							>
 								<div
 									className="d-and-d-box white"
-									style={{
+									style={ {
 										borderRadius: "8px 8px 0 0",
 										marginBottom: "5px",
 										paddingTop: "1px",
 										paddingBottom: "5px",
-									}}
+									} }
 								>
 									<textarea
-										defaultValue={character.personalityTraits ? character.personalityTraits : ""}
-										onChange={(e) => this.updateCharacter("personalityTraits", e.target.defaultValue)}
-										rows={3}
+										defaultValue={ character.personalityTraits ? character.personalityTraits : "" }
+										onChange={ (e) => this.updateCharacter("personalityTraits", e.target.defaultValue) }
+										rows={ 3 }
 									/>
 									<label className="d-and-d-title">Personality Traits</label>
 								</div>
 								<div
 									className="d-and-d-box white"
-									style={{
+									style={ {
 										borderRadius: "0 0 0 0",
 										marginBottom: "5px",
 										paddingTop: "1px",
 										paddingBottom: "5px",
-									}}
+									} }
 								>
 									<textarea
-										defaultValue={character.ideals ? character.ideals : ""}
-										onChange={(e) => this.updateCharacter("ideals", e.target.defaultValue)}
-										rows={3}
+										defaultValue={ character.ideals ? character.ideals : "" }
+										onChange={ (e) => this.updateCharacter("ideals", e.target.defaultValue) }
+										rows={ 3 }
 									/>
 									<label className="d-and-d-title">Ideals</label>
 								</div>
 								<div
 									className="d-and-d-box white"
-									style={{
+									style={ {
 										borderRadius: "0 0 0 0",
 										marginBottom: "5px",
 										paddingTop: "1px",
 										paddingBottom: "5px",
-									}}
+									} }
 								>
 									<textarea
-										defaultValue={character.bonds ? character.bonds : ""}
-										onChange={(e) => this.updateCharacter("bonds", e.target.defaultValue)}
-										rows={2}
+										defaultValue={ character.bonds ? character.bonds : "" }
+										onChange={ (e) => this.updateCharacter("bonds", e.target.defaultValue) }
+										rows={ 2 }
 									/>
 									<label className="d-and-d-title">Bonds</label>
 								</div>
 								<div
 									className="d-and-d-box white"
-									style={{
+									style={ {
 										borderRadius: "0 0 8px 8px",
 										marginBottom: "0px",
 										paddingTop: "1px",
 										paddingBottom: "4px",
-									}}
+									} }
 								>
 									<textarea
-										defaultValue={character.flaws ? character.flaws : ""}
-										onChange={(e) => this.updateCharacter("flaws", e.target.defaultValue)}
-										rows={2}
+										defaultValue={ character.flaws ? character.flaws : "" }
+										onChange={ (e) => this.updateCharacter("flaws", e.target.defaultValue) }
+										rows={ 2 }
 									/>
 									<label className="d-and-d-title">Flaws</label>
 								</div>
 							</div>
-							<div className="d-and-d-box mt-3 text-center grow">
-								<textarea
-									style={{ paddingBottom: "5px" }}
-									defaultValue={character.featuresTraits ? character.featuresTraits : ""}
-									onChange={(e) => this.updateCharacter("featuresTraits", e.target.defaultValue)}
-									rows={27}
-								/>
+							<div className="d-and-d-box mt-3 text-left grow flex flex-col justify-between">
+								<FeaturesList features={ character.features || [] } />
 								<label
-									className="d-and-d-title"
-									style={{ marginTop: "10px" }}
+									className="d-and-d-title "
+									style={ { marginTop: "10px" } }
 								>
 									Features & Traits
 								</label>

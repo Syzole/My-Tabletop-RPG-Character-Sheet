@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Item {
-  name       String @id
+  name       String   @id
   value      Int?
   weight     Float?
   source     String[]
@@ -47,15 +47,15 @@ model Class {
 }
 
 model Class_Feature {
-  class_name  String
-  level       Int
-  type        featureType
-  description String
-  properties  Json?
-  name        String
-  class       Class       @relation(fields: [class_name], references: [name])
+  source_name  String
+  level        Int
+  type         featureType
+  description  String
+  properties   Json?
+  feature_name String
+  class        Class       @relation(fields: [source_name], references: [name])
 
-  @@id([name, class_name, level])
+  @@id([feature_name, source_name, level])
   @@map("Class Features")
 }
 
@@ -71,13 +71,13 @@ model Subclass {
 }
 
 model Subclass_Feature {
-  subclass_name String
-  level         Int
-  description   String
-  properties    Json?
-  type          featureType
-  feature_name  String      @id
-  subclass      Subclass    @relation(fields: [subclass_name], references: [subclass_name], onDelete: Cascade)
+  source_name  String
+  level        Int
+  description  String
+  properties   Json?
+  type         featureType
+  feature_name String      @id
+  subclass     Subclass    @relation(fields: [source_name], references: [subclass_name], onDelete: Cascade)
 
   @@map("Subclass Features")
 }

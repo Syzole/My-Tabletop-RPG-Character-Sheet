@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
 
-import DnDCharacter from "../../lib/DnDCharacter";
+import DnDCharacter from "../../../lib/DnDCharacter";
 
-import StatBox2 from "./Components/StatBox2";
+import StatBox2 from "../Components/StatBox2";
 
+import torvokData from "../../../characters/John.json";
+import SpellTable from "../Components/SpellTable";
 import "./dndstyles.css";
-import SpellTable from "./Components/SpellTable";
-import torvokData from "../../characters/Gandalf.json";
 
 let torvok = new DnDCharacter();
 Object.assign(torvok, torvokData);

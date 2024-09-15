@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 
 import '../styles/globals.css'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: [ "latin" ] });
 
 export const metadata: Metadata = {
 	title: "My dnd",
@@ -19,7 +19,7 @@ export default function RootLayout({
 			lang="en"
 			data-theme="light"
 		>
-			<body className={inter.className}>{children}</body>
+			<body className={ inter.className }>{ children }</body>
 		</html>
 	);
 }

@@ -1,9 +1,9 @@
-import { ProficiencyLevel, SavingThrowProficiencyLevel, SkillProficiencies, Stats, SavingThrowProficiencies, Proficiencies, Modifier, Armor, feature } from "./types";
+import { ProficiencyLevel, SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Modifier, Item, feature, skills, defaultSkill } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
-import {}  from "@prisma/client";
+import { } from "@prisma/client";
 
 export default class DnDCharacter {
-	[key: string]: any;
+	[ key: string ]: any;
 
 	name?: string;
 	classLevel?: string;
@@ -17,11 +17,11 @@ export default class DnDCharacter {
 
 	baseStats: Stats; //this is the base baseStats
 	stats: Stats; //this is baseStats plus modifiers from items, spells, etc
-	armor?: Armor;
+	armor?: Item;
 	proficiencyBonus: number;
 	modifiers: Modifier[];
 
-	skillProficiencies: SkillProficiencies;
+	skills: skills;
 	savingThrowProficiencies: SavingThrowProficiencies;
 	proficiencies: Proficiencies;
 	features?: feature[];
@@ -54,8 +54,8 @@ export default class DnDCharacter {
 	ep?: string;
 	gp?: string;
 	pp?: string;
+	inventory: Item[] = [];
 	equipment?: string;
-	equipment2?: string;
 
 	personalityTraits?: string;
 	ideals?: string;
@@ -153,25 +153,25 @@ export default class DnDCharacter {
 
 		this.modifiers = [];
 
-		this.skillProficiencies = {
-			acrobatics: ProficiencyLevel.None,
-			animalHandling: ProficiencyLevel.None,
-			arcana: ProficiencyLevel.None,
-			athletics: ProficiencyLevel.None,
-			deception: ProficiencyLevel.None,
-			history: ProficiencyLevel.None,
-			insight: ProficiencyLevel.None,
-			intimidation: ProficiencyLevel.None,
-			investigation: ProficiencyLevel.None,
-			medicine: ProficiencyLevel.None,
-			nature: ProficiencyLevel.None,
-			perception: ProficiencyLevel.None,
-			performance: ProficiencyLevel.None,
-			persuasion: ProficiencyLevel.None,
-			religion: ProficiencyLevel.None,
-			sleightOfHand: ProficiencyLevel.None,
-			stealth: ProficiencyLevel.None,
-			survival: ProficiencyLevel.None,
+		this.skills = {
+			acrobatics: defaultSkill("acrobatics"),
+			animalHandling: defaultSkill("animalHandling"),
+			arcana: defaultSkill("arcana"),
+			athletics: defaultSkill("athletics"),
+			deception: defaultSkill("deception"),
+			history: defaultSkill("history"),
+			insight: defaultSkill("insight"),
+			intimidation: defaultSkill("intimidation"),
+			investigation: defaultSkill("investigation"),
+			medicine: defaultSkill("medicine"),
+			nature: defaultSkill("nature"),
+			perception: defaultSkill("perception"),
+			performance: defaultSkill("performance"),
+			persuasion: defaultSkill("persuasion"),
+			religion: defaultSkill("religion"),
+			sleightOfHand: defaultSkill("sleightOfHand"),
+			stealth: defaultSkill("stealth"),
+			survival: defaultSkill("survival"),
 		};
 
 		this.savingThrowProficiencies = {
@@ -193,7 +193,7 @@ export default class DnDCharacter {
 		this.jackOfAllTrades = false;
 	}
 
-	calculateSkillModifier(skill: keyof SkillProficiencies): number {
+	calculateSkillModifier(skill: keyof skills): number {
 		return calculateSkillModifier(this, skill);
 	}
 
@@ -202,18 +202,18 @@ export default class DnDCharacter {
 	}
 
 	calculateAC(): number {
-		let baseAC = this.armor ? this.armor.ac : 10;
+		let baseAC = this.armor ? this.armor.properties.ac : 10;
 		let dexModifier = this.getStatModifier("dex");
 
-		if (this.armor && this.armor.maxDex !== undefined) {
-			dexModifier = Math.min(dexModifier, this.armor.maxDex);
+		if (this.armor && this.armor.properties.maxDex !== undefined) {
+			dexModifier = Math.min(dexModifier, this.armor.properties.maxDex);
 		}
 
 		return baseAC + dexModifier;
 	}
 
 	getStatModifier(stat: keyof Stats): number {
-		return Math.floor((this.stats[stat] - 10) / 2);
+		return Math.floor((this.stats[ stat ] - 10) / 2);
 	}
 
 	addModifier(modifier: Modifier) {
@@ -225,14 +225,14 @@ export default class DnDCharacter {
 
 		// Traverse the object to the target property
 		for (let i = 0; i < keys.length - 1; i++) {
-			if (!target[keys[i]]) {
-				target[keys[i]] = {};
+			if (!target[ keys[ i ] ]) {
+				target[ keys[ i ] ] = {};
 			}
-			target = target[keys[i]];
+			target = target[ keys[ i ] ];
 		}
 
 		// Modify the target property value
-		target[keys[keys.length - 1]] += modifier.value;
+		target[ keys[ keys.length - 1 ] ] += modifier.value;
 	}
 
 	removeModifier(type: string) {
@@ -243,7 +243,7 @@ export default class DnDCharacter {
 		}
 
 		// Get the modifier to be removed
-		const modifier = this.modifiers[index];
+		const modifier = this.modifiers[ index ];
 
 		// Split the target string into keys
 		const keys = modifier.target.split(".");
@@ -251,11 +251,11 @@ export default class DnDCharacter {
 
 		// Traverse the object to the target property
 		for (let i = 0; i < keys.length - 1; i++) {
-			target = target[keys[i]];
+			target = target[ keys[ i ] ];
 		}
 
 		// Revert the target property value
-		target[keys[keys.length - 1]] -= modifier.value;
+		target[ keys[ keys.length - 1 ] ] -= modifier.value;
 
 		// Remove the modifier from the array
 		this.modifiers.splice(index, 1);

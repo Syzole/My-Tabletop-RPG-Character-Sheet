@@ -2,7 +2,7 @@
 
 import DnDCharacter from "./DnDCharacter";
 
-import { Stats, SavingThrowProficiencyLevel, SkillProficiencies, ProficiencyLevel } from "./types";
+import { Stats, SavingThrowProficiencyLevel, ProficiencyLevel, skills } from "./types";
 
 import { simpleMelee, simpleRanged, martialMelee, martialRanged } from "./definitions";
 
@@ -25,15 +25,11 @@ export function calculateAttackBonus(character: DnDCharacter, weapon: string) {
 	}
 }
 
-export function calculateWeaponDamageConstant(abilityModifier: number) {
-	return abilityModifier;
-}
-
-export function calculateSkillModifier(character: DnDCharacter, skill: keyof SkillProficiencies): number {
+export function calculateSkillModifier(character: DnDCharacter, skill: keyof skills): number {
 	const statModifier = getStatModifierForSkill(character, skill);
 	let modifier = statModifier;
 
-	switch (character.skillProficiencies[skill]) {
+	switch (character.skills[ skill ].proficient) {
 		case ProficiencyLevel.Proficient:
 			modifier += character.proficiencyBonus;
 			break;
@@ -51,10 +47,10 @@ export function calculateSkillModifier(character: DnDCharacter, skill: keyof Ski
 }
 
 export function calculateSavingThrowModifier(character: DnDCharacter, stat: keyof Stats): number {
-	const statModifier = getStatModifier(character.stats[stat]);
+	const statModifier = getStatModifier(character.stats[ stat ]);
 	let modifier = statModifier;
 
-	switch (character.savingThrowProficiencies[stat]) {
+	switch (character.savingThrowProficiencies[ stat ]) {
 		case SavingThrowProficiencyLevel.Proficient:
 			modifier += character.proficiencyBonus;
 			break;
@@ -65,8 +61,8 @@ export function calculateSavingThrowModifier(character: DnDCharacter, stat: keyo
 
 //helper function
 
-function getStatModifierForSkill(character: DnDCharacter, skill: keyof SkillProficiencies): number {
-	const statMapping: { [key in keyof SkillProficiencies]: keyof Stats } = {
+export function getStatModifierForSkill(character: DnDCharacter, skill: keyof skills): number {
+	const statMapping: { [ key in keyof skills ]: keyof Stats } = {
 		acrobatics: "dex",
 		animalHandling: "wis",
 		arcana: "int",
@@ -88,8 +84,8 @@ function getStatModifierForSkill(character: DnDCharacter, skill: keyof SkillProf
 	};
 
 
-	const stat = statMapping[skill];
-	return getStatModifier(character.stats[stat]);
+	const stat = statMapping[ skill ];
+	return getStatModifier(character.stats[ stat ]);
 }
 
 function getStatModifier(stat: number) {

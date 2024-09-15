@@ -1,9 +1,8 @@
 // types.ts
 
-import DnDCharacter from "./DnDCharacter";
-import * as types from "@prisma/client"
+import * as types from "@prisma/client";
 
-export type feature = types.Subclass_Feature | types.Class_Feature
+export type feature = types.Subclass_Feature | types.Class_Feature;
 
 export interface Modifier {
 	type: string;
@@ -11,10 +10,10 @@ export interface Modifier {
 	value: number; // To store the value of the modifier for easier removal
 }
 
-export interface Weapon{
+export interface Weapon {
 	name: string;
 	damage: string;
-	properties: string[];
+	properties: { [ key: string ]: any };
 	weight: string;
 	description: string;
 }
@@ -26,6 +25,17 @@ export interface Armor {
 	strReq?: number;
 	disadvantage?: boolean;
 	weight: number;
+}
+
+export interface Item {
+	name: string;
+	source: string[];
+	type: string;
+	rarity?: string;
+	value?: number;
+	weight?: number;
+	quantity?: number;
+	properties: { [ key: string ]: any };
 }
 
 export enum ProficiencyLevel {
@@ -40,7 +50,7 @@ export enum SavingThrowProficiencyLevel {
 }
 
 export interface Stats {
-	[key: string]: number;
+	[ key: string ]: number;
 	str: number;
 	dex: number;
 	con: number;
@@ -49,30 +59,8 @@ export interface Stats {
 	cha: number;
 }
 
-export interface SkillProficiencies {
-	[key: string]: ProficiencyLevel;
-	acrobatics: ProficiencyLevel;
-	animalHandling: ProficiencyLevel;
-	arcana: ProficiencyLevel;
-	athletics: ProficiencyLevel;
-	deception: ProficiencyLevel;
-	history: ProficiencyLevel;
-	insight: ProficiencyLevel;
-	intimidation: ProficiencyLevel;
-	investigation: ProficiencyLevel;
-	medicine: ProficiencyLevel;
-	nature: ProficiencyLevel;
-	perception: ProficiencyLevel;
-	performance: ProficiencyLevel;
-	persuasion: ProficiencyLevel;
-	religion: ProficiencyLevel;
-	sleightOfHand: ProficiencyLevel;
-	stealth: ProficiencyLevel;
-	survival: ProficiencyLevel;
-}
-
 export interface SavingThrowProficiencies {
-	[key: string]: SavingThrowProficiencyLevel;
+	[ key: string ]: SavingThrowProficiencyLevel;
 	str: SavingThrowProficiencyLevel;
 	dex: SavingThrowProficiencyLevel;
 	con: SavingThrowProficiencyLevel;
@@ -87,3 +75,61 @@ export interface Proficiencies {
 	tools: string[];
 	languages: string[];
 }
+
+export interface skills {
+	[ key: string ]: skill;
+	acrobatics: skill;
+	animalHandling: skill;
+	arcana: skill;
+	athletics: skill;
+	deception: skill;
+	history: skill;
+	insight: skill;
+	intimidation: skill;
+	investigation: skill;
+	medicine: skill;
+	nature: skill;
+	perception: skill;
+	performance: skill;
+	persuasion: skill;
+	religion: skill;
+	sleightOfHand: skill;
+	stealth: skill;
+	survival: skill;
+}
+
+type skill = {
+	stat: string;
+	proficient: ProficiencyLevel;
+	advantage: string;
+}
+
+//default constructor for skill
+export const defaultSkill = (skill: string) => (
+	{
+		stat: statMapping[ skill ],
+		proficient: ProficiencyLevel.None,
+		advantage: "normal",
+	} as skill
+);
+
+const statMapping: { [ key in keyof skills ]: keyof Stats } = {
+	acrobatics: "dex",
+	animalHandling: "wis",
+	arcana: "int",
+	athletics: "str",
+	deception: "cha",
+	history: "int",
+	insight: "wis",
+	intimidation: "cha",
+	investigation: "int",
+	medicine: "wis",
+	nature: "int",
+	perception: "wis",
+	performance: "cha",
+	persuasion: "cha",
+	religion: "int",
+	sleightOfHand: "dex",
+	stealth: "dex",
+	survival: "wis",
+};
