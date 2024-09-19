@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Item } from "../../../lib/types";
-import ItemCard from "../Components/ItemCard";
-import "./dndstyles.css";
+import ItemCard from "./ItemCard";
+import "../../Assets/Dnd 1.0 Sheet/dndstyles.css";
 
-export default function DnDCharecterInventorySheet({ inventory }: { inventory: Item[] }) {
+export default function Inventory({ inventory }: { inventory: Item[] }) {
     const [ hoveredItem, setHoveredItem ] = useState<Item | null>(null);
     const [ isClient, setIsClient ] = useState(false);
 
@@ -20,7 +20,6 @@ export default function DnDCharecterInventorySheet({ inventory }: { inventory: I
 
     return (
         <div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex flex-col justify-center items-center relative">
-            <h1 className="text-2xl font-bold mb-5">Character Inventory</h1>
 
             <table className="min-w-full bg-white border border-gray-200">
                 <thead>
@@ -38,7 +37,7 @@ export default function DnDCharecterInventorySheet({ inventory }: { inventory: I
                             onMouseEnter={ () => setHoveredItem(item) }
                             onMouseLeave={ () => setHoveredItem(null) }
                         >
-                            <ItemCard className="pl-4 text-sm text-gray-700 cursor-pointer underline" key={ index } item={ item } />
+                            <ItemCard className="pl-4 text-sm text-gray-700 cursor-pointer underline py-2" key={ index } item={ item } />
                             <td className="px-4 py-2 text-sm text-gray-700">{ item.type }</td>
                             <td className="px-4 py-2 text-sm text-gray-700">{ item.quantity || 1 }</td>
                         </tr>

@@ -4,10 +4,8 @@ import React from "react";
 // eslint-disable-next-line no-unused-vars
 import DnDCharacter from "@/lib/DnDCharacter";
 
-import AttackTable from "../Components/AttackTable";
-import Currency from "../Components/Currency";
+import CharacterBox from "../Components/CharecterBox";
 import DeathSave from "../Components/DeathSave";
-import FeaturesList from "../Components/FeaturesList";
 import Skill from "../Components/Skill";
 import Statbox from "../Components/StatBox";
 import StatBox2 from "../Components/StatBox2";
@@ -20,7 +18,6 @@ import { Proficiencies } from "@/lib/types";
 import torvokData from "../../../characters/John.json";
 
 import "./dndstyles.css";
-import ItemsList from "../Components/ItemList";
 
 
 let torvok = new DnDCharacter();
@@ -99,243 +96,243 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 
 		return (
 			<div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex flex-col justify-center items-center">
-				<div>
-					<div className="row mb-4 flex justify-center items-center">
-						<div className="col-md-3 pr-2 pl-2">
-							<div className="d-and-d-page-title">D&D</div>
-							<div className="d-and-d-attribute-collection char-name pr-3 pl-3">
-								<input
-									type="text"
-									defaultValue={ character.name ? character.name : "" }
-									onChange={ (e) => this.updateCharacter("name", e.target.defaultValue) }
-								/>
-							</div>
-							<label
-								style={ {
-									width: "100%",
-									textAlign: "right",
-									textTransform: "uppercase",
-									fontSize: "11px",
-								} }
-							>
-								Character Name
-							</label>
+
+				<div className="row mb-4 flex justify-center items-center">
+					<div className="col-md-3 pr-2 pl-2">
+						<div className="d-and-d-page-title">D&D</div>
+						<div className="d-and-d-attribute-collection char-name pr-3 pl-3">
+							<input
+								type="text"
+								defaultValue={ character.name ? character.name : "" }
+								onChange={ (e) => this.updateCharacter("name", e.target.defaultValue) }
+							/>
 						</div>
-						<div className="col-md-9 pr-2 pl-2 flex ">
-							<div className="d-and-d-attribute-collection pr-3 pl-3">
-								<div className="row pl-3 pr-3 flex w-fit">
-									<div className="col-md-3 col-6 pl-0 pr-0">
-										<input
-											type="text"
-											defaultValue={ character.classLevel ? character.classLevel : "" }
-											onChange={ (e) => this.updateCharacter("classLevel", e.target.defaultValue) }
-										/>
-										<label>Class & Level</label>
-									</div>
-									<div className="col-md-3 col-6 pl-0 pr-0">
-										<input
-											type="text"
-											defaultValue={ character.background ? character.background : "" }
-											onChange={ (e) => this.updateCharacter("background", e.target.defaultValue) }
-										/>
-										<label>Background</label>
-									</div>
-									<div className="col-md-3 col-6 pl-0 pr-0">
-										<input
-											type="text"
-											defaultValue={ character.playerName ? character.playerName : "" }
-											onChange={ (e) => this.updateCharacter("playerName", e.target.defaultValue) }
-										/>
-										<label>Player Name</label>
-									</div>
-									<div className="col-md-3 col-6 pl-0 pr-0">
-										<input
-											type="text"
-											defaultValue={ character.faction ? character.faction : "" }
-											onChange={ (e) => this.updateCharacter("faction", e.target.defaultValue) }
-										/>
-										<label>Faction</label>
-									</div>
+						<label
+							style={ {
+								width: "100%",
+								textAlign: "right",
+								textTransform: "uppercase",
+								fontSize: "11px",
+							} }
+						>
+							Character Name
+						</label>
+					</div>
+					<div className="col-md-9 pr-2 pl-2 flex ">
+						<div className="d-and-d-attribute-collection pr-3 pl-3">
+							<div className="row pl-3 pr-3 flex w-fit">
+								<div className="col-md-3 col-6 pl-0 pr-0">
+									<input
+										type="text"
+										defaultValue={ character.classLevel ? character.classLevel : "" }
+										onChange={ (e) => this.updateCharacter("classLevel", e.target.defaultValue) }
+									/>
+									<label>Class & Level</label>
 								</div>
-								<div className="row pl-3 pr-3 flex">
-									<div className="col-md-3 col-6 pl-0 pr-0 w-72">
-										<input
-											type="text"
-											defaultValue={ character.race ? character.race : "" }
-											onChange={ (e) => this.updateCharacter("race", e.target.defaultValue) }
-										/>
-										<label>Race</label>
-									</div>
-									<div className="col-md-3 col-6 pl-0 pr-0">
-										<input
-											type="text"
-											defaultValue={ character.alignment ? character.alignment : "" }
-											onChange={ (e) => this.updateCharacter("alignment", e.target.defaultValue) }
-										/>
-										<label>Alignment</label>
-									</div>
-									<div className="col-md-3 col-6 pl-0 pr-0">
-										<input
-											type="text"
-											defaultValue={ character.xp ? character.xp : "" }
-											onChange={ (e) => this.updateCharacter("xp", e.target.defaultValue) }
-										/>
-										<label>Experience Points</label>
-									</div>
-									<div className="col-md-3 col-6 pl-0 pr-0">
-										<input
-											type="text"
-											defaultValue={ character.dciNo ? character.dciNo : "" }
-											onChange={ (e) => this.updateCharacter("dciNo", e.target.defaultValue) }
-										/>
-										<label>DCI Number</label>
-									</div>
+								<div className="col-md-3 col-6 pl-0 pr-0">
+									<input
+										type="text"
+										defaultValue={ character.background ? character.background : "" }
+										onChange={ (e) => this.updateCharacter("background", e.target.defaultValue) }
+									/>
+									<label>Background</label>
+								</div>
+								<div className="col-md-3 col-6 pl-0 pr-0">
+									<input
+										type="text"
+										defaultValue={ character.playerName ? character.playerName : "" }
+										onChange={ (e) => this.updateCharacter("playerName", e.target.defaultValue) }
+									/>
+									<label>Player Name</label>
+								</div>
+								<div className="col-md-3 col-6 pl-0 pr-0">
+									<input
+										type="text"
+										defaultValue={ character.faction ? character.faction : "" }
+										onChange={ (e) => this.updateCharacter("faction", e.target.defaultValue) }
+									/>
+									<label>Faction</label>
+								</div>
+							</div>
+							<div className="row pl-3 pr-3 flex">
+								<div className="col-md-3 col-6 pl-0 pr-0 w-72">
+									<input
+										type="text"
+										defaultValue={ character.race ? character.race : "" }
+										onChange={ (e) => this.updateCharacter("race", e.target.defaultValue) }
+									/>
+									<label>Race</label>
+								</div>
+								<div className="col-md-3 col-6 pl-0 pr-0">
+									<input
+										type="text"
+										defaultValue={ character.alignment ? character.alignment : "" }
+										onChange={ (e) => this.updateCharacter("alignment", e.target.defaultValue) }
+									/>
+									<label>Alignment</label>
+								</div>
+								<div className="col-md-3 col-6 pl-0 pr-0">
+									<input
+										type="text"
+										defaultValue={ character.xp ? character.xp : "" }
+										onChange={ (e) => this.updateCharacter("xp", e.target.defaultValue) }
+									/>
+									<label>Experience Points</label>
+								</div>
+								<div className="col-md-3 col-6 pl-0 pr-0">
+									<input
+										type="text"
+										defaultValue={ character.dciNo ? character.dciNo : "" }
+										onChange={ (e) => this.updateCharacter("dciNo", e.target.defaultValue) }
+									/>
+									<label>DCI Number</label>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div className="row flex justify-center">
-						<div className="col-md-4 pr-10 flex flex-col">
-							<div className="row flex items-center justify-center">
-								<div className="col-4 pr-6">
-									<div className="d-and-d-box gray">
-										<Statbox
-											label="Strength"
-											name="str"
-											defaultValue={ character.baseStats.str }
-										/>
-										<Statbox
-											label="Dexterity"
-											name="dex"
-											defaultValue={ character.baseStats.dex }
-										/>
-										<Statbox
-											label="Constitution"
-											name="con"
-											defaultValue={ character.baseStats.con }
-										/>
-										<Statbox
-											label="Intelligence"
-											name="int"
-											defaultValue={ character.baseStats.int }
-										/>
-										<Statbox
-											label="Wisdom"
-											name="wis"
-											defaultValue={ character.baseStats.wis }
-										/>
-										<Statbox
-											label="Charisma"
-											name="cha"
-											defaultValue={ character.baseStats.cha }
-										/>
-									</div>
-								</div>
-								<div className="col-8">
-									<StatRow
-										label="Inspiration"
-										name="inspiration"
-										defaultValue={ character.inspiration }
+				<div className="row flex justify-center">
+					<div className="col-md-4 pr-4 flex flex-col">
+						<div className="row flex items-center justify-center">
+							<div className="col-4 pr-6">
+								<div className="d-and-d-box gray">
+									<Statbox
+										label="Strength"
+										name="str"
+										defaultValue={ character.baseStats.str }
 									/>
-									<StatRow
-										classes="rounded"
-										label="Proficiency Bonus"
-										name="proficiencyBonus"
-										defaultValue={ character.proficiencyBonus }
+									<Statbox
+										label="Dexterity"
+										name="dex"
+										defaultValue={ character.baseStats.dex }
 									/>
-									<div className="d-and-d-box">
-										<div style={ { textAlign: "left" } }>
-											<Skill
-												label="Strength"
-												name="strSave"
-												defaultValue={ character.calculateSavingThrowModifier("str") }
-												checked={ character.savingThrowProficiencies.str === "Proficient" }
-											/>
-											<Skill
-												label="Dexterity"
-												name="dexSave"
-												defaultValue={ character.calculateSavingThrowModifier("dex") }
-												checked={ character.savingThrowProficiencies.dex === "Proficient" }
-											/>
-											<Skill
-												label="Constitution"
-												name="conSave"
-												defaultValue={ character.calculateSavingThrowModifier("con") }
-												checked={ character.savingThrowProficiencies.con === "Proficient" }
-											/>
-											<Skill
-												label="Intelligence"
-												name="intSave"
-												defaultValue={ character.calculateSavingThrowModifier("int") }
-												checked={ character.savingThrowProficiencies.int === "Proficient" }
-											/>
-											<Skill
-												label="Wisdom"
-												name="wisSave"
-												defaultValue={ character.calculateSavingThrowModifier("wis") }
-												checked={ character.savingThrowProficiencies.wis === "Proficient" }
-											/>
-											<Skill
-												label="Charisma"
-												name="chaSave"
-												defaultValue={ character.calculateSavingThrowModifier("cha") }
-												checked={ character.savingThrowProficiencies.cha === "Proficient" }
-											/>
-										</div>
-										<label
-											className="d-and-d-title"
-											style={ { marginTop: "10px" } }
-										>
-											Saving Throws
-										</label>
-									</div>
-									<div className="d-and-d-box">
-										<div style={ { textAlign: "left" } }>
-											{ Array.from(allSkills.entries()).map(([ label, name ]) => (
-												<Skill
-													key={ name } // Ensure a unique key prop for each Skill component
-													label={ label } // Display name of the skill
-													name={ name } // Internal identifier for the skill
-													defaultValue={ character.calculateSkillModifier(name) } // Skill modifier
-													checked={ character.skills[ name ].proficient === "Proficient" || character.skills[ name ].proficient === "Expertise" } // Proficiency check
-												/>
-											)) }
-										</div>
-										<label
-											className="d-and-d-title"
-											style={ { marginTop: "10px" } }
-										>
-											Skills
-										</label>
-									</div>
+									<Statbox
+										label="Constitution"
+										name="con"
+										defaultValue={ character.baseStats.con }
+									/>
+									<Statbox
+										label="Intelligence"
+										name="int"
+										defaultValue={ character.baseStats.int }
+									/>
+									<Statbox
+										label="Wisdom"
+										name="wis"
+										defaultValue={ character.baseStats.wis }
+									/>
+									<Statbox
+										label="Charisma"
+										name="cha"
+										defaultValue={ character.baseStats.cha }
+									/>
 								</div>
 							</div>
-							<div className="mt-2">
+							<div className="col-8">
 								<StatRow
-									classes="rounded rounded-sides"
-									label="Passive Wisdom (Perception)"
-									name="passivePerception"
-									defaultValue={ character.calculateSkillModifier("perception") + 10 }
+									label="Inspiration"
+									name="inspiration"
+									defaultValue={ character.inspiration }
 								/>
-							</div>
-							<div className="d-and-d-box mt-4 flex flex-col grow">
-								<textarea
-									defaultValue={ character ? (this.formatProficiencies(character.proficiencies) as string) : "" }
-									rows={ 12 }
-									className="flex-grow"
+								<StatRow
+									classes="rounded"
+									label="Proficiency Bonus"
+									name="proficiencyBonus"
+									defaultValue={ character.proficiencyBonus }
 								/>
-								<label
-									className="d-and-d-title"
-									style={ { marginTop: "10px" } }
-								>
-									Other Proficiencies & Languages
-								</label>
+								<div className="d-and-d-box">
+									<div style={ { textAlign: "left" } }>
+										<Skill
+											label="Strength"
+											name="strSave"
+											defaultValue={ character.calculateSavingThrowModifier("str") }
+											checked={ character.savingThrowProficiencies.str === "Proficient" }
+										/>
+										<Skill
+											label="Dexterity"
+											name="dexSave"
+											defaultValue={ character.calculateSavingThrowModifier("dex") }
+											checked={ character.savingThrowProficiencies.dex === "Proficient" }
+										/>
+										<Skill
+											label="Constitution"
+											name="conSave"
+											defaultValue={ character.calculateSavingThrowModifier("con") }
+											checked={ character.savingThrowProficiencies.con === "Proficient" }
+										/>
+										<Skill
+											label="Intelligence"
+											name="intSave"
+											defaultValue={ character.calculateSavingThrowModifier("int") }
+											checked={ character.savingThrowProficiencies.int === "Proficient" }
+										/>
+										<Skill
+											label="Wisdom"
+											name="wisSave"
+											defaultValue={ character.calculateSavingThrowModifier("wis") }
+											checked={ character.savingThrowProficiencies.wis === "Proficient" }
+										/>
+										<Skill
+											label="Charisma"
+											name="chaSave"
+											defaultValue={ character.calculateSavingThrowModifier("cha") }
+											checked={ character.savingThrowProficiencies.cha === "Proficient" }
+										/>
+									</div>
+									<label
+										className="d-and-d-title"
+										style={ { marginTop: "10px" } }
+									>
+										Saving Throws
+									</label>
+								</div>
+								<div className="d-and-d-box">
+									<div style={ { textAlign: "left" } }>
+										{ Array.from(allSkills.entries()).map(([ label, name ]) => (
+											<Skill
+												key={ name } // Ensure a unique key prop for each Skill component
+												label={ label } // Display name of the skill
+												name={ name } // Internal identifier for the skill
+												defaultValue={ character.calculateSkillModifier(name) } // Skill modifier
+												checked={ character.skills[ name ].proficient === "Proficient" || character.skills[ name ].proficient === "Expertise" } // Proficiency check
+											/>
+										)) }
+									</div>
+									<label
+										className="d-and-d-title"
+										style={ { marginTop: "10px" } }
+									>
+										Skills
+									</label>
+								</div>
 							</div>
 						</div>
-
-						<div className="col-md-4 pr-6 w-1/3 flex flex-col">
-							<div className="d-and-d-box gray">
+						<div className="mt-2">
+							<StatRow
+								classes="rounded rounded-sides"
+								label="Passive Wisdom (Perception)"
+								name="passivePerception"
+								defaultValue={ character.calculateSkillModifier("perception") + 10 }
+							/>
+						</div>
+						<div className="d-and-d-box mt-4 flex flex-col grow">
+							<textarea
+								defaultValue={ character ? (this.formatProficiencies(character.proficiencies) as string) : "" }
+								rows={ 12 }
+								className="flex-grow"
+							/>
+							<label
+								className="d-and-d-title"
+								style={ { marginTop: "10px" } }
+							>
+								Other Proficiencies & Languages
+							</label>
+						</div>
+					</div>
+					<div className="flex flex-col w-3/5">
+						<div className="flex">
+							<div className="d-and-d-box gray w-3/4 mr-5">
 								<div className="row flex">
 									<div className="col-4 pr-2">
 										<StatBox2
@@ -474,89 +471,8 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									</div>
 								</div>
 							</div>
-
-							<div className="d-and-d-box mt-3 text-center flex flex-col">
-								<AttackTable
-									rows={ character.attacks ? character.attacks.length : 1 }
-									name="attacks"
-									defaultValue={ character.attacks }
-								/>
-								<textarea
-									defaultValue={ character.attacksText ? character.attacksText : "" }
-									onChange={ (e) => this.updateCharacter("attacksText", e.target.defaultValue) }
-									rows={ 6 }
-								/>
-								<label
-									className="d-and-d-title"
-									style={ { marginTop: "10px" } }
-								>
-									Attacks & Spellcasting
-								</label>
-							</div>
-
-							<div className="d-and-d-box mt-3 text-left grow flex flex-col justify-between">
-								<div className="columns-2 flex flex-row">
-									<div
-										className="col flex flex-col"
-										style={ { width: "100px", paddingRight: "125px" } }
-									>
-										<Currency
-											label="CP"
-											name="cp"
-											defaultValue={ character.cp }
-											onChange={ (name: string, defaultValue: any) => {
-												this.updateCharacter(name, defaultValue);
-											} }
-										/>
-										<Currency
-											label="SP"
-											name="sp"
-											defaultValue={ character.sp }
-											onChange={ (name: string, defaultValue: any) => {
-												this.updateCharacter(name, defaultValue);
-											} }
-										/>
-										<Currency
-											label="EP"
-											name="ep"
-											defaultValue={ character.ep }
-											onChange={ (name: string, defaultValue: any) => {
-												this.updateCharacter(name, defaultValue);
-											} }
-										/>
-										<Currency
-											label="GP"
-											name="gp"
-											defaultValue={ character.gp }
-											onChange={ (name: string, defaultValue: any) => {
-												this.updateCharacter(name, defaultValue);
-											} }
-										/>
-										<Currency
-											label="PP"
-											name="pp"
-											defaultValue={ character.pp }
-											onChange={ (name: string, defaultValue: any) => {
-												this.updateCharacter(name, defaultValue);
-											} }
-										/>
-									</div>
-									<div className="size-full flex-col">
-										<ItemsList items={ character.inventory || [] } />
-									</div>
-								</div>
-								<label
-									className="d-and-d-title"
-									style={ { marginTop: "10px" } }
-								>
-									Equipment
-								</label>
-							</div>
-						</div>
-
-						<div className="col-md-4 flex flex-col">
 							<div
-								className="d-and-d-box gray"
+								className="d-and-d-box gray w-1/4"
 								style={ { marginBottom: "17px" } }
 							>
 								<div
@@ -624,15 +540,9 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<label className="d-and-d-title">Flaws</label>
 								</div>
 							</div>
-							<div className="d-and-d-box mt-3 text-left grow flex flex-col justify-between">
-								<FeaturesList features={ character.features || [] } />
-								<label
-									className="d-and-d-title "
-									style={ { marginTop: "10px" } }
-								>
-									Features & Traits
-								</label>
-							</div>
+						</div>
+						<div className="d-and-d-box gray grow">
+							<CharacterBox />
 						</div>
 					</div>
 				</div>
