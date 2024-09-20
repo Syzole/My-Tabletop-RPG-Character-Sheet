@@ -12,7 +12,7 @@ Object.assign(char, John);
 export default function Page() {
 	return (
 		<div>
-			<DnDCharacterStatsSheet character={ char } />
+			<DnDCharacterStatsSheet />
 		</div>
 	);
 }

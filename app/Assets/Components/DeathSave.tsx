@@ -13,7 +13,6 @@ function DeathSave(props: { classes?: string; label: React.ReactNode; defaultVal
 				<div
 					className={ props.defaultValue && props.defaultValue >= 1 ? "d-and-d-skill-circle active" : "d-and-d-skill-circle" }
 					onClick={ () => {
-						console.log(`Click 1: current value = ${props.defaultValue}`);
 						props.onChange(props.name, props.defaultValue === 1 ? null : 1);
 					} }
 				/>
@@ -21,7 +20,6 @@ function DeathSave(props: { classes?: string; label: React.ReactNode; defaultVal
 				<div
 					className={ props.defaultValue && props.defaultValue >= 2 ? "d-and-d-skill-circle active" : "d-and-d-skill-circle" }
 					onClick={ () => {
-						console.log(`Click 2: current value = ${props.defaultValue}`);
 						props.onChange(props.name, props.defaultValue === 2 ? null : 2);
 					} }
 				/>
@@ -29,7 +27,6 @@ function DeathSave(props: { classes?: string; label: React.ReactNode; defaultVal
 				<div
 					className={ props.defaultValue && props.defaultValue >= 3 ? "d-and-d-skill-circle active" : "d-and-d-skill-circle" }
 					onClick={ () => {
-						console.log(`Click 3: current value = ${props.defaultValue}`);
 						props.onChange(props.name, props.defaultValue === 3 ? null : 3);
 					} }
 				/>

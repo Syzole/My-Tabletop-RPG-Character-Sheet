@@ -60,8 +60,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 			this.setState({ character: newCharacter }, () => {
 				console.log(`${name} is now`, this.state.character[ name ]);
 			});
-		} else {
-			console.log("Component is controlled, calling onCharacterChanged.");
 		}
 
 		// If controlled, call the parent's callback
@@ -70,20 +68,12 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 			console.log("Calling onCharacterChanged");
 		}
 
-		console.log("Death Save Successes: ", newCharacter.deathsaveSuccesses);
-		console.log("Death Save Failures: ", newCharacter.deathsaveFailures);
 	}
 
 
 
-	getCharacter() {
-		// NOT CONTROLLED
-		let character = this.state.character;
-		if (this.props.character) {
-			// CONTROLLED
-			character = this.props.character;
-		}
-		return character;
+	getCharacter(): DnDCharacter {
+		return this.props.character || this.state.character;
 	}
 
 	formatProficiencies = (proficiencies: Proficiencies) => {
@@ -464,7 +454,6 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 												defaultValue={ character.deathsaveSuccesses }
 												onChange={ (name: string, defaultValue: any) => {
 													this.updateCharacter(name, defaultValue);
-													console.log("Death Save Successes: ", character.deathsaveSuccesses);
 												} }
 											/>
 											<DeathSave
