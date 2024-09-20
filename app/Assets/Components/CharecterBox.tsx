@@ -46,7 +46,10 @@ export default function CharacterBox() {
             <div className="bg-white p-5 rounded-lg shadow-lg">
                 { activeTab === "Inventory" ? (
                     <div>
-                        <h2 className="text-xl font-bold mb-3">{ activeTab }</h2>
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-xl font-bold mb-3">{ activeTab }</h2>
+                            <button className="btn">Button</button>
+                        </div>
                         <Inventory inventory={ char.inventory } />
                     </div>
                 ) : (
