@@ -33,24 +33,36 @@ const initialState: IDnDCharacterStatsSheetState = {
 	character: new DnDCharacter(),
 };
 
-class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProps, IDnDCharacterStatsSheetState> {
+export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProps, IDnDCharacterStatsSheetState> {
 	constructor(props: IDnDCharacterStatsSheetProps) {
 		super(props);
+
+		// Initialize the state based on the defaultCharacter prop if provided
+		this.state = {
+			character: props.defaultCharacter ? new DnDCharacter() : new DnDCharacter(),
+		};
+
+		// If a default character is provided, assign its properties to the new DnDCharacter instance
 		if (props.defaultCharacter) {
-			initialState.character = props.defaultCharacter;
+			Object.assign(this.state.character, props.defaultCharacter);
 		}
-		this.state = initialState;
 	}
 
+
+	// Update character in the local state
 	updateCharacter(name: string, defaultValue: any) {
 		const oldCharacter = this.getCharacter();
+
+		// Create a new instance of DnDCharacter and assign properties from the old character
 		const newCharacter: DnDCharacter = new DnDCharacter();
-		Object.assign(newCharacter, oldCharacter);
+		Object.assign(newCharacter, oldCharacter);  // This preserves methods
+
+		// Update the specific field that was changed
 		newCharacter[ name ] = defaultValue;
 
 		console.log(`Updating ${name} to ${defaultValue}`);
 
-		// If uncontrolled, set local state
+		// If uncontrolled, update the local state
 		if (!this.props.character) {
 			console.log("Component is uncontrolled, updating state.");
 			this.setState({ character: newCharacter }, () => {
@@ -58,31 +70,29 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 			});
 		}
 
-		// If controlled, call the parent's callback
+		// If controlled, call parent's callback
 		if (typeof this.props.onCharacterChanged === "function") {
 			this.props.onCharacterChanged(newCharacter, name, defaultValue);
 			console.log("Calling onCharacterChanged");
 		}
-
 	}
 
 
-
+	// Get character: use props.character if controlled, otherwise use local state
 	getCharacter(): DnDCharacter {
 		return this.props.character || this.state.character;
 	}
 
+	// Format proficiencies function
 	formatProficiencies = (proficiencies: Proficiencies) => {
 		if (!proficiencies) return "";
 
-		// check if proficiencies is in the right format, if not return an empty string
-
+		// Check if proficiencies are in the right format
 		if (!proficiencies.armor || !proficiencies.weapons || !proficiencies.tools || !proficiencies.languages) {
-			//make into a single string
 			return proficiencies;
 		}
 
-		// Convert the proficiency object to a string
+		// Convert proficiency object to a readable string
 		return [
 			"Armor: " + (proficiencies.armor.length > 0 ? proficiencies.armor.join(", ") : "None"),
 			"Weapons: " + (proficiencies.weapons.length > 0 ? proficiencies.weapons.join(", ") : "None"),
@@ -91,6 +101,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 		].join("\n");
 	};
 
+	// Render method to display character sheet
 	render() {
 		let character = this.getCharacter();
 
@@ -555,4 +566,3 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 	}
 }
 
-export default DnDCharacterStatsSheet;
