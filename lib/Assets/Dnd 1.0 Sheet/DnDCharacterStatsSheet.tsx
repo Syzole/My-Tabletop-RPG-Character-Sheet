@@ -15,13 +15,9 @@ import StatRow from "../Components/StatRow";
 // below is the import for the DnDCharacter class
 import { allSkills } from "@/lib/definitions";
 import { Proficiencies } from "@/lib/types";
-import torvokData from "../../../characters/John.json";
 
 import "./dndstyles.css";
 
-
-let torvok = new DnDCharacter();
-Object.assign(torvok, torvokData);
 
 interface IDnDCharacterStatsSheetProps {
 	character?: DnDCharacter;
@@ -34,7 +30,7 @@ interface IDnDCharacterStatsSheetState {
 }
 
 const initialState: IDnDCharacterStatsSheetState = {
-	character: torvok,
+	character: new DnDCharacter(),
 };
 
 class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProps, IDnDCharacterStatsSheetState> {
@@ -100,7 +96,11 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 
 		return (
 			<div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex flex-col justify-center items-center">
-
+				<button className="btn"
+					onClick={ () => {
+						console.log(this.getCharacter().name);
+					} }
+				>Charecter log</button>
 				<div className="row mb-4 flex justify-center items-center">
 					<div className="col-md-3 pr-2 pl-2">
 						<div className="d-and-d-page-title">D&D</div>
@@ -108,7 +108,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 							<input
 								type="text"
 								defaultValue={ character.name ? character.name : "" }
-								onChange={ (e) => this.updateCharacter("name", e.target.defaultValue) }
+								onChange={ (e) => this.updateCharacter("name", e.target.value) }
 							/>
 						</div>
 						<label
@@ -129,7 +129,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<input
 										type="text"
 										defaultValue={ character.classLevel ? character.classLevel : "" }
-										onChange={ (e) => this.updateCharacter("classLevel", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("classLevel", e.target.value) }
 									/>
 									<label>Class & Level</label>
 								</div>
@@ -137,7 +137,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<input
 										type="text"
 										defaultValue={ character.background ? character.background : "" }
-										onChange={ (e) => this.updateCharacter("background", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("background", e.target.value) }
 									/>
 									<label>Background</label>
 								</div>
@@ -145,7 +145,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<input
 										type="text"
 										defaultValue={ character.playerName ? character.playerName : "" }
-										onChange={ (e) => this.updateCharacter("playerName", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("playerName", e.target.value) }
 									/>
 									<label>Player Name</label>
 								</div>
@@ -153,7 +153,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<input
 										type="text"
 										defaultValue={ character.faction ? character.faction : "" }
-										onChange={ (e) => this.updateCharacter("faction", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("faction", e.target.value) }
 									/>
 									<label>Faction</label>
 								</div>
@@ -163,7 +163,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<input
 										type="text"
 										defaultValue={ character.race ? character.race : "" }
-										onChange={ (e) => this.updateCharacter("race", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("race", e.target.value) }
 									/>
 									<label>Race</label>
 								</div>
@@ -171,7 +171,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<input
 										type="text"
 										defaultValue={ character.alignment ? character.alignment : "" }
-										onChange={ (e) => this.updateCharacter("alignment", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("alignment", e.target.value) }
 									/>
 									<label>Alignment</label>
 								</div>
@@ -179,7 +179,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<input
 										type="text"
 										defaultValue={ character.xp ? character.xp : "" }
-										onChange={ (e) => this.updateCharacter("xp", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("xp", e.target.value) }
 									/>
 									<label>Experience Points</label>
 								</div>
@@ -187,7 +187,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 									<input
 										type="text"
 										defaultValue={ character.dciNo ? character.dciNo : "" }
-										onChange={ (e) => this.updateCharacter("dciNo", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("dciNo", e.target.value) }
 									/>
 									<label>DCI Number</label>
 								</div>
@@ -378,14 +378,14 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 											style={ { width: "calc(100% - 95px)" } }
 											className="d-and-d-linput"
 											defaultValue={ character.maxHp ? character.maxHp : "" }
-											onChange={ (e) => this.updateCharacter("maxHp", e.target.defaultValue) }
+											onChange={ (e) => this.updateCharacter("maxHp", e.target.value) }
 										/>
 									</div>
 									<input
 										type="text"
 										className="d-and-d-cinput"
 										defaultValue={ character.hp ? character.hp : "" }
-										onChange={ (e) => this.updateCharacter("hp", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("hp", e.target.value) }
 									/>
 									<label
 										className="d-and-d-title"
@@ -402,7 +402,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 										type="text"
 										className="d-and-d-cinput"
 										defaultValue={ character.tempHp ? character.tempHp : "" }
-										onChange={ (e) => this.updateCharacter("tempHp", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("tempHp", e.target.value) }
 									/>
 									<label
 										className="d-and-d-title"
@@ -425,14 +425,14 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 													style={ { width: "calc(100% - 25px)" } }
 													className="d-and-d-linput"
 													defaultValue={ character.hitDiceMax ? character.hitDiceMax : "" }
-													onChange={ (e) => this.updateCharacter("hitDiceMax", e.target.defaultValue) }
+													onChange={ (e) => this.updateCharacter("hitDiceMax", e.target.value) }
 												/>
 											</div>
 											<input
 												type="text"
 												className="d-and-d-cinput"
 												defaultValue={ character.hitDice ? character.hitDice : "" }
-												onChange={ (e) => this.updateCharacter("hitDice", e.target.defaultValue) }
+												onChange={ (e) => this.updateCharacter("hitDice", e.target.value) }
 											/>
 											<label
 												className="d-and-d-title"
@@ -490,7 +490,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 								>
 									<textarea
 										defaultValue={ character.personalityTraits ? character.personalityTraits : "" }
-										onChange={ (e) => this.updateCharacter("personalityTraits", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("personalityTraits", e.target.value) }
 										rows={ 3 }
 									/>
 									<label className="d-and-d-title">Personality Traits</label>
@@ -506,7 +506,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 								>
 									<textarea
 										defaultValue={ character.ideals ? character.ideals : "" }
-										onChange={ (e) => this.updateCharacter("ideals", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("ideals", e.target.value) }
 										rows={ 3 }
 									/>
 									<label className="d-and-d-title">Ideals</label>
@@ -522,7 +522,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 								>
 									<textarea
 										defaultValue={ character.bonds ? character.bonds : "" }
-										onChange={ (e) => this.updateCharacter("bonds", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("bonds", e.target.value) }
 										rows={ 2 }
 									/>
 									<label className="d-and-d-title">Bonds</label>
@@ -538,7 +538,7 @@ class DnDCharacterStatsSheet extends React.Component<IDnDCharacterStatsSheetProp
 								>
 									<textarea
 										defaultValue={ character.flaws ? character.flaws : "" }
-										onChange={ (e) => this.updateCharacter("flaws", e.target.defaultValue) }
+										onChange={ (e) => this.updateCharacter("flaws", e.target.value) }
 										rows={ 2 }
 									/>
 									<label className="d-and-d-title">Flaws</label>
