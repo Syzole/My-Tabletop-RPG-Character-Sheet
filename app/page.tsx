@@ -18,7 +18,6 @@ export default function Page() {
 	return (
 		<div>
 			<DnDCharacterStatsSheet defaultCharacter={ char } />
-			<DnDCharacterStatsSheet defaultCharacter={ char2 } />
 		</div>
 	);
 }

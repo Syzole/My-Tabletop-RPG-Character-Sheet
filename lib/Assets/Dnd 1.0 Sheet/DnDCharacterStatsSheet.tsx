@@ -77,6 +77,26 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 		}
 	}
 
+	refreshCharecterSheet() {
+		const oldCharacter = this.getCharacter();
+
+		// Create a new instance of DnDCharacter and assign properties from the old character
+		const newCharacter: DnDCharacter = new DnDCharacter();
+		Object.assign(newCharacter, oldCharacter);  // This preserves methods
+
+		// If uncontrolled, update the local state
+		if (!this.props.character) {
+			console.log("Component is uncontrolled, updating state.");
+			this.setState({ character: newCharacter });
+		}
+
+		// If controlled, call parent's callback
+		if (typeof this.props.onCharacterChanged === "function") {
+			this.props.onCharacterChanged(newCharacter, "", "");
+			console.log("Calling onCharacterChanged");
+		}
+	}
+
 
 	// Get character: use props.character if controlled, otherwise use local state
 	getCharacter(): DnDCharacter {
@@ -105,13 +125,23 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 	render() {
 		let character = this.getCharacter();
 
+		if (character.deathsaveFailures === 3) {
+			return (
+				<div className="text-center justify-center">
+					<div className="font-extrabold text-9xl">You're dead lmao</div>
+					<button className="btn btn-primary btn-wide" onClick={ () => {
+						this.getCharacter().deathsaveSuccesses = 0;
+						this.getCharacter().hp = "1";
+						this.getCharacter().deathsaveFailures = 0;
+						this.refreshCharecterSheet();
+					}
+					}>Revive</button>
+				</div>
+			);
+		}
+
 		return (
 			<div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex flex-col justify-center items-center">
-				<button className="btn"
-					onClick={ () => {
-						console.log(this.getCharacter().name);
-					} }
-				>Charecter log</button>
 				<div className="row mb-4 flex justify-center items-center">
 					<div className="col-md-3 pr-2 pl-2">
 						<div className="d-and-d-page-title">D&D</div>
@@ -557,7 +587,7 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 							</div>
 						</div>
 						<div className="d-and-d-box gray grow">
-							<CharacterBox />
+							<CharacterBox charecter={ character } />
 						</div>
 					</div>
 				</div>

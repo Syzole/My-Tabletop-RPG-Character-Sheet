@@ -5,8 +5,10 @@ import { Item } from "../../../lib/types";
 import ItemCard from "./ItemCard";
 import "../../Assets/Dnd 1.0 Sheet/dndstyles.css";
 
-export default function Inventory({ inventory }: { inventory: Item[] }) {
+export default function Inventory({ inventory }: { inventory?: Item[] }) {
     const [ hoveredItem, setHoveredItem ] = useState<Item | null>(null);
+
+    if (!inventory) return <div>No inventory found.</div>;
 
     return (
         <div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex flex-col justify-center items-center relative">

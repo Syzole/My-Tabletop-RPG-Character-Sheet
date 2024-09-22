@@ -3,13 +3,8 @@
 import { useState } from "react";
 import Inventory from "./Inventory";
 import DnDCharacter from "@/lib/DnDCharacter";
-import data from "../../../characters/John.json";
 
-const char = new DnDCharacter();
-
-Object.assign(char, data);
-
-export default function CharacterBox() {
+export default function CharacterBox({ charecter }: { charecter?: DnDCharacter }) {
     // Tabs array
     const tabs = [
         "Actions",
@@ -18,7 +13,7 @@ export default function CharacterBox() {
         "Feats/Traits",
         "Background",
         "Notes",
-        "Extras"
+        "Extras",
     ];
 
     // State to keep track of the active tab
@@ -48,9 +43,11 @@ export default function CharacterBox() {
                     <div>
                         <div className="flex justify-between items-center">
                             <h2 className="text-xl font-bold mb-3">{ activeTab }</h2>
-                            <button className="btn">Button</button>
+                            <button className="btn"
+                                onClick={ () => console.log("To be added") }
+                            >Manage Inventory</button>
                         </div>
-                        <Inventory inventory={ char.inventory } />
+                        <Inventory inventory={ charecter?.inventory } />
                     </div>
                 ) : (
                     <div>
