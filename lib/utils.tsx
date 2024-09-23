@@ -47,8 +47,8 @@ export function calculateSkillModifier(character: DnDCharacter, skill: keyof ski
 }
 
 export function calculateSavingThrowModifier(character: DnDCharacter, stat: keyof Stats): number {
-	const statModifier = getStatModifier(character.stats[ stat ]);
-	let modifier = statModifier;
+	let modifier = getStatModifier(character.stats[ stat ]);
+
 
 	switch (character.savingThrowProficiencies[ stat ]) {
 		case SavingThrowProficiencyLevel.Proficient:

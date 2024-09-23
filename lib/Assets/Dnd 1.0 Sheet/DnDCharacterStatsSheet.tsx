@@ -130,9 +130,9 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 				<div className="text-center justify-center">
 					<div className="font-extrabold text-9xl">You're dead lmao</div>
 					<button className="btn btn-primary btn-wide" onClick={ () => {
-						this.getCharacter().deathsaveSuccesses = 0;
-						this.getCharacter().hp = "1";
-						this.getCharacter().deathsaveFailures = 0;
+						character.deathsaveSuccesses = 0;
+						character.hp = "1";
+						character.deathsaveFailures = 0;
 						this.refreshCharecterSheet();
 					}
 					}>Revive</button>
@@ -236,10 +236,9 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 						</div>
 					</div>
 				</div>
-
 				<div className="row flex justify-center">
 					<div className="col-md-4 pr-4 flex flex-col">
-						<div className="row flex items-center justify-center">
+						<div className="row flex justify-center items-center">
 							<div className="col-4 pr-6">
 								<div className="d-and-d-box gray">
 									<Statbox
@@ -274,7 +273,7 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 									/>
 								</div>
 							</div>
-							<div className="col-8">
+							<div className="col-8 flex flex-col justify-between">
 								<StatRow
 									label="Inspiration"
 									name="inspiration"
@@ -332,7 +331,7 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 										Saving Throws
 									</label>
 								</div>
-								<div className="d-and-d-box">
+								<div className="d-and-d-box ">
 									<div style={ { textAlign: "left" } }>
 										{ Array.from(allSkills.entries()).map(([ label, name ]) => (
 											<Skill
@@ -405,7 +404,7 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 								</div>
 
 								<div
-									className="d-and-d-box white"
+									className="d-and-d-box white flex flex-col"
 									style={ {
 										borderRadius: "8px 8px 0 0",
 										marginBottom: "5px",
@@ -423,10 +422,12 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 										/>
 									</div>
 									<input
-										type="text"
+										type="number"
 										className="d-and-d-cinput"
 										defaultValue={ character.hp ? character.hp : "" }
-										onChange={ (e) => this.updateCharacter("hp", e.target.value) }
+										onChange={ (e) => {
+											this.updateCharacter("hp", e.target.value);
+										} }
 									/>
 									<label
 										className="d-and-d-title"
@@ -436,11 +437,11 @@ export default class DnDCharacterStatsSheet extends React.Component<IDnDCharacte
 									</label>
 								</div>
 								<div
-									className="d-and-d-box white mb-2"
+									className="d-and-d-box white mb-2 flex flex-col"
 									style={ { borderRadius: "0 0 8px 8px", paddingBottom: "5px" } }
 								>
 									<input
-										type="text"
+										type="number"
 										className="d-and-d-cinput"
 										defaultValue={ character.tempHp ? character.tempHp : "" }
 										onChange={ (e) => this.updateCharacter("tempHp", e.target.value) }
