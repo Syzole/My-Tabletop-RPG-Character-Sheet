@@ -28,17 +28,17 @@ export default class DnDCharacter {
 
 	initiative: number;
 
-	inspiration?: string;
+	inspiration?: number;
 
 	passivePerception?: number;
 	otherProficiencies?: string;
 
 	ac?: number;
-	speed?: string;
+	speed?: number;
 
-	maxHp?: string;
-	hp?: string;
-	tempHp?: string;
+	maxHp?: number;
+	hp?: number;
+	tempHp?: number;
 
 	hitDiceMax?: string;
 	hitDice?: string;
@@ -49,11 +49,11 @@ export default class DnDCharacter {
 	attacks?: any[];
 	attacksText?: string;
 
-	cp?: string;
-	sp?: string;
-	ep?: string;
-	gp?: string;
-	pp?: string;
+	cp?: number;
+	sp?: number;
+	ep?: number;
+	gp?: number;
+	pp?: number;
 	inventory: Item[] = [];
 	equipment?: string;
 

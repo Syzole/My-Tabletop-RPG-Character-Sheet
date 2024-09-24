@@ -96,3 +96,7 @@ export function calculateSneakAttackDice(rougeLevel: number) {
 	return Math.ceil(rougeLevel / 2);
 }
 
+export function copyCharacter(character: DnDCharacter): DnDCharacter {
+	return Object.assign(new DnDCharacter(), character);
+}
+
