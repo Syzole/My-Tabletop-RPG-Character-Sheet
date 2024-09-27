@@ -24,7 +24,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 
 	const [ character, setCharacter ] = useState<DnDCharacter>(initialCharacter);
 
-	function updateCharacter(key: string, defaultValue: any) {
+	async function updateCharacter(key: string, defaultValue: any) {
 		const updatedCharacter = new DnDCharacter();  // create a new instance of DnDCharacter
 		Object.assign(updatedCharacter, character, { [ key ]: defaultValue });  // assign the new defaultValue and preserve methods
 		setCharacter(updatedCharacter);  // set the updated character
@@ -309,7 +309,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 										labelTop="Armour"
 										label="Class"
 										name="ac"
-										defaultValue={ character.calculateAC() }
+										defaultValue={ character.ac }
 									/>
 								</div>
 								<div className="col-4 pr-2 pl-2">
@@ -513,7 +513,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 						</div>
 					</div>
 					<div className="d-and-d-box gray grow">
-						<CharacterBox charecter={ character } />
+						<CharacterBox charecter={ character } updateCharacter={ updateCharacter } />
 					</div>
 				</div>
 			</div>

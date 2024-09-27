@@ -19,6 +19,7 @@ export interface Weapon {
 }
 
 export interface Armor {
+	name: string;
 	type: "Light" | "Medium" | "Heavy";
 	ac: number;
 	maxDex?: number;

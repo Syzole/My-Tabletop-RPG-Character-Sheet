@@ -4,7 +4,7 @@ import { useState } from "react";
 import Inventory from "./Inventory";
 import DnDCharacter from "@/lib/DnDCharacter";
 
-export default function CharacterBox({ charecter }: { charecter?: DnDCharacter }) {
+export default function CharacterBox({ charecter, updateCharacter }: { charecter?: DnDCharacter, updateCharacter: (field: string, value: any) => void }) {
     // Tabs array
     const tabs = [
         "Actions",
@@ -47,7 +47,7 @@ export default function CharacterBox({ charecter }: { charecter?: DnDCharacter }
                                 onClick={ () => console.log("To be added") }
                             >Manage Inventory</button>
                         </div>
-                        <Inventory inventory={ charecter?.inventory } />
+                        <Inventory charecter={ charecter } updateCharacter={ updateCharacter } />
                     </div>
                 ) : (
                     <div>

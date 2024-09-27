@@ -2,9 +2,9 @@
 
 import DnDCharacter from "./DnDCharacter";
 
-import { Stats, SavingThrowProficiencyLevel, ProficiencyLevel, skills } from "./types";
+import { Armor, Item, ProficiencyLevel, SavingThrowProficiencyLevel, skills, Stats } from "./types";
 
-import { simpleMelee, simpleRanged, martialMelee, martialRanged } from "./definitions";
+import { martialMelee, martialRanged, simpleMelee, simpleRanged } from "./definitions";
 
 export function getProficientWeapons(character: DnDCharacter) {
 	const allWeapons = simpleMelee.concat(simpleRanged, martialMelee, martialRanged);
@@ -100,3 +100,35 @@ export function copyCharacter(character: DnDCharacter): DnDCharacter {
 	return Object.assign(new DnDCharacter(), character);
 }
 
+export function convertItemToArmor(item: Item): Armor | null {
+	if (!item.properties || item.type !== 'Armor') {
+		console.error("Item is not an armor or doesn't have properties.");
+		return null; // Only process items of type "Armor"
+	}
+
+	const armorTypeMap: { [ key: string ]: "Light" | "Medium" | "Heavy" } = {
+		"Light Armor": "Light",
+		"Medium Armor": "Medium",
+		"Heavy Armor": "Heavy"
+	};
+
+	// Extract armor type from item properties, or return null if it's invalid
+	const armorType = armorTypeMap[ item.properties.armorType ];
+	if (!armorType) {
+		console.error(`Unknown armor type for item: ${item.name}`);
+		return null;
+	}
+
+	// Create the armor object from the item
+	const armor: Armor = {
+		name: item.name,
+		type: armorType,
+		ac: item.properties.ac, // Base AC from item properties
+		weight: item.weight ?? 0, // Weight, or default to 0
+		maxDex: item.properties.maxDex, // Optional, depends on armor type
+		strReq: item.properties.strength, // Optional, for heavy armors
+		disadvantage: item.properties.stealth || false, // Optional
+	};
+
+	return armor;
+}

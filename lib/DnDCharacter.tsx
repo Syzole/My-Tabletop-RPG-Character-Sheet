@@ -1,4 +1,4 @@
-import { ProficiencyLevel, SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Modifier, Item, feature, skills, defaultSkill } from "./types";
+import { ProficiencyLevel, SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Modifier, Item, feature, skills, defaultSkill, Armor } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
 import { } from "@prisma/client";
 
@@ -17,7 +17,7 @@ export default class DnDCharacter {
 
 	baseStats: Stats; //this is the base baseStats
 	stats: Stats; //this is baseStats plus modifiers from items, spells, etc
-	armor?: Item;
+	equippedArmor?: Armor;
 	proficiencyBonus: number;
 	modifiers: Modifier[];
 
@@ -33,7 +33,7 @@ export default class DnDCharacter {
 	passivePerception?: number;
 	otherProficiencies?: string;
 
-	ac?: number;
+	ac: number;
 	speed?: number;
 
 	maxHp?: number;
@@ -149,6 +149,8 @@ export default class DnDCharacter {
 
 		this.initiative = this.getStatModifier("dex");
 
+		this.ac = 10 + this.getStatModifier("dex");
+
 		this.proficiencyBonus = 2; // Example value, usually determined by character level
 
 		this.modifiers = [];
@@ -201,63 +203,43 @@ export default class DnDCharacter {
 		return calculateSavingThrowModifier(this, stat);
 	}
 
-	calculateAC(): number {
-		let baseAC = this.armor ? this.armor.properties.ac : 10;
-		let dexModifier = this.getStatModifier("dex");
+	equipArmor(armor: Armor): number {
+		this.equippedArmor = armor;
+		this.updateAC();
+		return this.ac;
+		console.log(`Equipped ${armor.type} armor with base AC ${armor.ac}.`);
+	}
 
-		if (this.armor && this.armor.properties.maxDex !== undefined) {
-			dexModifier = Math.min(dexModifier, this.armor.properties.maxDex);
+	// Unequip armor, reset AC to base
+	unequipArmor(): number {
+		this.equippedArmor = undefined;
+		this.ac = 10 + this.getStatModifier("dex");
+		console.log(`Armor unequipped. Base AC is now ${this.ac}.`);
+		return this.ac;
+	}
+
+	// Update AC based on the equipped armor and Dexterity modifier
+	updateAC() {
+		if (this.equippedArmor) {
+			let dexModifier = this.getStatModifier("dex");
+
+			// Enforce maxDex limitation if defined for the armor
+			if (this.equippedArmor.maxDex !== undefined) {
+				dexModifier = Math.min(dexModifier, this.equippedArmor.maxDex);
+			}
+
+			// Calculate AC: Armor's base AC + Dexterity modifier (with maxDex applied)
+			this.ac = this.equippedArmor.ac + dexModifier;
+		} else {
+			// No armor equipped, revert to default AC
+			this.ac = 10 + this.getStatModifier("dex");
 		}
 
-		return baseAC + dexModifier;
+		console.log(`Updated AC is now ${this.ac}.`);
 	}
 
 	getStatModifier(stat: keyof Stats): number {
 		return Math.floor((this.stats[ stat ] - 10) / 2);
 	}
 
-	addModifier(modifier: Modifier) {
-		this.modifiers.push(modifier);
-
-		// Split the target string into keys
-		const keys = modifier.target.split(".");
-		let target = this;
-
-		// Traverse the object to the target property
-		for (let i = 0; i < keys.length - 1; i++) {
-			if (!target[ keys[ i ] ]) {
-				target[ keys[ i ] ] = {};
-			}
-			target = target[ keys[ i ] ];
-		}
-
-		// Modify the target property value
-		target[ keys[ keys.length - 1 ] ] += modifier.value;
-	}
-
-	removeModifier(type: string) {
-		// Find the index of the modifier with the given type
-		const index = this.modifiers.findIndex((mod) => mod.type === type);
-		if (index === -1) {
-			return; // Modifier not found
-		}
-
-		// Get the modifier to be removed
-		const modifier = this.modifiers[ index ];
-
-		// Split the target string into keys
-		const keys = modifier.target.split(".");
-		let target = this;
-
-		// Traverse the object to the target property
-		for (let i = 0; i < keys.length - 1; i++) {
-			target = target[ keys[ i ] ];
-		}
-
-		// Revert the target property value
-		target[ keys[ keys.length - 1 ] ] -= modifier.value;
-
-		// Remove the modifier from the array
-		this.modifiers.splice(index, 1);
-	}
 }
