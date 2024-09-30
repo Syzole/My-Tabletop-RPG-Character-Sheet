@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Inventory from "./Inventory";
 import DnDCharacter from "@/lib/DnDCharacter";
+import InventoryBox from "./InventoryManager";
+
 
 export default function CharacterBox({ charecter, updateCharacter }: { charecter?: DnDCharacter, updateCharacter: (field: string, value: any) => void }) {
     // Tabs array
@@ -18,6 +20,7 @@ export default function CharacterBox({ charecter, updateCharacter }: { charecter
 
     // State to keep track of the active tab
     const [ activeTab, setActiveTab ] = useState<string>("Inventory");
+    const [ inventoryWindowOpen, setInventoryWindowOpen ] = useState<boolean>(false);
 
     return (
         <div className="container mx-auto p-5">
@@ -43,9 +46,12 @@ export default function CharacterBox({ charecter, updateCharacter }: { charecter
                     <div>
                         <div className="flex justify-between items-center">
                             <h2 className="text-xl font-bold mb-3">{ activeTab }</h2>
-                            <button className="btn"
-                                onClick={ () => console.log("To be added") }
-                            >Manage Inventory</button>
+                            <button
+                                className="btn bg-black text-white"
+                                onClick={ () => setInventoryWindowOpen(true) }
+                            >
+                                Manage Inventory
+                            </button>
                         </div>
                         <Inventory charecter={ charecter } updateCharacter={ updateCharacter } />
                     </div>
@@ -56,6 +62,13 @@ export default function CharacterBox({ charecter, updateCharacter }: { charecter
                     </div>
                 ) }
             </div>
+
+            {/* Inventory Management Modal */ }
+            { inventoryWindowOpen && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <InventoryBox charecter={ charecter! } setInventoryWindowOpen={ setInventoryWindowOpen } updateCharacter={ updateCharacter } />
+                </div>
+            ) }
         </div>
     );
 }

@@ -13,9 +13,9 @@ export interface Modifier {
 export interface Weapon {
 	name: string;
 	damage: string;
-	properties: { [ key: string ]: any };
 	weight: string;
 	description: string;
+	properties: { [ key: string ]: any };
 }
 
 export interface Armor {

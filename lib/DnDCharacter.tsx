@@ -1,6 +1,5 @@
-import { ProficiencyLevel, SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Modifier, Item, feature, skills, defaultSkill, Armor } from "./types";
+import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, feature, skills, defaultSkill, Armor, Weapon } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
-import { } from "@prisma/client";
 
 export default class DnDCharacter {
 	[ key: string ]: any;
@@ -19,7 +18,6 @@ export default class DnDCharacter {
 	stats: Stats; //this is baseStats plus modifiers from items, spells, etc
 	equippedArmor?: Armor;
 	proficiencyBonus: number;
-	modifiers: Modifier[];
 
 	skills: skills;
 	savingThrowProficiencies: SavingThrowProficiencies;
@@ -56,6 +54,7 @@ export default class DnDCharacter {
 	pp?: number;
 	inventory: Item[] = [];
 	equipment?: string;
+	equippedWeapons: Weapon[] = [];
 
 	personalityTraits?: string;
 	ideals?: string;
@@ -206,8 +205,8 @@ export default class DnDCharacter {
 	equipArmor(armor: Armor): number {
 		this.equippedArmor = armor;
 		this.updateAC();
-		return this.ac;
 		console.log(`Equipped ${armor.type} armor with base AC ${armor.ac}.`);
+		return this.ac;
 	}
 
 	// Unequip armor, reset AC to base
@@ -219,7 +218,7 @@ export default class DnDCharacter {
 	}
 
 	// Update AC based on the equipped armor and Dexterity modifier
-	updateAC() {
+	updateAC(): number {
 		if (this.equippedArmor) {
 			let dexModifier = this.getStatModifier("dex");
 
@@ -236,6 +235,8 @@ export default class DnDCharacter {
 		}
 
 		console.log(`Updated AC is now ${this.ac}.`);
+
+		return this.ac;
 	}
 
 	getStatModifier(stat: keyof Stats): number {
