@@ -18,6 +18,7 @@ export default function InventoryBox({
     const [ inventory, setInventory ] = useState<Item[]>(charecter.inventory);
     const [ databaseItems, setDatabaseItems ] = useState<Item[]>([]);
     const [ hoveredItem, setHoveredItem ] = useState<Item | null>(null);
+    const [ searchQuery, setSearchQuery ] = useState<string>(''); // State for the search query
     const fetchCalled = useRef(false);
     const inventoryBoxRef = useRef<HTMLDivElement | null>(null);
 
@@ -71,6 +72,11 @@ export default function InventoryBox({
         updateCharacter("inventory", newInventory); // Call the updateCharacter function to update the inventory in the character object
     };
 
+    // Function to handle the search
+    const filteredItems = databaseItems.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter based on item name
+    );
+
     return (
         <div ref={ inventoryBoxRef } className="bg-white p-8 rounded-lg shadow-lg relative flex">
             <div className="flex-1">
@@ -82,13 +88,22 @@ export default function InventoryBox({
                     Close
                 </button>
 
+                {/* Search bar */ }
+                <input
+                    type="text"
+                    placeholder="Search items..."
+                    value={ searchQuery }
+                    onChange={ (e) => setSearchQuery(e.target.value) }
+                    className="mb-4 p-2 border rounded w-full"
+                />
+
                 {/* Render the inventory items here */ }
                 <div
                     className="overflow-y-auto"
                     style={ { maxHeight: "300px", border: "1px solid #e2e8f0", padding: "10px" } }
                 >
-                    { Array.isArray(databaseItems) ? (
-                        databaseItems.map((item) => (
+                    { Array.isArray(filteredItems) && filteredItems.length > 0 ? (
+                        filteredItems.map((item) => (
                             <InventoryItemCard
                                 key={ item.name }
                                 item={ item }
@@ -98,7 +113,7 @@ export default function InventoryBox({
                             />
                         ))
                     ) : (
-                        <p>Loading...</p>
+                        <p>No items found.</p>
                     ) }
                 </div>
             </div>
@@ -106,7 +121,7 @@ export default function InventoryBox({
             {/* ItemCard display when hovering over an item */ }
             { hoveredItem && (
                 <div
-                    className="absolute top-0 ml-4 p-6 bg-white border rounded-lg shadow-2xl z-20"
+                    className="absolute top-0 ml-4 p-6 bg-white border rounded-lg z-20"
                     style={ {
                         left: "100%", // Position it to the right of the InventoryBox
                         transform: "translateX(20px)", // Give some extra space between inventory box and hover card
@@ -116,7 +131,7 @@ export default function InventoryBox({
                         fontSize: "1.1rem", // Larger font size for visibility
                     } }
                 >
-                    <div className="absolute left-0 mt-2 w-full bg-white p-4 rounded-lg shadow-lg z-10">
+                    <div className="absolute left-0 mt-2 w-full bg-white p-4 rounded-lg z-10">
                         <h3 className="text-lg font-semibold text-indigo-600">{ hoveredItem.name }</h3>
                         <p className="text-sm text-gray-600">
                             <strong>Source:</strong> { hoveredItem.source.join(", ") }
