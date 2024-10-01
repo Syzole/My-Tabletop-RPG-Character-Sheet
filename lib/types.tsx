@@ -29,13 +29,14 @@ export interface Armor {
 }
 
 export interface Item {
+	[ key: string ]: any;
 	name: string;
 	source: string[];
 	type: string;
 	rarity?: string;
 	value?: number;
 	weight?: number;
-	quantity?: number;
+	quantity: number;
 	properties: { [ key: string ]: any };
 }
 
