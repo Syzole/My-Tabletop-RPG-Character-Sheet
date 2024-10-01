@@ -6,7 +6,11 @@ import DnDCharacter from "@/lib/DnDCharacter";
 import InventoryBox from "./InventoryManager";
 
 
-export default function CharacterBox({ charecter, updateCharacter }: { charecter?: DnDCharacter, updateCharacter: (field: string, value: any) => void }) {
+export default function CharacterBox({ charecter, updateCharacter, setFocusItem }: {
+    charecter?: DnDCharacter,
+    updateCharacter: (field: string, value: any) => void
+    setFocusItem?: (value: any) => void
+}) {
     // Tabs array
     const tabs = [
         "Actions",
@@ -53,7 +57,7 @@ export default function CharacterBox({ charecter, updateCharacter }: { charecter
                                 Manage Inventory
                             </button>
                         </div>
-                        <Inventory charecter={ charecter } updateCharacter={ updateCharacter } />
+                        <Inventory charecter={ charecter } updateCharacter={ updateCharacter } setFocusItem={ setFocusItem! } />
                     </div>
                 ) : (
                     <div>

@@ -7,9 +7,13 @@ import "../../Assets/Dnd 1.0 Sheet/dndstyles.css";
 import DnDCharacter from "@/lib/DnDCharacter";
 import { convertItemToArmor } from "@/lib/utils";
 
-export default function Inventory({ charecter, updateCharacter }: { charecter?: DnDCharacter, updateCharacter: (field: string, value: any) => void }) {
-    const [ hoveredItemIndex, setHoveredItemIndex ] = useState<number | null>(null);
-
+export default function Inventory({ charecter, updateCharacter, setFocusItem }:
+    {
+        charecter?: DnDCharacter,
+        updateCharacter: (field: string, value: any) => void,
+        setFocusItem: (value: any) => void
+    }) {
+    const [ selectedItemIndex, setSelectedItemIndex ] = useState<number | null>(null);
 
     const inventory = charecter?.inventory;
 
@@ -33,7 +37,7 @@ export default function Inventory({ charecter, updateCharacter }: { charecter?: 
                 }
             }
         },
-        [ charecter, updateCharacter ] // Dependencies that could change
+        [ charecter, updateCharacter ]
     );
 
     // Function to handle increasing item quantity
@@ -56,16 +60,7 @@ export default function Inventory({ charecter, updateCharacter }: { charecter?: 
         }
     };
 
-    // Function to remove an item from the inventory
-    const handleRemoveItem = (index: number) => {
-        if (inventory) {
-            const updatedInventory = [ ...inventory ];
-            updatedInventory.splice(index, 1);
-            updateCharacter("inventory", updatedInventory);
-        }
-
-    };
-
+    // Function to handle changing item quantity
     const handleChangeQuantity = (index: number, quantity: number) => {
         if (quantity < 1) {
             quantity = 1;
@@ -81,8 +76,23 @@ export default function Inventory({ charecter, updateCharacter }: { charecter?: 
         }
     };
 
+    // Function to remove an item from the inventory
+    const handleRemoveItem = (index: number) => {
+        if (inventory) {
+            const updatedInventory = [ ...inventory ];
+            updatedInventory.splice(index, 1);
+            updateCharacter("inventory", updatedInventory);
+        }
+    };
+
+    // Function to handle item selection
+    const handleSelectItem = (index: number) => {
+        setFocusItem(inventory[ index ]);
+    };
+
     return (
-        <div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex flex-col justify-center items-center relative">
+        <div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex justify-center items-start relative">
+            {/* Inventory Table */ }
             <table className="min-w-full bg-white border border-gray-200">
                 <thead>
                     <tr>
@@ -96,16 +106,13 @@ export default function Inventory({ charecter, updateCharacter }: { charecter?: 
                     { inventory.map((item, index) => (
                         <tr
                             key={ index }
-                            className="border-t border-gray-200 relative"
-                            onMouseEnter={ () => setHoveredItemIndex(index) }
-                            onMouseLeave={ () => setHoveredItemIndex(null) }
+                            className="border-t border-gray-200"
                         >
-                            <td className="pl-4 text-sm text-gray-700 cursor-pointer underline py-2">
-                                { hoveredItemIndex === index ? (
-                                    <ItemCard key={ index } item={ item } className="absolute" />
-                                ) : (
-                                    <span>{ item.name }</span>
-                                ) }
+                            <td
+                                className="pl-4 text-sm text-gray-700 cursor-pointer underline py-2"
+                                onClick={ () => handleSelectItem(index) }
+                            >
+                                { item.name }
                             </td>
                             <td className="px-4 py-2 text-sm text-gray-700">{ item.type }</td>
                             <td className="px-4 py-2 text-sm text-gray-700 flex items-center">
@@ -140,7 +147,7 @@ export default function Inventory({ charecter, updateCharacter }: { charecter?: 
                                     <button
                                         onClick={ (e) => {
                                             e.stopPropagation();
-                                            handleEquipArmor(item); // Call the memoized function
+                                            handleEquipArmor(item);
                                         } }
                                         className="btn bg-purple-700 text-white px-4 py-2 w-24 text-center"
                                     >
@@ -152,6 +159,13 @@ export default function Inventory({ charecter, updateCharacter }: { charecter?: 
                     )) }
                 </tbody>
             </table>
+
+            {/* ItemCard Display on Right Side */ }
+            { selectedItemIndex !== null && inventory[ selectedItemIndex ] && (
+                <div className="ml-4 mt-2 w-80 absolute right-0 top-0 bg-white p-4 rounded-lg shadow-lg">
+                    <ItemCard item={ inventory[ selectedItemIndex ] } />
+                </div>
+            ) }
         </div>
     );
 }

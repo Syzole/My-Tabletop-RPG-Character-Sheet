@@ -9,7 +9,7 @@ import ItemCard from "./ItemCard";
 export default function InventoryBox({
     charecter,
     setInventoryWindowOpen,
-    updateCharacter,
+    updateCharacter
 }: {
     charecter: DnDCharacter;
     setInventoryWindowOpen: (open: boolean) => void;

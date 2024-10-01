@@ -18,10 +18,11 @@ import { allSkills } from "@/lib/definitions";
 import { Proficiencies } from "@/lib/types";
 
 import "./dndstyles.css";
+import FocusCol from "../Components/focusCol";
 
 
 export default function DnDCharacterStatsSheet({ character: initialCharacter }: { character: DnDCharacter }) {
-
+	const [ focusItem, setFocusItem ] = useState<any | null>(null);
 	const [ character, setCharacter ] = useState<DnDCharacter>(initialCharacter);
 
 	async function updateCharacter(key: string, defaultValue: any) {
@@ -513,8 +514,11 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 						</div>
 					</div>
 					<div className="d-and-d-box gray grow">
-						<CharacterBox charecter={ character } updateCharacter={ updateCharacter } />
+						<CharacterBox charecter={ character } updateCharacter={ updateCharacter } setFocusItem={ setFocusItem } />
 					</div>
+				</div>
+				<div className="flex justify-center items-center">
+					<FocusCol focusItem={ focusItem } setFocusItem={ setFocusItem } />
 				</div>
 			</div>
 		</div>
