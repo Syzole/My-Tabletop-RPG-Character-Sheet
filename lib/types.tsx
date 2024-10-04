@@ -12,6 +12,7 @@ export interface Modifier {
 
 export interface Weapon {
 	name: string;
+	rangeType: "Melee" | "Ranged";
 	damage: string;
 	weight: string;
 	description: string;

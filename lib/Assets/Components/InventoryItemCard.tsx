@@ -1,3 +1,4 @@
+import DnDCharacter from "@/lib/DnDCharacter";
 import { Item } from "@/lib/types";
 
 interface InventoryItemCardProps {
@@ -5,6 +6,7 @@ interface InventoryItemCardProps {
     onAddItem: () => void;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
+    character: DnDCharacter;
 }
 
 export default function InventoryItemCard({
@@ -12,6 +14,7 @@ export default function InventoryItemCard({
     onAddItem,
     onMouseEnter,
     onMouseLeave,
+    character
 }: InventoryItemCardProps) {
     return (
         <div
@@ -21,6 +24,10 @@ export default function InventoryItemCard({
         >
             <span>{ item.name }</span>
             <button
+                {
+                //if the item is already in the inventory, disable the add button
+                ...character.inventory.find((i) => i.name === item.name) && { disabled: true }
+                }
                 className="btn bg-blue-500 text-white px-2 py-1 rounded"
                 onClick={ onAddItem }
             >

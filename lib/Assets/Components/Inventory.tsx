@@ -91,7 +91,7 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
     };
 
     return (
-        <div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex justify-center items-start relative">
+        <div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex justify-center items-start max-h-[450px] overflow-y-auto h-full">
             {/* Inventory Table */ }
             <table className="min-w-full bg-white border border-gray-200">
                 <thead>

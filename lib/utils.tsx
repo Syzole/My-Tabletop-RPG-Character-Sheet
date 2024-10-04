@@ -132,3 +132,19 @@ export function convertItemToArmor(item: Item): Armor | null {
 
 	return armor;
 }
+
+export function convertItemToWeapon(item: Item) {
+	if (!item.properties || item.type !== 'Weapon') {
+		console.error("Item is not a weapon or doesn't have properties.");
+		return null; // Only process items of type "Weapon"
+	}
+
+	// Create the weapon object from the item
+	const weapon: { [ key: string ]: any } = {
+		name: item.name,
+		weight: item.weight ?? 0, // Weight, or default to 0
+		properties: item.properties,
+	};
+
+	return weapon;
+}

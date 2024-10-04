@@ -111,6 +111,7 @@ export default function InventoryBox({
                                         item.quantity = 1;
                                         addItemToInventory(item)
                                     } }
+                                    character={ charecter }
                                     onMouseEnter={ () => setHoveredItem(item) } // Set hovered item on mouse enter
                                     onMouseLeave={ () => setHoveredItem(null) } // Remove hovered item on mouse leave
                                 />

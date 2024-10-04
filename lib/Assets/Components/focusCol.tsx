@@ -9,7 +9,7 @@ export default function FocusCol({
     setFocusItem,
 }: {
     focusItem?: any;
-    setFocusItem?: (field: string, value: any) => void;
+    setFocusItem?: (value: any) => void;
 }) {
     // Determine what kind of content to display
     if (!focusItem) {
@@ -17,19 +17,26 @@ export default function FocusCol({
     }
 
     return (
-        <div className="focus-col-container p-4 border-l border-gray-300">
-            { isItem(focusItem) ? (
-                <div>
-                    <button className="btn bg-black text-white" onClick={ () => setFocusItem && setFocusItem("focusItem", null) }>
-                        Close
-                    </button>
-                    <ItemCard item={ focusItem as Item } />
+        <>
+            { focusItem && (
+                <div className="focus-col-container p-4 border-l border-gray-300 fixed bg-slate-900 top-1/2 -translate-y-1/2 ">
+                    { isItem(focusItem) && (
+                        <>
+                            <button
+                                className="btn bg-black text-white mb-2"
+                                onClick={ () => setFocusItem && setFocusItem(null) }
+                            >
+                                Close
+                            </button>
+                            <ItemCard item={ focusItem as Item } />
+                        </>
+                    ) }
                 </div>
-            ) : (
-                null
             ) }
-        </div>
+        </>
     );
+
+
 }
 
 // Helper function to determine if focusItem is an Item

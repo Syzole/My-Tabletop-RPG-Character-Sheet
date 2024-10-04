@@ -70,7 +70,7 @@ const ItemCard: React.FC<ItemProps> = ({ item, className }) => {
                             <ul>
                                 { Object.entries(item.properties).map(([ key, value ]) => (
                                     <li key={ key }>
-                                        { formatPropertyKey(key) }:{ " " }
+                                        <strong className="">{ formatPropertyKey(key) }</strong>:{ " " }
                                         { typeof value === "object"
                                             ? Array.isArray(value)
                                                 ? value.join(", ") // If it's an array, join the values with commas
