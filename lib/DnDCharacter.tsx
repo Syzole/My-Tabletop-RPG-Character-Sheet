@@ -1,3 +1,4 @@
+import { equipArmor, unequipArmor, updateAC, handleEquipWeapon } from "./helperFucntions/inventoryFunctions";
 import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, feature, skills, defaultSkill, Armor, Weapon } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
 
@@ -22,7 +23,7 @@ export default class DnDCharacter {
 	skills: skills;
 	savingThrowProficiencies: SavingThrowProficiencies;
 	proficiencies: Proficiencies;
-	features?: feature[];
+	features: feature[] = [];
 
 	initiative: number;
 
@@ -203,40 +204,21 @@ export default class DnDCharacter {
 	}
 
 	equipArmor(armor: Armor): number {
-		this.equippedArmor = armor;
-		this.updateAC();
-		console.log(`Equipped ${armor.type} armor with base AC ${armor.ac}.`);
-		return this.ac;
+		return equipArmor(this, armor);
 	}
 
 	// Unequip armor, reset AC to base
 	unequipArmor(): number {
-		this.equippedArmor = undefined;
-		this.ac = 10 + this.getStatModifier("dex");
-		console.log(`Armor unequipped. Base AC is now ${this.ac}.`);
-		return this.ac;
+		return unequipArmor(this);
+	}
+
+	handleEquipWeapon(weapon: Weapon) {
+		handleEquipWeapon(this, weapon);
 	}
 
 	// Update AC based on the equipped armor and Dexterity modifier
 	updateAC(): number {
-		if (this.equippedArmor) {
-			let dexModifier = this.getStatModifier("dex");
-
-			// Enforce maxDex limitation if defined for the armor
-			if (this.equippedArmor.maxDex !== undefined) {
-				dexModifier = Math.min(dexModifier, this.equippedArmor.maxDex);
-			}
-
-			// Calculate AC: Armor's base AC + Dexterity modifier (with maxDex applied)
-			this.ac = this.equippedArmor.ac + dexModifier;
-		} else {
-			// No armor equipped, revert to default AC
-			this.ac = 10 + this.getStatModifier("dex");
-		}
-
-		console.log(`Updated AC is now ${this.ac}.`);
-
-		return this.ac;
+		return updateAC(this);
 	}
 
 	getStatModifier(stat: keyof Stats): number {

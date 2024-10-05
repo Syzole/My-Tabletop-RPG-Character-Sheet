@@ -2,7 +2,7 @@
 
 import DnDCharacter from "./DnDCharacter";
 
-import { Armor, Item, ProficiencyLevel, SavingThrowProficiencyLevel, skills, Stats } from "./types";
+import { Armor, Item, ProficiencyLevel, SavingThrowProficiencyLevel, skills, Stats, Weapon } from "./types";
 
 import { martialMelee, martialRanged, simpleMelee, simpleRanged } from "./definitions";
 
@@ -133,18 +133,35 @@ export function convertItemToArmor(item: Item): Armor | null {
 	return armor;
 }
 
-export function convertItemToWeapon(item: Item) {
+export function convertItemToWeapon(item: Item): Weapon {
 	if (!item.properties || item.type !== 'Weapon') {
 		console.error("Item is not a weapon or doesn't have properties.");
-		return null; // Only process items of type "Weapon"
+		throw new Error("Item is not a weapon or doesn't have properties.");
 	}
-
-	// Create the weapon object from the item
-	const weapon: { [ key: string ]: any } = {
+	const weapon: Weapon = {
 		name: item.name,
-		weight: item.weight ?? 0, // Weight, or default to 0
-		properties: item.properties,
+		rangeType: item.properties.rangeType ?? "Melee", // Set default rangeType to "Melee" if not provided
+		damage: item.properties.damage ?? "0", // Provide a default value for damage if missing
+		damageType: item.properties.dmgType ?? "Bludgeoning", // Provide a default value for damageType if missing
+		weight: item.weight ?? 0, // Provide a default value for weight if missing
+		description: item.properties.description ?? "No description available.", // Provide a default description if missing
+		properties: item.properties.properties ?? {}, // Provide default empty properties if missing
 	};
-
 	return weapon;
 }
+
+
+export const TestParagraphs = () => {
+	const paragraphs = []; // Initialize an array to hold paragraph elements
+
+	// Use a loop to fill the array with <p> elements
+	for (let i = 0; i < 500; i++) {
+		paragraphs.push(<p key={ i }>Test { i + 1 }</p>);
+	}
+
+	return (
+		<div>
+			{ paragraphs } {/* Render the array of <p> elements */ }
+		</div>
+	);
+};

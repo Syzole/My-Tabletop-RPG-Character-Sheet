@@ -9,6 +9,7 @@ function DeathSave(props: { classes?: string; label: React.ReactNode; defaultVal
 	return (
 		<div className={ classes }>
 			<label>{ props.label }</label>
+			<br />
 			<div style={ { display: "inline-block" } }>
 				<div
 					className={ props.defaultValue && props.defaultValue >= 1 ? "d-and-d-skill-circle active" : "d-and-d-skill-circle" }
