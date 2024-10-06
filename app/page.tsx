@@ -13,14 +13,34 @@ const char2 = new DnDCharacter();
 Object.assign(char2, Gandalf);
 Object.assign(char, John);
 
+let item = {
+	name: 'Dagger',
+	value: 200,
+	weight: 1,
+	quantity: 1,
+	source: [ 'PHB', '149' ],
+	rarity: 'none',
+	type: 'Weapon',
+	properties: {
+		dmg1: '1d4',
+		range: '20/60',
+		dmgType: 'Piercing',
+		property: [ 'Finesse', 'Light', 'Thrown' ],
+		rangeType: 'Melee',
+		weaponType: 'Dagger',
+		weaponCategory: 'simple'
+	}
+}
+
+let dagger = convertItemToWeapon(item);
+
 //<DnDCharacterStatsSheet character={ char } />
 
 export default function Page() {
 	return (
 		<div>
 			<button onClick={ () => console.log(char.equippedWeapons) }
-				className="btn btn-primary"
-			>Click me</button>
+				className="btn btn-primary">Click me</button>
 			<DnDCharacterStatsSheet character={ char } />
 		</div>
 	);

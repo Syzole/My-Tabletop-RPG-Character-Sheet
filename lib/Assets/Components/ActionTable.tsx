@@ -1,7 +1,8 @@
 import DnDCharacter from "@/lib/DnDCharacter";
-import { Weapon } from "@/lib/types";
+import { Item, Weapon } from "@/lib/types";
 import { useState, useEffect } from "react";
 import { featureType } from "@prisma/client";
+import { convertItemToWeapon, TestParagraphs } from "@/lib/utils";
 
 export default function ActionTable({ character }: { character: DnDCharacter }) {
 
@@ -19,17 +20,13 @@ export default function ActionTable({ character }: { character: DnDCharacter }) 
     let bonusActionArray = [];
     let reactionArray = [];
     let otherArray = [];
-    let weaponArray = character.equippedWeapons;
-
+    let weaponArray = [];
 
 
     //Base options: Attack, Dash, Disengage, Dodge, Grapple, Help, Hide, Improvise, Influence, Magic, Ready, Search, Shove, Study, Utilize
 
     return (
-        <div>
-            {
-                //make a few tabs onm top for All, Action, Bonus Action, Reaction, Other
-            }
+        <div className="flex flex-col">
             {/* Tabs Header */ }
             <div className="tabs mb-5 tabs-boxed">
                 { tabs.map((tab) => (
@@ -42,11 +39,25 @@ export default function ActionTable({ character }: { character: DnDCharacter }) 
                     </a>
                 )) }
             </div>
-            <div className="bg-white p-5 rounded-lg h-full max-h-[500px] overflow-y-auto">
-                { // fill this up with ALOT of text to check if it scrolls do not do anything with the tabs
-                }
+            <div className="bg-white p-5 rounded-lg h-full max-h-[450px] overflow-y-auto">
+
             </div>
         </div>
     );
+
+}
+
+
+function convertItemToWeaponArray(items: Item[]): Weapon[] {
+
+    let weaponArray: Weapon[] = [];
+
+    items.forEach((item) => {
+        if (item.type === "Weapon") {
+            weaponArray.push(convertItemToWeapon(item));
+        }
+    });
+
+    return weaponArray;
 
 }

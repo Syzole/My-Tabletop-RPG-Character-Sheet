@@ -15,8 +15,6 @@ export interface Weapon {
 	rangeType: "Melee" | "Ranged";
 	damage: string;
 	damageType: string;
-	weight: number;
-	description: string;
 	properties: { [ key: string ]: any };
 }
 

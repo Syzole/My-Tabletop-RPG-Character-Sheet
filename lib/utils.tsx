@@ -141,11 +141,9 @@ export function convertItemToWeapon(item: Item): Weapon {
 	const weapon: Weapon = {
 		name: item.name,
 		rangeType: item.properties.rangeType ?? "Melee", // Set default rangeType to "Melee" if not provided
-		damage: item.properties.damage ?? "0", // Provide a default value for damage if missing
+		damage: item.properties.dmg1 ?? "0", // Provide a default value for damage if missing
 		damageType: item.properties.dmgType ?? "Bludgeoning", // Provide a default value for damageType if missing
-		weight: item.weight ?? 0, // Provide a default value for weight if missing
-		description: item.properties.description ?? "No description available.", // Provide a default description if missing
-		properties: item.properties.properties ?? {}, // Provide default empty properties if missing
+		properties: item.properties ?? {}, // Provide default empty properties if missing
 	};
 	return weapon;
 }

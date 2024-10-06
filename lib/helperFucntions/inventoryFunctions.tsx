@@ -1,5 +1,5 @@
 import DnDCharacter from "../DnDCharacter";
-import { Armor, Weapon } from "../types";
+import { Armor, Item, Weapon } from "../types";
 
 export function equipArmor(charecter: DnDCharacter, armor: Armor,): number {
     charecter.equippedArmor = armor;
@@ -36,7 +36,7 @@ export function updateAC(charecter: DnDCharacter): number {
     return charecter.ac;
 }
 
-function equipWeapon(charecter: DnDCharacter, weapon: Weapon) {
+function equipWeapon(charecter: DnDCharacter, weapon: Item) {
     if (charecter.equippedWeapons.includes(weapon)) {
         console.log(`Weapon ${weapon.name} is already equipped.`);
         return;
@@ -46,7 +46,7 @@ function equipWeapon(charecter: DnDCharacter, weapon: Weapon) {
     console.log(`Equipped weapon ${weapon.name}.`);
 }
 
-function unequipWeapon(charecter: DnDCharacter, weapon: Weapon) {
+function unequipWeapon(charecter: DnDCharacter, weapon: Item) {
     const index = charecter.equippedWeapons.findIndex(equippedWeapon => equippedWeapon.name === weapon.name);
 
     if (index === -1) {
@@ -58,7 +58,7 @@ function unequipWeapon(charecter: DnDCharacter, weapon: Weapon) {
     console.log(`Unequipped weapon ${weapon.name}.`);
 }
 
-export function handleEquipWeapon(charecter: DnDCharacter, weapon: Weapon) {
+export function handleEquipWeapon(charecter: DnDCharacter, weapon: Item) {
     const isEquipped = charecter.equippedWeapons.some(equippedWeapon => equippedWeapon.name === weapon.name);
 
     if (isEquipped) {

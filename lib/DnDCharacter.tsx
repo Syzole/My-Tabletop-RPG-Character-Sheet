@@ -44,8 +44,6 @@ export default class DnDCharacter {
 
 	deathsaveSuccesses?: number;
 	deathsaveFailures?: number;
-
-	attacks?: any[];
 	attacksText?: string;
 
 	cp?: number;
@@ -55,7 +53,7 @@ export default class DnDCharacter {
 	pp?: number;
 	inventory: Item[] = [];
 	equipment?: string;
-	equippedWeapons: Weapon[] = [];
+	equippedWeapons: Item[] = [];
 
 	personalityTraits?: string;
 	ideals?: string;
@@ -212,7 +210,7 @@ export default class DnDCharacter {
 		return unequipArmor(this);
 	}
 
-	handleEquipWeapon(weapon: Weapon) {
+	handleEquipWeapon(weapon: Item) {
 		handleEquipWeapon(this, weapon);
 	}
 

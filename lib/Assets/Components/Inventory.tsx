@@ -44,7 +44,7 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
 
     const handleEquipWeapon = useCallback((item: Item) => {
         if (charecter) {
-            const weapon = convertItemToWeapon(item);
+            const weapon = item;
             if (weapon) {
                 charecter.handleEquipWeapon(weapon);
                 const newCharacter = copyCharacter(charecter);
@@ -116,7 +116,7 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
                     Manage Inventory
                 </button>
             </div>
-            <div className="d-and-d-character-sheet container-xl mt-5 mb-5 justify-center items-start max-h-[500px] overflow-y-auto h-full">
+            <div className="d-and-d-character-sheet container-xl mt-5 mb-5 justify-center items-start max-h-[450px] overflow-y-auto h-full">
                 {/* Search Input */ }
                 <input
                     type="text"

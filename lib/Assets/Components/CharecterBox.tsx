@@ -38,7 +38,6 @@ export default function CharacterBox({
                         className={ `tab tab-bordered ${activeTab === tab ? "tab-active" : ""}` }
                         onClick={ () => {
                             setActiveTab(tab);
-                            console.log(tab);
                         } }
                     >
                         { tab }
