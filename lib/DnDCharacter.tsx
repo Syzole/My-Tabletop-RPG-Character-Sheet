@@ -1,5 +1,5 @@
 import { equipArmor, unequipArmor, updateAC, handleEquipWeapon } from "./helperFucntions/inventoryFunctions";
-import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, feature, skills, defaultSkill, Armor, Weapon } from "./types";
+import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skills, defaultSkill, Armor, Weapon } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
 
 export default class DnDCharacter {
@@ -23,7 +23,7 @@ export default class DnDCharacter {
 	skills: skills;
 	savingThrowProficiencies: SavingThrowProficiencies;
 	proficiencies: Proficiencies;
-	features: feature[] = [];
+	features: Feature[] = [];
 
 	initiative: number;
 
@@ -221,6 +221,12 @@ export default class DnDCharacter {
 
 	getStatModifier(stat: keyof Stats): number {
 		return Math.floor((this.stats[ stat ] - 10) / 2);
+	}
+
+	public static fromJSON(json: any): DnDCharacter {
+		const character = new DnDCharacter();
+		Object.assign(character, json);  // Copy all properties from the JSON into the new instance
+		return character;
 	}
 
 }

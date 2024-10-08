@@ -39,8 +39,6 @@ let dagger = convertItemToWeapon(item);
 export default function Page() {
 	return (
 		<div>
-			<button onClick={ () => console.log(char.equippedWeapons) }
-				className="btn btn-primary">Click me</button>
 			<DnDCharacterStatsSheet character={ char } />
 		</div>
 	);

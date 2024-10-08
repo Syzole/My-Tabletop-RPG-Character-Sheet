@@ -14,6 +14,8 @@ interface ItemProps {
         properties: { [ key: string ]: any };
     };
     className?: string; // Add className prop for dynamic positioning
+    onClick?: () => void;
+
 }
 
 // Utility function to format the property keys
@@ -25,7 +27,7 @@ function formatPropertyKey(key: string): string {
         .replace(/^./, (str) => str.toUpperCase());
 }
 
-const ItemCard: React.FC<ItemProps> = ({ item, className }) => {
+const ItemCard: React.FC<ItemProps> = ({ item, className, onClick }) => {
 
     if (!item) {
         return (
@@ -36,7 +38,9 @@ const ItemCard: React.FC<ItemProps> = ({ item, className }) => {
     }
 
     return (
-        <div className={ `mt-2 w-64 bg-white p-4 rounded-lg shadow-lg z-10 ${className}` }>
+        <div className={ `mt-2 w-64 bg-white p-4 rounded-lg shadow-lg z-10 ${className}` }
+            onClick={ onClick }
+        >
             <h3 className="text-lg font-semibold text-indigo-600">
                 { item.name }
             </h3>

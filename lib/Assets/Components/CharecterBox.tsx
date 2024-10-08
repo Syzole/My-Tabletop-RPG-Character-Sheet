@@ -12,7 +12,7 @@ export default function CharacterBox({
 }: {
     charecter?: DnDCharacter,
     updateCharacter: (field: string, value: any) => void,
-    setFocusItem?: (value: any) => void
+    setFocusItem?: (item: any) => void
 }) {
     // Tabs array
     const tabs = [
@@ -26,7 +26,7 @@ export default function CharacterBox({
     ];
 
     // State to keep track of the active tab
-    const [ activeTab, setActiveTab ] = useState<string>("Inventory");
+    const [ activeTab, setActiveTab ] = useState<string>("Actions");
 
     return (
         <div className="container mx-auto p-5 flex flex-col h-full">
@@ -51,7 +51,7 @@ export default function CharacterBox({
                     <Inventory charecter={ charecter } updateCharacter={ updateCharacter } setFocusItem={ setFocusItem! } />
                 ) }
                 { activeTab === "Actions" && (
-                    <ActionTable character={ charecter! } />
+                    <ActionTable character={ charecter! } setFocusItem={ setFocusItem } />
                 ) }
                 { activeTab !== "Inventory" && activeTab !== "Actions" && (
                     <div>

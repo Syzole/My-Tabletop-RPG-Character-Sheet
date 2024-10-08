@@ -138,13 +138,24 @@ export function convertItemToWeapon(item: Item): Weapon {
 		console.error("Item is not a weapon or doesn't have properties.");
 		throw new Error("Item is not a weapon or doesn't have properties.");
 	}
+	const propertiesCopy = { ...item.properties };
+
 	const weapon: Weapon = {
 		name: item.name,
-		rangeType: item.properties.rangeType ?? "Melee", // Set default rangeType to "Melee" if not provided
-		damage: item.properties.dmg1 ?? "0", // Provide a default value for damage if missing
-		damageType: item.properties.dmgType ?? "Bludgeoning", // Provide a default value for damageType if missing
-		properties: item.properties ?? {}, // Provide default empty properties if missing
+		rangeType: propertiesCopy.rangeType ?? "Melee", // Set default rangeType to "Melee" if not provided
+		damage: propertiesCopy.dmg1 ?? "0", // Provide a default value for damage if missing
+		damageType: propertiesCopy.dmgType ?? "Bludgeoning", // Provide a default value for damageType if missing
+		properties: propertiesCopy, // Keep the remaining properties for the weapon
 	};
+
+	// Remove the properties that have already been used
+	delete propertiesCopy.rangeType; // Remove rangeType
+	delete propertiesCopy.dmg1;      // Remove dmg1
+	delete propertiesCopy.dmgType;    // Remove dmgType
+
+	// Update the properties to only include unused properties
+	weapon.properties = propertiesCopy;
+
 	return weapon;
 }
 

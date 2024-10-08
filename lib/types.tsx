@@ -2,7 +2,7 @@
 
 import * as types from "@prisma/client";
 
-export type feature = types.Subclass_Feature | types.Class_Feature;
+export type Feature = types.Subclass_Feature | types.Class_Feature;
 
 export interface Modifier {
 	type: string;
@@ -43,6 +43,7 @@ export interface Item {
 export enum ProficiencyLevel {
 	None = "None",
 	Proficient = "Proficient",
+	halfProficient = "halfProficient",
 	Expertise = "Expertise",
 }
 

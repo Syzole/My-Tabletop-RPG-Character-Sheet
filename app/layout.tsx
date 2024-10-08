@@ -6,7 +6,7 @@ import '../styles/globals.css'
 const inter = Inter({ subsets: [ "latin" ] });
 
 export const metadata: Metadata = {
-	title: "My dnd",
+	title: "My Tabletop RPG Character Sheet",
 };
 
 export default function RootLayout({

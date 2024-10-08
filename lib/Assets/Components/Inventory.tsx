@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { Item } from "../../../lib/types";
-import ItemCard from "./ItemCard";
-import "../../Assets/Dnd 1.0 Sheet/dndstyles.css";
 import DnDCharacter from "@/lib/DnDCharacter";
-import { convertItemToArmor, convertItemToWeapon, copyCharacter } from "@/lib/utils";
+import { convertItemToArmor, copyCharacter } from "@/lib/utils";
+import { useCallback, useState } from "react";
+import { Item } from "../../../lib/types";
+import "../../Assets/Dnd 1.0 Sheet/dndstyles.css";
 import InventoryBox from "./InventoryManager";
 
 
@@ -18,8 +17,6 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
     const [ inventoryWindowOpen, setInventoryWindowOpen ] = useState<boolean>(false);
     const [ searchQuery, setSearchQuery ] = useState<string>("");
     const filteredInventory = charecter?.inventory.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase())) || [];
-
-    if (!filteredInventory) return <div>No inventory found.</div>;
 
     // Memoize the equip/unequip handler using useCallback
     const handleEquipArmor = useCallback(
