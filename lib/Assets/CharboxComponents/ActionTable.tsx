@@ -1,5 +1,5 @@
 import DnDCharacter from "@/lib/DnDCharacter";
-import { Feature, Item, Weapon } from "@/lib/types";
+import { Feature, Weapon, Item } from "@/lib/types";
 import { convertItemToWeapon } from "@/lib/utils";
 import { featureType } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -14,17 +14,19 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
     const [ weaponArray, setWeaponArray ] = useState<Weapon[]>([]);
     const [ filteredArray, setFilteredArray ] = useState<(Feature | Weapon)[]>([]);
 
-    const tabs = [ "All", "Action", "Bonus Action", "Reaction", "Other" ];
+    const tabs = [ "All", "Attack", "Action", "Bonus Action", "Reaction", "Other" ];
 
     useEffect(() => {
-        // Reset the arrays before mapping
         let newActionArray: Feature[] = [];
         let newBonusActionArray: Feature[] = [];
         let newReactionArray: Feature[] = [];
         let newOtherArray: Feature[] = [];
 
         character.features.forEach((feature) => {
-            if (feature.type === featureType.Action) {
+            if (feature.type === featureType.Passive) {
+                // do nothing
+            }
+            else if (feature.type === featureType.Action) {
                 newActionArray.push(feature);
             } else if (feature.type === featureType.BonusAction) {
                 newBonusActionArray.push(feature);
@@ -35,22 +37,18 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
             }
         });
 
-        // Set the new arrays in state
         setActionArray(newActionArray);
         setBonusActionArray(newBonusActionArray);
         setReactionArray(newReactionArray);
         setOtherArray(newOtherArray);
 
-        // If weapons are also part of the data
         const weapons = convertItemToWeaponArray(character.inventory);
         setWeaponArray(weapons);
 
-        // Set initial filtered array (default to "All" tab)
         setFilteredArray([ ...newActionArray, ...newBonusActionArray, ...newReactionArray, ...newOtherArray, ...weapons ]);
     }, [ character ]);
 
     useEffect(() => {
-        // Update the filtered array whenever the activeTab changes
         filterTotalArray(activeTab);
     }, [ activeTab, actionArray, bonusActionArray, reactionArray, otherArray, weaponArray ]);
 
@@ -59,8 +57,10 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
             case "All":
                 setFilteredArray([ ...actionArray, ...bonusActionArray, ...reactionArray, ...otherArray, ...weaponArray ]);
                 break;
+            case "Attack":
+                setFilteredArray(weaponArray);
+                break;
             case "Action":
-                // Include actions and weapon attacks in the "Action" tab
                 setFilteredArray([ ...actionArray, ...weaponArray ]);
                 break;
             case "Bonus Action":
@@ -77,21 +77,13 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
         }
     }
 
-    // Function to handle item selection (both feature and weapon)
-    const handleSelectItem = (item: any) => {
-        if (setFocusItem) {
-            console.log("Selected item: ", item);
-            //check if the item is a weapon
-            if ('name' in item) {
-                item = character.equippedWeapons[ character.equippedWeapons.findIndex((weapon) => weapon.name === item.name) ];
-            }
-
-            setFocusItem(item);
-        }
-    };
-
     return (
-        <div className=" flex-col">
+        <div className="flex-col">
+            <button className="btn btn-primary mb-5 size-full"
+                onClick={ () => {
+                    console.log(character.equippedWeapons);
+                } }
+            >RTAHHHHHHHHHHHHHHHHHHHH</button>
             {/* Tabs Header */ }
             <div className="tabs mb-5 tabs-boxed">
                 { tabs.map((tab) => (
@@ -105,28 +97,36 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
                 )) }
             </div>
 
-            {/* Filtered Content */ }
-            <div className=" max-h-[450px] overflow-y-auto h-full">
-                { filteredArray.map((item, index) => {
-                    // Check if item is a Weapon and convert it to the corresponding item
-                    const processedItem = 'name' in item ? findWeaponToItem(item as Weapon, character) : item;
-
-                    // Return the JSX
-                    return (
-                        <ActionTableRow
-                            key={ index }
-                            item={ processedItem }
-                            setFocusItem={ setFocusItem } // Pass the setFocusItem function
-                        />
-                    );
-                }) }
+            {/* Filtered Content Table */ }
+            <div className="max-h-[450px] overflow-y-auto h-full">
+                <table className="table w-full overflow-x-auto min-w-[710px]">
+                    <thead>
+                        <tr>
+                            <th className="px-4 py-2">Attack</th>
+                            <th className="px-4 py-2">Range</th>
+                            <th className="px-4 py-2">Hit/DC</th>
+                            <th className="px-4 py-2">Damage</th>
+                            <th className="px-4 py-2">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { filteredArray.map((item, index) => (
+                            <ActionTableRow
+                                key={ index }
+                                item={ item }
+                                setFocusItem={ setFocusItem }
+                                character={ character }  // Pass the character to the row
+                            />
+                        )) }
+                    </tbody>
+                </table>
             </div>
         </div>
     );
 }
 
 
-// Function to convert the character's items to weapon array
+// Convert items to weapons for the table
 function convertItemToWeaponArray(items: Item[]): Weapon[] {
     let weaponArray: Weapon[] = [];
 
@@ -137,9 +137,4 @@ function convertItemToWeaponArray(items: Item[]): Weapon[] {
     });
 
     return weaponArray;
-}
-
-function findWeaponToItem(target: Weapon, char: DnDCharacter) {
-    let item = char.equippedWeapons[ char.equippedWeapons.findIndex((weapon) => weapon.name === target.name) ];
-    return item;
 }

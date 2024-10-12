@@ -17,6 +17,7 @@ export default class DnDCharacter {
 
 	baseStats: Stats; //this is the base baseStats
 	stats: Stats; //this is baseStats plus modifiers from items, spells, etc
+	statMods: Stats; //this is the baseStats plus modifiers from items, spells, etc
 	equippedArmor?: Armor;
 	proficiencyBonus: number;
 
@@ -133,7 +134,7 @@ export default class DnDCharacter {
 
 	jackOfAllTrades: boolean;
 
-	constructor() {
+	constructor(statBlock?: Stats) {
 		this.baseStats = {
 			str: 10,
 			dex: 10,
@@ -143,7 +144,20 @@ export default class DnDCharacter {
 			cha: 10,
 		};
 
+		if (statBlock) {
+			this.baseStats = { ...statBlock };
+		}
+
 		this.stats = { ...this.baseStats };
+
+		this.statMods = {
+			str: this.getStatModifier("str"),
+			dex: this.getStatModifier("dex"),
+			con: this.getStatModifier("con"),
+			int: this.getStatModifier("int"),
+			wis: this.getStatModifier("wis"),
+			cha: this.getStatModifier("cha"),
+		};
 
 		this.initiative = this.getStatModifier("dex");
 

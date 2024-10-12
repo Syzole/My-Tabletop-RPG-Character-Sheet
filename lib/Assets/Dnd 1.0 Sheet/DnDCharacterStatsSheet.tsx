@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import DnDCharacter from "@/lib/DnDCharacter";
 
-import CharacterBox from "../Components/CharecterBox";
+import CharacterBox from "../CharboxComponents/CharecterBox";
 import DeathSave from "../Components/DeathSave";
 import Skill from "../Components/Skill";
 import Statbox from "../Components/StatBox";
@@ -513,7 +513,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 				<div className="flex justify-center items-center ">
 					{
 						focusItem && (
-							<FocusCol focusItem={ focusItem } setFocusItem={ setFocusItem } />
+							<FocusCol focusItem={ focusItem } setFocusItem={ setFocusItem } character={ character } />
 						)
 					}
 				</div>

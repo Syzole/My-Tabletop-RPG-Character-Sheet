@@ -4,25 +4,128 @@ import DnDCharacter from "./DnDCharacter";
 
 import { Armor, Item, ProficiencyLevel, SavingThrowProficiencyLevel, skills, Stats, Weapon } from "./types";
 
-import { martialMelee, martialRanged, simpleMelee, simpleRanged } from "./definitions";
+import { martialMelee, martialRanged, simpleMelee, simpleRanged, simpleWeapons, martialWeapons } from "./definitions";
 
-export function getProficientWeapons(character: DnDCharacter) {
+function getProficientWeapons(character: DnDCharacter) {
 	const allWeapons = simpleMelee.concat(simpleRanged, martialMelee, martialRanged);
-	return allWeapons.filter((weapon) => character.proficiencies.weapons.includes(weapon));
+
+	// Create a set of proficient weapons
+	const proficientWeapons = new Set(character.proficiencies.weapons);
+
+	// Create an array to hold proficient weapons
+	const weapons = [];
+
+	// Check for proficiency in individual weapons
+	allWeapons.forEach((weapon) => {
+		if (proficientWeapons.has(weapon)) {
+			weapons.push(weapon);
+		}
+	});
+
+	// Check for proficiency in weapon categories
+	if (proficientWeapons.has("Simple weapons")) {
+		weapons.push(...simpleWeapons); // Add all simple weapons
+	}
+	if (proficientWeapons.has("Martial weapons")) {
+		weapons.push(...martialWeapons); // Add all martial weapons
+	}
+
+	return weapons;
 }
 
-export function calculateAttackBonus(character: DnDCharacter, weapon: string) {
-	const proficientWeapons = getProficientWeapons(character);
-	const isProficient = proficientWeapons.includes(weapon);
 
-	//return higher between dex and str if weapon is finesse
-	const abilityModifier = weapon === "Finesse" ? Math.max(character.stats.str, character.stats.dex) : character.stats.str;
+export function calculateAttackBonus(character: DnDCharacter, weapon: Weapon) {
+	const weaponType = weapon.properties.weaponType;
+
+	const proficientWeapons = getProficientWeapons(character);
+	const isProficient = proficientWeapons.includes(weaponType);
+
+	let modifier = 0;
+
+	switch (weapon.rangeType) {
+		case "Melee":
+			modifier = calculateMeleeAttackBonus(character, isProficient, weapon);
+			break;
+		case "Ranged":
+			modifier = calculateRangedAttackBonus(character, isProficient, weapon);
+			break;
+	}
+
+	return modifier;
+}
+
+function calculateMeleeAttackBonus(character: DnDCharacter, isProficient: boolean, weapon: Weapon) {
+	let modifier = getStatModifier(character.stats.str);
+
+	if (weapon.properties.property?.includes("Finesse")) {
+		const dexModifier = getStatModifier(character.stats.dex);
+		const strModifier = getStatModifier(character.stats.str);
+
+		modifier = Math.max(dexModifier, strModifier);
+	}
 
 	if (isProficient) {
-		return character.proficiencyBonus + abilityModifier;
-	} else {
-		return abilityModifier;
+		modifier += character.proficiencyBonus;
 	}
+
+	return modifier;
+}
+
+function calculateRangedAttackBonus(character: DnDCharacter, isProficient: boolean, weapon: Weapon) {
+	let modifier = getStatModifier(character.stats.dex);
+
+	if (isProficient) {
+		modifier += character.proficiencyBonus;
+	}
+
+	return modifier;
+}
+
+export function calculateDamageBonus(character: DnDCharacter, weapon: Weapon) {
+	const weaponType = weapon.properties.weaponType;
+
+	const proficientWeapons = getProficientWeapons(character);
+	const isProficient = proficientWeapons.includes(weaponType);
+
+	let modifier = 0;
+
+	switch (weapon.rangeType) {
+		case "Melee":
+			modifier = calculateMeleeDamageBonus(character, isProficient, weapon);
+			break;
+		case "Ranged":
+			modifier = calculateRangedDamageBonus(character, isProficient, weapon);
+			break;
+	}
+
+	return modifier;
+}
+
+function calculateMeleeDamageBonus(character: DnDCharacter, isProficient: boolean, weapon: Weapon) {
+	let modifier = getStatModifier(character.stats.str);
+
+	if (weapon.properties.property?.includes("Finesse")) {
+		const dexModifier = getStatModifier(character.stats.dex);
+		const strModifier = getStatModifier(character.stats.str);
+
+		modifier = Math.max(dexModifier, strModifier);
+	}
+
+	if (isProficient) {
+		modifier += character.proficiencyBonus;
+	}
+
+	return modifier;
+}
+
+function calculateRangedDamageBonus(character: DnDCharacter, isProficient: boolean, weapon: Weapon) {
+	let modifier = getStatModifier(character.stats.dex);
+
+	if (isProficient) {
+		modifier += character.proficiencyBonus;
+	}
+
+	return modifier;
 }
 
 export function calculateSkillModifier(character: DnDCharacter, skill: keyof skills): number {

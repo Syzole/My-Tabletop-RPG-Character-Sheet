@@ -3,8 +3,8 @@
 import DnDCharacter from "@/lib/DnDCharacter";
 import { useEffect, useState, useRef } from "react";
 import { Item } from "@/lib/types";
-import InventoryItemCard from "./InventoryItemCard"; // Import the new InventoryItemCard
-import ItemCard from "./ItemCard";
+import InventoryItemCard from "../Components/InventoryItemCard"; // Import the new InventoryItemCard
+import ItemCard from "../Components/ItemCard";
 
 export default function InventoryBox({
     charecter,

@@ -1,14 +1,26 @@
 // types.ts
 
 import * as types from "@prisma/client";
+import DnDCharacter from "./DnDCharacter";
 
-export type Feature = types.Subclass_Feature | types.Class_Feature;
-
-export interface Modifier {
-	type: string;
-	target: string;
-	value: number; // To store the value of the modifier for easier removal
+export type Feature = {
+	feature_name: string;
+	source_name: string;
+	level: number;
+	description: string;
+	properties: {
+		[ key: string ]: any
+		modifiers?: Modifier[];
+	};
+	type: types.featureType;
 }
+
+export type Modifier = {
+	// For attack rolls, damage, or other types of effects
+	statAffected: string;    // e.g., "attackBonus", "damageBonus", "ac", etc.
+	condition?: (character: DnDCharacter, target?: any) => boolean;      // e.g., "isRanged", "isMelee", "weaponType == 'Ranged'", etc.
+	value: number | ((character: DnDCharacter) => number) | string;            // e.g., +2 for Archery, +1 for defense, etc.
+};
 
 export interface Weapon {
 	name: string;
