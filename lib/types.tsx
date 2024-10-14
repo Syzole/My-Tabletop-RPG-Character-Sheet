@@ -148,3 +148,13 @@ const statMapping: { [ key in keyof skills ]: keyof Stats } = {
 	stealth: "dex",
 	survival: "wis",
 };
+
+export type Race = {
+	name: string;
+	abilityScoreIncrease: Stats;
+	speed: number;
+	size: string;
+	proficiencies: Proficiencies;
+	features: Feature[];
+	languages: string[];
+}

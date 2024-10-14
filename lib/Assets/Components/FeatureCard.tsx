@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Feature } from "@/lib/types";  // Import the Feature type
+import { Feature } from "@/lib/types";
+import { formatPropertyKey } from "../Components/ItemCard";
 
 interface FeatureCardProps {
     feature?: Feature;
@@ -49,7 +50,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick }
                             <ul>
                                 { Object.entries(feature.properties).map(([ key, value ]) => (
                                     <li key={ key }>
-                                        <strong>{ key }</strong>:{ " " }
+                                        <strong>{ formatPropertyKey(key) }</strong>:{ " " }
                                         { typeof value === "object"
                                             ? Array.isArray(value)
                                                 ? value.join(", ") // Join arrays with commas

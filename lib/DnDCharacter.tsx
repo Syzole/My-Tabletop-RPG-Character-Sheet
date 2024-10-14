@@ -1,5 +1,5 @@
 import { equipArmor, unequipArmor, updateAC, handleEquipWeapon } from "./helperFucntions/inventoryFunctions";
-import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skills, defaultSkill, Armor, Weapon } from "./types";
+import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skills, defaultSkill, Armor, Weapon, Race } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
 
 export default class DnDCharacter {
@@ -10,7 +10,7 @@ export default class DnDCharacter {
 	background?: string;
 	playerName?: string;
 	faction?: string;
-	race?: string;
+	race?: Race;
 	alignment?: string;
 	xp?: string;
 	dciNo?: string;

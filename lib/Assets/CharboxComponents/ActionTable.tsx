@@ -22,9 +22,11 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
         let newReactionArray: Feature[] = [];
         let newOtherArray: Feature[] = [];
 
-        character.features.forEach((feature) => {
+        let totalArray = [ ...character.features, ...character.race?.features || [] ];
+
+        totalArray.forEach((feature) => {
             if (feature.type === featureType.Passive) {
-                // do nothing
+                newOtherArray.push(feature);
             }
             else if (feature.type === featureType.Action) {
                 newActionArray.push(feature);

@@ -19,7 +19,7 @@ interface ItemProps {
 }
 
 // Utility function to format the property keys
-function formatPropertyKey(key: string): string {
+export function formatPropertyKey(key: string): string {
     if (key === "ac") return "AC";
     if (key === "dmg1") return "Damage";
     return key

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Inventory from "./Inventory";
 import ActionTable from "./ActionTable"; // Import the new ActionTable component
 import DnDCharacter from "@/lib/DnDCharacter";
+import FeatsTable from "./FeatsTable";
 
 export default function CharacterBox({
     charecter,
@@ -53,11 +54,8 @@ export default function CharacterBox({
                 { activeTab === "Actions" && (
                     <ActionTable character={ charecter! } setFocusItem={ setFocusItem } />
                 ) }
-                { activeTab !== "Inventory" && activeTab !== "Actions" && (
-                    <div>
-                        <h2 className="text-xl font-bold mb-3">{ activeTab }</h2>
-                        <p>Work in Progress: { activeTab } content will be added here.</p>
-                    </div>
+                { activeTab === "Feats/Traits" && (
+                    <FeatsTable character={ charecter! } setFocusItem={ setFocusItem! } />
                 ) }
             </div>
         </div>
