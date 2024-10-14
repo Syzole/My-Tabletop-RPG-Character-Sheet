@@ -121,7 +121,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 							<div className="col-md-3 col-6 pl-0 pr-0 w-72">
 								<input
 									type="text"
-									defaultValue={ character.race ? character.race : "" }
+									defaultValue={ character.race ? character.race.name : "" }
 									onChange={ (e) => updateCharacter("race", e.target.defaultValue) }
 								/>
 								<label>Race</label>

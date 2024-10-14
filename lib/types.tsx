@@ -6,11 +6,13 @@ import DnDCharacter from "./DnDCharacter";
 export type Feature = {
 	feature_name: string;
 	source_name: string;
-	level: number;
+	level?: number;
 	description: string;
 	properties: {
 		[ key: string ]: any
 		modifiers?: Modifier[];
+		charges?: number;
+		chargesUsed?: number;
 	};
 	type: types.featureType;
 }

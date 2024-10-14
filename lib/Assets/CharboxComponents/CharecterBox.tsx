@@ -57,6 +57,9 @@ export default function CharacterBox({
                 { activeTab === "Feats/Traits" && (
                     <FeatsTable character={ charecter! } setFocusItem={ setFocusItem! } />
                 ) }
+                { (activeTab === "Spells" || activeTab === "Background" || activeTab === "Notes" || activeTab === "Extras") && (
+                    <div className="text-center text-8xl">Coming soon!</div>
+                ) }
             </div>
         </div>
     );
