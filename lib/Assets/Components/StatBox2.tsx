@@ -16,24 +16,24 @@ function StatBox2(props: {
 
 	return (
 		<div>
-			<div className={classes}>
+			<div className={ classes }>
 				<div className="d-and-d-statbox-modifier">
 					<input
 						type="text"
-						defaultValue={props.defaultValue ? props.defaultValue : ""}
-						readOnly // Added the readOnly attribute
+						defaultValue={ props.defaultValue ? props.defaultValue : "0" }
+					// Added the readOnly attribute
 					/>
 				</div>
-				{props.labelTop != null ? (
+				{ props.labelTop != null ? (
 					<div>
-						<label className="label-top">{props.labelTop as ReactNode}</label>
+						<label className="label-top">{ props.labelTop as ReactNode }</label>
 					</div>
-				) : null}
-				{props.label != null ? (
+				) : null }
+				{ props.label != null ? (
 					<div>
-						<label>{props.label}</label>
+						<label>{ props.label }</label>
 					</div>
-				) : null}
+				) : null }
 			</div>
 		</div>
 	);

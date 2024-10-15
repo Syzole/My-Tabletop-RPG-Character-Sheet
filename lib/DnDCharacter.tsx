@@ -24,7 +24,7 @@ export default class DnDCharacter {
 	skills: skills;
 	savingThrowProficiencies: SavingThrowProficiencies;
 	proficiencies: Proficiencies;
-	features: Feature[] = [];
+	features: { [ key: string ]: Feature } = {};
 
 	initiative: number;
 
@@ -52,7 +52,7 @@ export default class DnDCharacter {
 	ep?: number;
 	gp?: number;
 	pp?: number;
-	inventory: Item[] = [];
+	inventory: { [ key: string ]: Item } = {};
 	equipment?: string;
 	equippedWeapons: Item[] = [];
 

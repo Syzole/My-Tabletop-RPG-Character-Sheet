@@ -157,6 +157,6 @@ export type Race = {
 	speed: number;
 	size: string;
 	proficiencies: Proficiencies;
-	features: Feature[];
+	features: { [ key: string ]: Feature };
 	languages: string[];
 }

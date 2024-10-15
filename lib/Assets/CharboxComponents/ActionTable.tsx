@@ -22,7 +22,13 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
         let newReactionArray: Feature[] = [];
         let newOtherArray: Feature[] = [];
 
-        let totalArray = [ ...character.features, ...character.race?.features || [] ];
+        // charecter.features is now an object, so we need to convert it to an array, same with raec features
+
+        let characterFeatures = Object.values(character.features);
+
+        let raceFeatures = Object.values(character.race?.features || {});
+
+        let totalArray = [ ...characterFeatures, ...raceFeatures ];
 
         totalArray.forEach((feature) => {
             if (feature.type === featureType.Passive) {
@@ -44,7 +50,7 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
         setReactionArray(newReactionArray);
         setOtherArray(newOtherArray);
 
-        const weapons = convertItemToWeaponArray(character.inventory);
+        const weapons = convertItemToWeaponArray(Object.values(character.equippedWeapons));
         setWeaponArray(weapons);
 
         setFilteredArray([ ...newActionArray, ...newBonusActionArray, ...newReactionArray, ...newOtherArray, ...weapons ]);
