@@ -6,7 +6,12 @@ interface FeatsTableProps {
 }
 
 export default function FeatsTable({ character, setFocusItem }: FeatsTableProps) { // Destructure props
-    const feats = [ ...character.features, ...character.race?.features || [] ]; // Copy the feats array
+
+    let charecterFeatures = Object.values(character.features); // Convert the object to an array
+
+    let raceFeatures = Object.values(character.race?.features || {}); // Convert the object to an array
+
+    const feats = [ ...charecterFeatures, ...raceFeatures ]; // Combine the arrays
 
     // If there are no feats, return null
     if (!feats || feats.length === 0) {

@@ -7,99 +7,78 @@ import { Item } from "../../../lib/types";
 import "../../Assets/Dnd 1.0 Sheet/dndstyles.css";
 import InventoryBox from "./InventoryManager";
 
-
 export default function Inventory({ charecter, updateCharacter, setFocusItem }:
     {
         charecter?: DnDCharacter,
         updateCharacter: (field: string, value: any) => void,
         setFocusItem: (value: any) => void
     }) {
+
     const [ inventoryWindowOpen, setInventoryWindowOpen ] = useState<boolean>(false);
     const [ searchQuery, setSearchQuery ] = useState<string>("");
-    const filteredInventory = charecter?.inventory.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase())) || [];
 
-    // Memoize the equip/unequip handler using useCallback
-    const handleEquipArmor = useCallback(
-        (item: Item) => {
-            if (charecter) {
-                if (charecter.equippedArmor && charecter.equippedArmor.name === item.name) {
-                    const newAc = charecter.unequipArmor();
+    // Filter inventory based on the search query
+    const filteredInventory = Object.values(charecter?.inventory || {})
+        .filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const handleEquipArmor = useCallback((item: Item) => {
+        if (charecter) {
+            if (charecter.equippedArmor && charecter.equippedArmor.name === item.name) {
+                const newAc = charecter.unequipArmor();
+                updateCharacter("ac", newAc);
+            } else {
+                const armor = convertItemToArmor(item);
+                if (armor) {
+                    const newAc = charecter.equipArmor(armor);
                     updateCharacter("ac", newAc);
                 } else {
-                    const armor = convertItemToArmor(item);
-                    if (armor) {
-                        const newAc = charecter.equipArmor(armor);
-                        updateCharacter("ac", newAc);
-                    } else {
-                        alert("Could not equip armor.");
-                    }
+                    alert("Could not equip armor.");
                 }
-            }
-        },
-        [ charecter, updateCharacter ]
-    );
-
-    const handleEquipWeapon = useCallback((item: Item) => {
-        if (charecter) {
-            const weapon = item;
-            if (weapon) {
-                charecter.handleEquipWeapon(weapon);
-                const newCharacter = copyCharacter(charecter);
-                updateCharacter("equippedWeapons", newCharacter.equippedWeapons);
-            } else {
-                alert("Could not equip weapon.");
             }
         }
     }, [ charecter, updateCharacter ]);
 
-    // Function to handle increasing item quantity
-    const handleIncreaseQuantity = (index: number) => {
+    const handleEquipWeapon = useCallback((item: Item) => {
+        if (charecter) {
+            charecter.handleEquipWeapon(item);
+            const newCharacter = copyCharacter(charecter);
+            updateCharacter("equippedWeapons", newCharacter.equippedWeapons);
+        }
+    }, [ charecter, updateCharacter ]);
+
+    const handleIncreaseQuantity = (name: string) => {
         if (filteredInventory) {
-            const updatedInventory = [ ...filteredInventory ];
-            updatedInventory[ index ].quantity = (updatedInventory[ index ].quantity || 1) + 1;
+            const updatedInventory = { ...charecter?.inventory };
+            updatedInventory[ name ].quantity += 1;
             updateCharacter("inventory", updatedInventory);
         }
     };
 
-    // Function to handle decreasing item quantity
-    const handleDecreaseQuantity = (index: number) => {
-        if (filteredInventory) {
-            const updatedInventory = [ ...filteredInventory ];
-            if (updatedInventory[ index ].quantity && updatedInventory[ index ].quantity > 1) {
-                updatedInventory[ index ].quantity -= 1;
-                updateCharacter("inventory", updatedInventory);
-            }
-        }
-    };
-
-    // Function to handle changing item quantity
-    const handleChangeQuantity = (index: number, quantity: number) => {
-        if (quantity < 1) {
-            quantity = 1;
-            const updatedInventory = [ ...filteredInventory ];
-            updatedInventory[ index ].quantity = quantity;
-            updateCharacter("inventory", updatedInventory);
-        }
-
-        if (filteredInventory) {
-            const updatedInventory = [ ...filteredInventory ];
-            updatedInventory[ index ].quantity = quantity;
+    const handleDecreaseQuantity = (name: string) => {
+        const item = charecter?.inventory?.[ name ];
+        if (item && item.quantity > 1) {
+            const updatedInventory = { ...charecter!.inventory };
+            updatedInventory[ name ].quantity -= 1;
             updateCharacter("inventory", updatedInventory);
         }
     };
 
-    // Function to remove an item from the inventory
-    const handleRemoveItem = (index: number) => {
-        if (filteredInventory) {
-            const updatedInventory = [ ...filteredInventory ];
-            updatedInventory.splice(index, 1);
-            updateCharacter("inventory", updatedInventory);
-        }
+    const handleChangeQuantity = (name: string, quantity: number) => {
+        if (quantity < 1) quantity = 1;
+        const updatedInventory = { ...charecter?.inventory };
+        updatedInventory[ name ].quantity = quantity;
+        updateCharacter("inventory", updatedInventory);
     };
 
-    // Function to handle item selection
-    const handleSelectItem = (index: number) => {
-        setFocusItem(filteredInventory[ index ]);
+    const handleRemoveItem = (name: string) => {
+        const updatedInventory = { ...charecter?.inventory };
+        delete updatedInventory[ name ]; // Delete the item from the inventory object
+        updateCharacter("inventory", updatedInventory);
+    };
+
+    const handleSelectItem = (name: string) => {
+        const selectedItem = charecter?.inventory[ name ];
+        setFocusItem(selectedItem);
     };
 
     return (
@@ -136,13 +115,13 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
                         <tbody>
                             { filteredInventory.map((item, index) => (
                                 <tr key={ index } className="border-t border-gray-200">
-                                    <td className="cursor-pointer underline py-2" onClick={ () => handleSelectItem(index) }>
+                                    <td className="cursor-pointer underline py-2" onClick={ () => handleSelectItem(item.name) }>
                                         { item.name }
                                     </td>
                                     <td>{ item.type }</td>
                                     <td className="flex items-center">
                                         <button
-                                            onClick={ () => handleDecreaseQuantity(index) }
+                                            onClick={ () => handleDecreaseQuantity(item.name) }
                                             className="btn bg-gray-300 text-black px-2 py-1 mr-2"
                                             disabled={ item.quantity === 1 }
                                         >
@@ -150,18 +129,18 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
                                         </button>
                                         <input
                                             type="number"
-                                            value={ item.quantity || 1 }
-                                            onChange={ (e) => handleChangeQuantity(index, parseInt(e.target.value)) }
+                                            value={ item.quantity ? item.quantity : 1 }
+                                            onChange={ (e) => handleChangeQuantity(item.name, parseInt(e.target.value)) }
                                             className="w-12 text-center"
                                         />
                                         <button
-                                            onClick={ () => handleIncreaseQuantity(index) }
+                                            onClick={ () => handleIncreaseQuantity(item.name) }
                                             className="btn bg-gray-300 text-black px-2 py-1 ml-2"
                                         >
                                             +
                                         </button>
                                         <button
-                                            onClick={ () => handleRemoveItem(index) }
+                                            onClick={ () => handleRemoveItem(item.name) }
                                             className="btn bg-red-500 text-white px-2 py-1 ml-2"
                                         >
                                             Remove

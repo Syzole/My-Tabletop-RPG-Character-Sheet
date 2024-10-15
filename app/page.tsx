@@ -2,7 +2,7 @@
 
 import DnDCharacterStatsSheet from '@/lib/Assets//Dnd 1.0 Sheet/DnDCharacterStatsSheet';
 import DnDCharacter from "@/lib/DnDCharacter";
-import John from "../characters/John.json";
+import John from "../characters/Beta.json";
 
 const char = new DnDCharacter();
 

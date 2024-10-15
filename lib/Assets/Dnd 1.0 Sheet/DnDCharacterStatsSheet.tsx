@@ -24,7 +24,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 	const [ focusItem, setFocusItem ] = useState<any | null>(null);
 	const [ character, setCharacter ] = useState<DnDCharacter>(initialCharacter);
 
-	async function updateCharacter(key: string, defaultValue: any) {
+	function updateCharacter(key: string, defaultValue: any) {
 		const updatedCharacter = new DnDCharacter();  // create a new instance of DnDCharacter
 		Object.assign(updatedCharacter, character, { [ key ]: defaultValue });  // assign the new defaultValue and preserve methods
 		setCharacter(updatedCharacter);  // set the updated character

@@ -16,6 +16,8 @@ export default function InventoryItemCard({
     onMouseLeave,
     character
 }: InventoryItemCardProps) {
+    const isItemInInventory = !!character.inventory[ item.name ]; // Check if item exists in inventory
+
     return (
         <div
             className="py-1 border-b border-gray-200 flex justify-between items-center"
@@ -24,14 +26,11 @@ export default function InventoryItemCard({
         >
             <span>{ item.name }</span>
             <button
-                {
-                //if the item is already in the inventory, disable the add button
-                ...character.inventory.find((i) => i.name === item.name) && { disabled: true }
-                }
                 className="btn bg-blue-500 text-white px-2 py-1 rounded"
                 onClick={ onAddItem }
+                disabled={ isItemInInventory } // Disable if item is already in inventory
             >
-                Add
+                { isItemInInventory ? "Added" : "Add" }
             </button>
         </div>
     );
