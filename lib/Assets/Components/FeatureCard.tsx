@@ -3,14 +3,18 @@
 import React, { useState } from "react";
 import { Feature } from "@/lib/types";
 import { formatPropertyKey } from "../Components/ItemCard";
+import DnDCharacter from "@/lib/DnDCharacter";
+import { s } from "framer-motion/client";
 
 interface FeatureCardProps {
     feature?: Feature;
     className?: string; // Allow dynamic class name for positioning or styling
     onClick?: () => void; // Optional click handler
+    updateCharacter?: (key: string, value: any) => void;
+    charecter?: DnDCharacter;
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick }) => {
+const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, updateCharacter, charecter }) => {
 
     if (!feature) {
         return (
@@ -19,6 +23,65 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick }
             </div>
         );
     }
+
+    if (feature.properties && typeof feature.properties.charges === "string" && charecter) {
+        feature.properties.charges = charecter[ feature.properties.charges ];
+        updateCharacter && updateCharacter("features", charecter.features);
+    }
+
+    console.log("FeatureCard", feature);
+
+    const consumeCharge = (feature: Feature) => {
+        if (feature.properties) {
+            feature.properties.chargesUsed! += 1;
+        }
+
+        if (charecter && charecter.features) {
+            charecter.features[ feature.feature_name ] = feature;
+        }
+
+        if (updateCharacter && charecter) {
+            updateCharacter("features", charecter.features);
+        }
+
+        console.log("Feature consumed", charecter?.features[ feature.feature_name ]);
+
+    }
+
+    const recharge = (feature: Feature) => {
+        if (feature.properties) {
+            feature.properties.chargesUsed! = 0;
+        }
+
+        if (charecter && charecter.features) {
+            charecter.features[ feature.feature_name ] = feature;
+        }
+
+        if (updateCharacter && charecter) {
+            updateCharacter("features", charecter.features);
+        }
+
+        console.log("Feature recharged", charecter?.features[ feature.feature_name ]);
+    }
+
+    const incrementCharge = (feature: Feature) => {
+        if (feature.properties) {
+            feature.properties.chargesUsed! -= 1;
+        }
+
+        if (charecter && charecter.features) {
+            charecter.features[ feature.feature_name ] = feature;
+        }
+
+        if (updateCharacter && charecter) {
+            updateCharacter("features", charecter.features);
+        }
+
+        console.log("Feature consumed", charecter?.features[ feature.feature_name ]);
+
+    }
+
+    let hasCharges = (feature.properties && feature.properties.charges) ? feature.properties.charges > feature.properties.chargesUsed! : false;
 
     return (
         <div
@@ -35,11 +98,14 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick }
                     <p className="text-sm text-gray-600">
                         <strong>Source:</strong> { feature.source_name }
                     </p>
+                    { feature.level && (
+                        <p className="text-sm text-gray-600">
+                            <strong>Level:</strong> { feature.level }
+                        </p>
+                    )
+                    }
                     <p className="text-sm text-gray-600">
-                        <strong>Level:</strong> { feature.level }
-                    </p>
-                    <p className="text-sm text-gray-600">
-                        <strong>Type:</strong> { feature.type }
+                        <strong>Type:</strong> { formatFeatureType(feature.type) }
                     </p>
                     <p className="text-sm text-gray-600 mt-2">{ feature.description }</p>
 
@@ -61,6 +127,24 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick }
                             </ul>
                         </div>
                     ) }
+                    { (feature.properties && feature.properties.charges) && (
+                        <div>
+                            <div className="justify-between mb-2">
+                                <button className="btn btn-primary mr-2"
+                                    onClick={ () => consumeCharge(feature) }
+                                    disabled={ !hasCharges }
+                                >Consume charge</button>
+                                <button className="btn btn-accent"
+                                    onClick={ () => incrementCharge(feature) }
+                                    disabled={ !(feature.properties.chargesUsed! > 0) }
+                                >+</button>
+                            </div>
+                            <button className="btn btn-primary"
+                                onClick={ () => recharge(feature) }
+                                disabled={ hasCharges } >Recharge</button>
+                        </div>
+                    ) }
+
                 </div>
             ) }
         </div>
@@ -68,3 +152,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick }
 };
 
 export default FeatureCard;
+
+
+function formatFeatureType(type: string): string { //so turn BonusAction into Bonus Action
+    return type.replace(/([a-z])([A-Z])/g, "$1 $2");
+}

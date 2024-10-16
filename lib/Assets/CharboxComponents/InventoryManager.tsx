@@ -68,10 +68,29 @@ export default function InventoryBox({
         updateCharacter("inventory", updatedInventory);
     };
 
-    // Filter items based on the search query
-    const filteredItems = databaseItems.filter(item =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // Helper function to check if a query matches any item field
+    const itemMatchesQuery = (item: Item, query: string) => {
+        const lowerQuery = query.toLowerCase();
+
+        // Convert all fields to strings for comparison
+        const fieldsToSearch = [
+            item.name.toLowerCase(),
+            item.type.toLowerCase(),
+            ...(item.source ? item.source.map(src => src.toLowerCase()) : []),
+            item.rarity?.toLowerCase() || '',
+            item.value?.toString() || '',
+            item.weight?.toString() || '',
+
+            // Check the properties object
+            ...Object.values(item.properties || {}).map(prop => prop.toString().toLowerCase())
+        ];
+
+        // Check if any field includes the search query
+        return fieldsToSearch.some(field => field.includes(lowerQuery));
+    };
+
+    // Filter items based on the search query (search all relevant fields)
+    const filteredItems = databaseItems.filter(item => itemMatchesQuery(item, searchQuery));
 
     return (
         <div ref={ inventoryBoxRef } className="bg-white p-8 rounded-lg shadow-lg relative flex w-max">

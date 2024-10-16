@@ -277,6 +277,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 							name="passivePerception"
 							defaultValue={ character.calculateSkillModifier("perception") + 10 }
 						/>
+
 					</div>
 					<div className="d-and-d-box mt-4 flex flex-col h-full">
 						<textarea
@@ -513,7 +514,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 				<div className="flex justify-center items-center ">
 					{
 						focusItem && (
-							<FocusCol focusItem={ focusItem } setFocusItem={ setFocusItem } character={ character } />
+							<FocusCol focusItem={ focusItem } setFocusItem={ setFocusItem } character={ character } updateCharacter={ updateCharacter } />
 						)
 					}
 				</div>

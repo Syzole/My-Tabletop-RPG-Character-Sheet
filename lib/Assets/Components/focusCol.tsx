@@ -9,11 +9,13 @@ import DnDCharacter from "@/lib/DnDCharacter";
 export default function FocusCol({
     focusItem,
     setFocusItem,
-    character
+    character,
+    updateCharacter
 }: {
     focusItem?: any;
     setFocusItem?: (value: any) => void;
     character: DnDCharacter;
+    updateCharacter: (key: string, defaultValue: any) => void;
 }) {
     // Determine what kind of content to display
     if (!focusItem) {
@@ -27,7 +29,7 @@ export default function FocusCol({
     return (
         <>
             { focusItem && (
-                <div className="focus-col-container p-4 border-l border-gray-300 fixed bg-slate-900 top-1/2 -translate-y-1/2 ">
+                <div className="focus-col-container p-4 border-l border-gray-300 fixed bg-slate-900 top-1/2 -translate-y-1/2 max-h-screen overflow-auto">
                     { isItem(focusItem) && (
                         <>
                             <button
@@ -47,7 +49,7 @@ export default function FocusCol({
                             >
                                 Close
                             </button>
-                            <FeatureCard feature={ focusItem as Feature } />
+                            <FeatureCard feature={ focusItem as Feature } updateCharacter={ updateCharacter } charecter={ character } />
                         </div>
                     ) }
                 </div>

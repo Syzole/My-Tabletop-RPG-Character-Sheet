@@ -8,11 +8,13 @@ export type Feature = {
 	source_name: string;
 	level?: number;
 	description: string;
-	properties: {
+	properties?: {
 		[ key: string ]: any
 		modifiers?: Modifier[];
 		charges?: number;
 		chargesUsed?: number;
+		dynamic?: { [ key: string ]: any }; // e.g., { "charges": "proficiencyBonus" }
+		recharge?: "short" | "long" | "other" | "N/A"; // short or long rest
 	};
 	type: types.featureType;
 }

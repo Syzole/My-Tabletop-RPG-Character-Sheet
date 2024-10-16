@@ -238,9 +238,17 @@ export default class DnDCharacter {
 	}
 
 	public static fromJSON(json: any): DnDCharacter {
-		const character = new DnDCharacter();
-		Object.assign(character, json);  // Copy all properties from the JSON into the new instance
-		return character;
+
+		let charecter: DnDCharacter;
+
+		if (json.baseStats) {
+			charecter = new DnDCharacter(json.baseStats);
+		} else {
+			charecter = new DnDCharacter();
+		}
+
+		Object.assign(charecter, json);
+		return charecter;
 	}
 
 }
