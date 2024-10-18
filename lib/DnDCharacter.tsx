@@ -1,6 +1,7 @@
 import { equipArmor, unequipArmor, updateAC, handleEquipWeapon } from "./helperFucntions/inventoryFunctions";
 import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skills, defaultSkill, Armor, Weapon, Race } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
+import { shortRest, longRest } from "./helperFucntions/charecterFunctions";
 
 export default class DnDCharacter {
 	[ key: string ]: any;
@@ -249,6 +250,16 @@ export default class DnDCharacter {
 
 		Object.assign(charecter, json);
 		return charecter;
+	}
+
+	// Rest functions
+
+	shortRest() {
+		shortRest(this);
+	}
+
+	longRest() {
+		longRest(this);
 	}
 
 }

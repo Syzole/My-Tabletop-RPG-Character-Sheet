@@ -53,6 +53,7 @@ export interface Item {
 	value?: number;
 	weight?: number;
 	quantity: number;
+	features?: Feature[];
 	properties: { [ key: string ]: any };
 }
 

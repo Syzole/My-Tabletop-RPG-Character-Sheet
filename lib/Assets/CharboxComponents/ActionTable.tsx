@@ -25,14 +25,25 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
     }, [ character.features ]);
 
     const otherArray = useMemo(() => {
-        return Object.values(character.features).filter((feature) =>
-            !([ featureType.Action, featureType.BonusAction, featureType.Reaction ] as featureType[]).includes(feature.type as featureType)
-        );
+        let otherFeatures = Object.values(character.features).filter((feature) => feature.type === featureType.Other);
+        return otherFeatures; // Comment this line to return both
+    }, [ character.features ]);
+
+    const limitedArray = useMemo(() => {
+        return Object.values(character.features).filter((feature) => feature.type === featureType.LimitedUse);
+    }, [ character.features ]);
+
+    const passiveArray = useMemo(() => {
+        return Object.values(character.features).filter((feature) => feature.type === featureType.Passive);
     }, [ character.features ]);
 
     const weaponArray = useMemo(() => {
         return convertItemToWeaponArray(Object.values(character.equippedWeapons));
     }, [ character.equippedWeapons ]);
+
+    const allFeatures = Object.values(character.features);
+
+    const allObjects = [ ...allFeatures, ...weaponArray ];
 
     // Memoize filtered array to only recalculate when activeTab or relevant arrays change
     useEffect(() => {
@@ -43,6 +54,7 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
     const filterTotalArray = useCallback((type: string) => {
         switch (type) {
             case "All":
+                //setFilteredArray([ ...allFeatures, ...weaponArray ]);
                 setFilteredArray([ ...actionArray, ...bonusActionArray, ...reactionArray, ...otherArray, ...weaponArray ]);
                 break;
             case "Attack":
@@ -59,6 +71,7 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
                 break;
             case "Other":
                 setFilteredArray(otherArray);
+                //setFilteredArray([ ...otherArray, ...limitedArray, ...passiveArray ]);
                 break;
             default:
                 setFilteredArray([]);
@@ -66,7 +79,7 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
     }, [ actionArray, bonusActionArray, reactionArray, otherArray, weaponArray ]);
 
     return (
-        <div className="flex-col">
+        <div className="flex-col max-h-[520px] overflow-auto min-w-[710px]">
             {/* Tabs Header */ }
             <div className="tabs mb-5 tabs-boxed">
                 { tabs.map((tab) => (
@@ -81,8 +94,8 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
             </div>
 
             {/* Filtered Content Table */ }
-            <div className="h-full max-h-[470px] overflow-y-auto">
-                <table className="table w-full overflow-auto min-w-[710px] ">
+            <div className="h-full ">
+                <table className="table w-full">
                     <thead>
                         <tr>
                             <th className="px-4 py-2">Attack</th>
@@ -107,6 +120,46 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
         </div>
     );
 }
+
+function AttackSubTable({
+    weaponArray,
+    character,
+    setFocusItem,
+}: {
+    weaponArray: Weapon[];
+    character: DnDCharacter;
+    setFocusItem?: (value: any) => void;
+}) {
+    return (
+        <div className="h-full max-h-[470px] overflow-y-auto">
+            <table className="table w-full overflow-auto min-w-[710px]">
+                <thead>
+                    <tr>
+                        <th className="px-4 py-2">Attack</th>
+                        <th className="px-4 py-2">Range</th>
+                        <th className="px-4 py-2">Hit/DC</th>
+                        <th className="px-4 py-2">Damage</th>
+                        <th className="px-4 py-2">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { weaponArray.map((weapon, index) => (
+                        <ActionTableRow
+                            key={ index }
+                            item={ weapon }
+                            setFocusItem={ setFocusItem }
+                            character={ character }
+                        />
+                    )) }
+                </tbody>
+            </table>
+            <span className="text-xs text-gray-500">
+                
+            </span>
+        </div>
+    );
+}
+
 
 // Convert items to weapons for the table
 function convertItemToWeaponArray(items: Item[]): Weapon[] {
