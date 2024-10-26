@@ -13,7 +13,7 @@ export type Feature = {
 		modifiers?: Modifier[];
 		charges?: number;
 		chargesUsed?: number;
-		dynamic?: { [ key: string ]: any }; // e.g., { "charges": "proficiencyBonus" }
+		dynamic?: { [ key: string ]: string }; // e.g., { "charges": "proficiencyBonus" }
 		recharge?: "Short" | "Long" | "Other" | "N/A"; // short or long rest
 	};
 	type: types.featureType;

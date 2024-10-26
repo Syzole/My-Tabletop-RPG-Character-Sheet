@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Feature } from "@/lib/types";
 import { formatPropertyKey } from "../Components/ItemCard";
 import DnDCharacter from "@/lib/DnDCharacter";
@@ -13,6 +13,8 @@ interface FeatureCardProps {
     charecter?: DnDCharacter;
 }
 
+let keysWeDontWantToDisplay = [ "charges", "chargesUsed", "dynamic" ];
+
 const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, updateCharacter, charecter }) => {
 
     if (!feature) {
@@ -23,10 +25,28 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
         );
     }
 
-    if (feature.properties && typeof feature.properties.charges === "string" && charecter) {
-        feature.properties.charges = charecter[ feature.properties.charges ];
-        updateCharacter && updateCharacter("features", charecter.features);
-    }
+    useEffect(() => {
+        if (feature.properties && feature.properties.dynamic && charecter) {
+            // Create a copy if you need to modify `feature`
+            let updatedFeature = { ...feature };
+
+            // Update the feature with dynamic properties
+            for (const [ key, value ] of Object.entries(feature.properties.dynamic)) {
+                updatedFeature.properties![ key ] = charecter[ value ];
+            }
+
+            if (charecter && charecter.features) {
+                charecter.features[ feature.feature_name ] = updatedFeature;
+            }
+
+            if (updateCharacter && charecter) {
+                updateCharacter("features", charecter.features);
+            }
+
+            //console.log("FeatureCard useEffect", updatedFeature.properties.charges);
+        }
+    }, [ feature ]); // Only re-run when these dependencies change
+
 
     //console.log("FeatureCard", feature);
 
@@ -115,7 +135,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
                             <ul>
                                 { Object.entries(feature.properties)
                                     // Filter out "charges" and "chargesUsed"
-                                    .filter(([ key ]) => key !== 'charges' && key !== 'chargesUsed')
+                                    .filter(([ key ]) => !keysWeDontWantToDisplay.includes(key))
                                     .map(([ key, value ]) => (
                                         <li key={ key }>
                                             <strong>{ formatPropertyKey(key) }</strong>:{ " " }

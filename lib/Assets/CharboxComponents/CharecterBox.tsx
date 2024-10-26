@@ -28,7 +28,7 @@ export default function CharacterBox({
     ];
 
     // State to keep track of the active tab
-    const [ activeTab, setActiveTab ] = useState<string>("Inventory");
+    const [ activeTab, setActiveTab ] = useState<string>("Feats/Traits");
 
     return (
         <div className="container mx-auto p-5 flex flex-col h-full">
