@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react'
 
 function SpellTable(props: {
@@ -17,7 +16,7 @@ function SpellTable(props: {
 }) {
   function updateValue(index: string, field: string, v: string | boolean) {
     const value = getValue().slice()
-    value[index][field] = v
+    value[ index ][ field ] = v
     props.onChange(props.name, value)
   }
 
@@ -42,13 +41,13 @@ function SpellTable(props: {
     for (let i1 = 1; i1 <= slotCount; i1++) {
       slots.push(
         <div
-          key={'d-and-d-table-slot-' + props.name + i1}
+          key={ 'd-and-d-table-slot-' + props.name + i1 }
           className={
             props.slotsUsedValue && props.slotsUsedValue >= i1
               ? 'd-and-d-skill-circle active'
               : 'd-and-d-skill-circle'
           }
-          onClick={() =>
+          onClick={ () =>
             props.onChange(
               props.slotsUsedName,
               props.slotsUsedValue === i1 ? null : i1
@@ -67,17 +66,17 @@ function SpellTable(props: {
   }
 
   return (
-    <div className={classes} style={props.style}>
-      {props.showLabels ? (
+    <div className={ classes } style={ props.style }>
+      { props.showLabels ? (
         <div className='d-and-d-spell-header-labels flex'>
-          <label style={{ width: '20px' }}>Spell Level</label>
-          <label style={{ width: '80px' }}>Slots Total</label>
-          <label style={{ width: 'calc(100% - 100px)' }}>Slots Remaining</label>
+          <label style={ { width: '20px' } }>Spell Level</label>
+          <label style={ { width: '80px' } }>Slots Total</label>
+          <label style={ { width: 'calc(100% - 100px)' } }>Slots Remaining</label>
         </div>
-      ) : null}
+      ) : null }
       <div className='d-and-d-spell-header'>
-        <div className='d-and-d-spell-level'>{props.level}</div>
-        {props.level === 0 ? (
+        <div className='d-and-d-spell-level'>{ props.level }</div>
+        { props.level === 0 ? (
           <div className='d-and-d-spell-slots'>
             <label>Cantrips</label>
           </div>
@@ -86,32 +85,32 @@ function SpellTable(props: {
             <div className='d-and-d-spell-slots-total'>
               <input
                 type='text'
-                value={props.slotsValue ? props.slotsValue : ''}
-                onChange={(e) =>
+                value={ props.slotsValue ? props.slotsValue : '' }
+                onChange={ (e) =>
                   props.onChange(props.slotsName, e.target.value)
                 }
               />
             </div>
             <div className='d-and-d-spell-slots-remaining'>
-              {renderSlotsRemaining()}
+              { renderSlotsRemaining() }
             </div>
           </div>
-        )}
+        ) }
       </div>
 
       <table>
-        {props.showLabels ? (
+        { props.showLabels ? (
           <thead>
             <tr>
-              <th style={{ width: '30px', position: 'absolute', left: '-7px' }}>
+              <th style={ { width: '30px', position: 'absolute', left: '-7px' } }>
                 Prepared
               </th>
               <th>Spell Name</th>
             </tr>
           </thead>
-        ) : null}
+        ) : null }
         <tbody>
-          {getValue().map(
+          { getValue().map(
             (
               v: {
                 name: string | number | readonly string[] | undefined
@@ -120,8 +119,8 @@ function SpellTable(props: {
               index: string
             ) => {
               return (
-                <tr key={'d-and-d-table-row-' + props.name + index}>
-                  {props.level > 0 ? (
+                <tr key={ 'd-and-d-table-row-' + props.name + index }>
+                  { props.level > 0 ? (
                     <td className='d-and-d-spell-prepared'>
                       <div
                         className={
@@ -129,17 +128,17 @@ function SpellTable(props: {
                             ? 'd-and-d-skill-circle active'
                             : 'd-and-d-skill-circle'
                         }
-                        onClick={() =>
+                        onClick={ () =>
                           updateValue(index, 'prepared', !v.prepared)
                         }
                       />
                     </td>
-                  ) : null}
+                  ) : null }
                   <td>
                     <input
                       type='text'
-                      value={v.name ? v.name : ''}
-                      onChange={(e) =>
+                      value={ v.name ? v.name : '' }
+                      onChange={ (e) =>
                         updateValue(index, 'name', e.target.value)
                       }
                     />
@@ -147,7 +146,7 @@ function SpellTable(props: {
                 </tr>
               )
             }
-          )}
+          ) }
         </tbody>
       </table>
     </div>

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Feature } from "@/lib/types";
 import { formatPropertyKey } from "../Components/ItemCard";
 import DnDCharacter from "@/lib/DnDCharacter";
-import { s } from "framer-motion/client";
 
 interface FeatureCardProps {
     feature?: Feature;
@@ -29,7 +28,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
         updateCharacter && updateCharacter("features", charecter.features);
     }
 
-    console.log("FeatureCard", feature);
+    //console.log("FeatureCard", feature);
 
     const consumeCharge = (feature: Feature) => {
         if (feature.properties) {
@@ -44,7 +43,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
             updateCharacter("features", charecter.features);
         }
 
-        console.log("Feature consumed", charecter?.features[ feature.feature_name ]);
+        //console.log("Feature consumed", charecter?.features[ feature.feature_name ]);
 
     }
 
@@ -61,7 +60,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
             updateCharacter("features", charecter.features);
         }
 
-        console.log("Feature recharged", charecter?.features[ feature.feature_name ]);
+        //console.log("Feature recharged", charecter?.features[ feature.feature_name ]);
     }
 
     const incrementCharge = (feature: Feature) => {
@@ -77,7 +76,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
             updateCharacter("features", charecter.features);
         }
 
-        console.log("Feature consumed", charecter?.features[ feature.feature_name ]);
+        //console.log("Feature consumed", charecter?.features[ feature.feature_name ]);
 
     }
 
@@ -114,26 +113,35 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
                         <div className="text-sm text-gray-600 mt-2">
                             <h4 className="text-indigo-600 font-semibold">Properties</h4>
                             <ul>
-                                { Object.entries(feature.properties).map(([ key, value ]) => (
-                                    <li key={ key }>
-                                        <strong>{ formatPropertyKey(key) }</strong>:{ " " }
-                                        { typeof value === "object"
-                                            ? Array.isArray(value)
-                                                ? value.join(", ") // Join arrays with commas
-                                                : JSON.stringify(value, null, 2) // Format objects
-                                            : value }
-                                    </li>
-                                )) }
+                                { Object.entries(feature.properties)
+                                    // Filter out "charges" and "chargesUsed"
+                                    .filter(([ key ]) => key !== 'charges' && key !== 'chargesUsed')
+                                    .map(([ key, value ]) => (
+                                        <li key={ key }>
+                                            <strong>{ formatPropertyKey(key) }</strong>:{ " " }
+                                            { typeof value === "object"
+                                                ? Array.isArray(value)
+                                                    ? value.join(", ") // Join arrays with commas
+                                                    : JSON.stringify(value, null, 2) // Format objects
+                                                : value }
+                                        </li>
+                                    )) }
                             </ul>
                         </div>
                     ) }
-                    { (feature.properties && feature.properties.charges) && (
+
+                    { (feature.properties && feature.properties.charges) && ( // Show charge controls if feature has charges
+                        <div className="text-sm text-gray-600 mt-2">
+                            <strong>Charges:</strong> { feature.properties.chargesUsed } / { feature.properties.charges }
+                        </div>
+                    ) }
+                    { (feature.properties && feature.properties.charges) && ( // Show charge controls if feature has charges
                         <div>
                             <div className="justify-between mb-2">
                                 <button className="btn btn-primary mr-2"
                                     onClick={ () => consumeCharge(feature) }
                                     disabled={ !hasCharges }
-                                >Consume charge</button>
+                                >Use</button>
                                 <button className="btn btn-accent"
                                     onClick={ () => incrementCharge(feature) }
                                     disabled={ !(feature.properties.chargesUsed! > 0) }

@@ -254,12 +254,12 @@ export default class DnDCharacter {
 
 	// Rest functions
 
-	shortRest() {
-		shortRest(this);
-	}
+	// shortRest() {
+	// 	shortRest(this);
+	// }
 
-	longRest() {
-		longRest(this);
-	}
+	// longRest() {
+	// 	longRest(this);
+	// }
 
 }

@@ -5,6 +5,7 @@ import Inventory from "./Inventory";
 import ActionTable from "./ActionTable"; // Import the new ActionTable component
 import DnDCharacter from "@/lib/DnDCharacter";
 import FeatsTable from "./FeatsTable";
+import { ExtraBox } from "./ExtraBox";
 
 export default function CharacterBox({
     charecter,
@@ -57,7 +58,10 @@ export default function CharacterBox({
                 { activeTab === "Feats/Traits" && (
                     <FeatsTable character={ charecter! } setFocusItem={ setFocusItem! } />
                 ) }
-                { (activeTab === "Spells" || activeTab === "Background" || activeTab === "Notes" || activeTab === "Extras") && (
+                { activeTab === "Extras" && (
+                    <ExtraBox character={ charecter! } updateCharacter={ updateCharacter } />
+                ) }
+                { (activeTab === "Spells" || activeTab === "Background" || activeTab === "Notes") && (
                     <div className="text-center text-8xl">Coming soon!</div>
                 ) }
             </div>

@@ -25,7 +25,15 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 	const [ character, setCharacter ] = useState<DnDCharacter>(initialCharacter);
 
 	function updateCharacter(key: string, defaultValue: any) {
+
 		const updatedCharacter = new DnDCharacter();  // create a new instance of DnDCharacter
+
+		if (key === "this") {
+			Object.assign(updatedCharacter, defaultValue);  // assign the new defaultValue and preserve methods
+			setCharacter(updatedCharacter);  // set the updated character
+			return;
+		}
+
 		Object.assign(updatedCharacter, character, { [ key ]: defaultValue });  // assign the new defaultValue and preserve methods
 		setCharacter(updatedCharacter);  // set the updated character
 	};

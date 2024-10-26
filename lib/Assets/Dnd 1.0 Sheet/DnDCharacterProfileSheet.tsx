@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable prettier/prettier */
 import React from "react";
 
 // eslint-disable-next-line no-unused-vars
@@ -158,6 +157,7 @@ class DnDCharacterProfileSheet extends React.Component<IDnDCharacterProfileSheet
 									onChange={ (name: string, value: any) => {
 										this.updateCharacter(name, value);
 									} }
+									alt="Character Appearance"
 								/>
 								<label
 									className="d-and-d-title"
@@ -228,6 +228,7 @@ class DnDCharacterProfileSheet extends React.Component<IDnDCharacterProfileSheet
 												onChange={ (name: string, value: any) => {
 													this.updateCharacter(name, value);
 												} }
+												alt="Faction Logo"
 											/>
 										</div>
 

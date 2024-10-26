@@ -5,12 +5,13 @@ function Image(props: {
   value: any
   onChange: (arg0: any, arg1: string) => void
   name: any
+  alt?: string
 }) {
   function importImage(event: any) {
     console.log(event)
     if (event.target.files.length > 0) {
       console.log(event.target.files)
-      if (event.target.files[0].size > 2000000) {
+      if (event.target.files[ 0 ].size > 2000000) {
         window.alert(
           'Image is too large. Max size is 2 Mb. Please reduce the size and upload again.'
         )
@@ -29,7 +30,7 @@ function Image(props: {
         }
       }
 
-      fr.readAsDataURL(event.target.files[0])
+      fr.readAsDataURL(event.target.files[ 0 ])
     }
   }
 
@@ -42,18 +43,18 @@ function Image(props: {
 
   return (
     <div
-      className={classes}
-      style={{
+      className={ classes }
+      style={ {
         backgroundImage: props.value ? 'url(' + props.value + ')' : ''
-      }}
-      onClick={() => document.getElementById(elementId)?.click()}
+      } }
+      onClick={ () => document.getElementById(elementId)?.click() }
     >
       <input
-        style={{ display: 'none' }}
+        style={ { display: 'none' } }
         type='file'
-        id={elementId}
+        id={ elementId }
         accept='image/*'
-        onChange={(e) => importImage(e)}
+        onChange={ (e) => importImage(e) }
       />
     </div>
   )

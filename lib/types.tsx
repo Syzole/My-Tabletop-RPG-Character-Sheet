@@ -14,7 +14,7 @@ export type Feature = {
 		charges?: number;
 		chargesUsed?: number;
 		dynamic?: { [ key: string ]: any }; // e.g., { "charges": "proficiencyBonus" }
-		recharge?: "short" | "long" | "other" | "N/A"; // short or long rest
+		recharge?: "Short" | "Long" | "Other" | "N/A"; // short or long rest
 	};
 	type: types.featureType;
 }

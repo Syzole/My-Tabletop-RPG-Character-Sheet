@@ -4,6 +4,7 @@ import { convertItemToWeapon } from "@/lib/utils";
 import { featureType } from "@prisma/client";
 import { useEffect, useMemo, useCallback, useState } from "react";
 import ActionTableRow from "./ActionTableRow";
+import SubActionTable from "./SubActionTable"; // <-- Import SubActionTable
 
 export default function ActionTable({ character, setFocusItem }: { character: DnDCharacter, setFocusItem?: (value: any) => void }) {
     const [ activeTab, setActiveTab ] = useState<string>("All");
@@ -26,67 +27,40 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
 
     const otherArray = useMemo(() => {
         let otherFeatures = Object.values(character.features).filter((feature) => feature.type === featureType.Other);
-        return otherFeatures; // Comment this line to return both
-    }, [ character.features ]);
-
-    const limitedArray = useMemo(() => {
-        return Object.values(character.features).filter((feature) => feature.type === featureType.LimitedUse);
-    }, [ character.features ]);
-
-    const passiveArray = useMemo(() => {
-        return Object.values(character.features).filter((feature) => feature.type === featureType.Passive);
+        return otherFeatures;
     }, [ character.features ]);
 
     const weaponArray = useMemo(() => {
         return convertItemToWeaponArray(Object.values(character.equippedWeapons));
     }, [ character.equippedWeapons ]);
 
-    const allFeatures = Object.values(character.features);
-
-    const allObjects = [ ...allFeatures, ...weaponArray ];
+    // Memoize filterTotalArray function to prevent unnecessary re-renders
+    const filterTotalArray = useCallback((type: string) => {
+        const filterMap: { [ key: string ]: (Feature | Weapon)[] } = {
+            "All": [ ...actionArray, ...bonusActionArray, ...reactionArray, ...otherArray, ...weaponArray ],
+            "Attack": weaponArray,
+            "Action": [ ...actionArray, ...weaponArray ],
+            "Bonus Action": bonusActionArray,
+            "Reaction": reactionArray,
+            "Other": otherArray,
+        };
+        setFilteredArray(filterMap[ type ] || []);
+    }, [ actionArray, bonusActionArray, reactionArray, otherArray, weaponArray ]);
 
     // Memoize filtered array to only recalculate when activeTab or relevant arrays change
     useEffect(() => {
         filterTotalArray(activeTab);
-    }, [ activeTab, actionArray, bonusActionArray, reactionArray, otherArray, weaponArray ]);
-
-    // Memoize filterTotalArray function to prevent unnecessary re-renders
-    const filterTotalArray = useCallback((type: string) => {
-        switch (type) {
-            case "All":
-                //setFilteredArray([ ...allFeatures, ...weaponArray ]);
-                setFilteredArray([ ...actionArray, ...bonusActionArray, ...reactionArray, ...otherArray, ...weaponArray ]);
-                break;
-            case "Attack":
-                setFilteredArray(weaponArray);
-                break;
-            case "Action":
-                setFilteredArray([ ...actionArray, ...weaponArray ]);
-                break;
-            case "Bonus Action":
-                setFilteredArray(bonusActionArray);
-                break;
-            case "Reaction":
-                setFilteredArray(reactionArray);
-                break;
-            case "Other":
-                setFilteredArray(otherArray);
-                //setFilteredArray([ ...otherArray, ...limitedArray, ...passiveArray ]);
-                break;
-            default:
-                setFilteredArray([]);
-        }
-    }, [ actionArray, bonusActionArray, reactionArray, otherArray, weaponArray ]);
+    }, [ activeTab, actionArray, bonusActionArray, reactionArray, otherArray, weaponArray, filterTotalArray ]);
 
     return (
-        <div className="flex-col max-h-[520px] overflow-auto min-w-[710px]">
+        <div className="flex-col max-h-[520px] overflow-auto min-w-[710px] max-w-[970px]">
             {/* Tabs Header */ }
             <div className="tabs mb-5 tabs-boxed">
                 { tabs.map((tab) => (
                     <a
                         key={ tab }
                         className={ `tab tab-bordered ${activeTab === tab ? "tab-active" : ""}` }
-                        onClick={ () => setActiveTab(tab) } // Using memoized handler
+                        onClick={ () => setActiveTab(tab) }
                     >
                         { tab }
                     </a>
@@ -117,49 +91,11 @@ export default function ActionTable({ character, setFocusItem }: { character: Dn
                     </tbody>
                 </table>
             </div>
+            {/* Sub-Action Table for Descriptions */ }
+            <SubActionTable selectedAction={ activeTab } />
         </div>
     );
 }
-
-function AttackSubTable({
-    weaponArray,
-    character,
-    setFocusItem,
-}: {
-    weaponArray: Weapon[];
-    character: DnDCharacter;
-    setFocusItem?: (value: any) => void;
-}) {
-    return (
-        <div className="h-full max-h-[470px] overflow-y-auto">
-            <table className="table w-full overflow-auto min-w-[710px]">
-                <thead>
-                    <tr>
-                        <th className="px-4 py-2">Attack</th>
-                        <th className="px-4 py-2">Range</th>
-                        <th className="px-4 py-2">Hit/DC</th>
-                        <th className="px-4 py-2">Damage</th>
-                        <th className="px-4 py-2">Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { weaponArray.map((weapon, index) => (
-                        <ActionTableRow
-                            key={ index }
-                            item={ weapon }
-                            setFocusItem={ setFocusItem }
-                            character={ character }
-                        />
-                    )) }
-                </tbody>
-            </table>
-            <span className="text-xs text-gray-500">
-                
-            </span>
-        </div>
-    );
-}
-
 
 // Convert items to weapons for the table
 function convertItemToWeaponArray(items: Item[]): Weapon[] {
