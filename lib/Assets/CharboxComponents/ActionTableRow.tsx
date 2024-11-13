@@ -22,7 +22,12 @@ export default function ActionTableRow({ item, character, setFocusItem }: Action
 
     const isWeapon = "name" in item;
     const displayName = isWeapon ? item.name : item.feature_name;
-    const range = isWeapon && item.properties?.range ? `${item.properties.range}ft` : "-";
+    let range = isWeapon && item.properties?.range ? `${item.properties.range}ft` : "-";
+
+    // if the item is a weapon and has no range, set the range to melee
+    if (isWeapon && !item.properties?.range) {
+        range = "Melee";
+    }
 
     // Calculate the hit/DC (attack bonus) for weapons
     const hitDC = isWeapon ? `+${calculateAttackBonus(character, item as Weapon)}` : "-";

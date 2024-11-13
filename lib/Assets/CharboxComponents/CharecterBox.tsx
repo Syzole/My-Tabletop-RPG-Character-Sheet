@@ -21,14 +21,14 @@ export default function CharacterBox({
         "Actions",
         "Spells",
         "Inventory",
-        "Feats/Traits",
+        "Charecter Features",
         "Background",
         "Notes",
         "Extras",
     ];
 
     // State to keep track of the active tab
-    const [ activeTab, setActiveTab ] = useState<string>("Feats/Traits");
+    const [ activeTab, setActiveTab ] = useState<string>("Charecter Features");
 
     return (
         <div className="container mx-auto p-5 flex flex-col h-full">
@@ -48,14 +48,14 @@ export default function CharacterBox({
             </div>
 
             {/* Tab Content */ }
-            <div className="bg-base-100 p-5 rounded-lg shadow-lg h-full">
+            <div className="bg-base-100 p-5 rounded-lg shadow-lg h-full overflow-auto">
                 { activeTab === "Inventory" && (
                     <Inventory charecter={ charecter } updateCharacter={ updateCharacter } setFocusItem={ setFocusItem! } />
                 ) }
                 { activeTab === "Actions" && (
                     <ActionTable character={ charecter! } setFocusItem={ setFocusItem } />
                 ) }
-                { activeTab === "Feats/Traits" && (
+                { activeTab === "Charecter Features" && (
                     <FeatsTable character={ charecter! } setFocusItem={ setFocusItem! } />
                 ) }
                 { activeTab === "Extras" && (

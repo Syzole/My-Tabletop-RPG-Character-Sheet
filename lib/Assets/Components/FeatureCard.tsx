@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Feature } from "@/lib/types";
 import { formatPropertyKey } from "../Components/ItemCard";
 import DnDCharacter from "@/lib/DnDCharacter";
@@ -16,19 +16,14 @@ interface FeatureCardProps {
 let keysWeDontWantToDisplay = [ "charges", "chargesUsed", "dynamic" ];
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, updateCharacter, charecter }) => {
-
-    if (!feature) {
-        return (
-            <div className={ `mt-2 w-64 bg-white p-4 rounded-lg shadow-lg z-10 ${className}` }>
-                <p>No feature selected.</p>
-            </div>
-        );
-    }
+    const [ isUpdated, setIsUpdated ] = useState(false);
 
     useEffect(() => {
-        if (feature.properties && feature.properties.dynamic && charecter) {
+        if (feature && feature.properties && feature.properties.dynamic && charecter) {
             // Create a copy if you need to modify `feature`
             let updatedFeature = { ...feature };
+
+            console.log("FeatureCard useEffect", feature.properties.dynamic);
 
             // Update the feature with dynamic properties
             for (const [ key, value ] of Object.entries(feature.properties.dynamic)) {
@@ -43,12 +38,23 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
                 updateCharacter("features", charecter.features);
             }
 
-            //console.log("FeatureCard useEffect", updatedFeature.properties.charges);
+            setIsUpdated(true);
+        } else {
+            setIsUpdated(true);
         }
     }, [ feature ]); // Only re-run when these dependencies change
 
+    if (!feature) {
+        return (
+            <div className={ `mt-2 w-64 bg-white p-4 rounded-lg shadow-lg z-10 ${className}` }>
+                <p>No feature selected.</p>
+            </div>
+        );
+    }
 
-    //console.log("FeatureCard", feature);
+    if (!isUpdated) {
+        return null; // or a loading spinner, etc.
+    }
 
     const consumeCharge = (feature: Feature) => {
         if (feature.properties) {
@@ -62,9 +68,6 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
         if (updateCharacter && charecter) {
             updateCharacter("features", charecter.features);
         }
-
-        //console.log("Feature consumed", charecter?.features[ feature.feature_name ]);
-
     }
 
     const recharge = (feature: Feature) => {
@@ -79,8 +82,6 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
         if (updateCharacter && charecter) {
             updateCharacter("features", charecter.features);
         }
-
-        //console.log("Feature recharged", charecter?.features[ feature.feature_name ]);
     }
 
     const incrementCharge = (feature: Feature) => {
@@ -95,9 +96,6 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
         if (updateCharacter && charecter) {
             updateCharacter("features", charecter.features);
         }
-
-        //console.log("Feature consumed", charecter?.features[ feature.feature_name ]);
-
     }
 
     let hasCharges = (feature.properties && feature.properties.charges) ? feature.properties.charges > feature.properties.chargesUsed! : false;
@@ -180,7 +178,6 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
 };
 
 export default FeatureCard;
-
 
 function formatFeatureType(type: string): string { //so turn BonusAction into Bonus Action
     return type.replace(/([a-z])([A-Z])/g, "$1 $2");

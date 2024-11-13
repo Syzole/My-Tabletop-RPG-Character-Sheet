@@ -4,11 +4,7 @@ import DnDCharacterStatsSheet from '@/lib/Assets//Dnd 1.0 Sheet/DnDCharacterStat
 import DnDCharacter from "@/lib/DnDCharacter";
 import John from "../characters/Beta.json";
 
-const char = new DnDCharacter();
-
-
-Object.assign(char, John);
-
+const char = DnDCharacter.fromJSON(John);
 
 
 export default function Page() {

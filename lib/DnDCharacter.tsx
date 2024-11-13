@@ -1,7 +1,6 @@
 import { equipArmor, unequipArmor, updateAC, handleEquipWeapon } from "./helperFucntions/inventoryFunctions";
-import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skills, defaultSkill, Armor, Weapon, Race } from "./types";
+import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skills, defaultSkill, Armor, Race } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
-import { shortRest, longRest } from "./helperFucntions/charecterFunctions";
 
 export default class DnDCharacter {
 	[ key: string ]: any;
@@ -89,69 +88,36 @@ export default class DnDCharacter {
 	treasure2?: string;
 
 
-	// spellcasting
+	// Spellcasting
 	spellcastingClass?: string;
-	preparedSpellsTotal?: string;
-	spellSaveDC?: string;
-	spellAttackBonus?: string;
+	spellcastingAbilityMod?: number;
+	preparedSpellsTotal?: number;
+	spellSaveDC?: number;
+	spellAttackBonus?: number;
 
-	cantrips?: any[];
-
-	lvl1SpellSlotsTotal?: string;
-	lvl1SpellSlotsUsed?: number;
-	lvl1Spells?: any[];
-
-	lvl2SpellSlotsTotal?: string;
-	lvl2SpellSlotsUsed?: number;
-	lvl2Spells?: any[];
-
-	lvl3SpellSlotsTotal?: string;
-	lvl3SpellSlotsUsed?: number;
-	lvl3Spells?: any[];
-
-	lvl4SpellSlotsTotal?: string;
-	lvl4SpellSlotsUsed?: number;
-	lvl4Spells?: any[];
-
-	lvl5SpellSlotsTotal?: string;
-	lvl5SpellSlotsUsed?: number;
-	lvl5Spells?: any[];
-
-	lvl6SpellSlotsTotal?: string;
-	lvl6SpellSlotsUsed?: number;
-	lvl6Spells?: any[];
-
-	lvl7SpellSlotsTotal?: string;
-	lvl7SpellSlotsUsed?: number;
-	lvl7Spells?: any[];
-
-	lvl8SpellSlotsTotal?: string;
-	lvl8SpellSlotsUsed?: number;
-	lvl8Spells?: any[];
-
-	lvl9SpellSlotsTotal?: string;
-	lvl9SpellSlotsUsed?: number;
-	lvl9Spells?: any[];
+	spellSlots: Map<number, { total: number, used: number }> = new Map();
 
 	jackOfAllTrades: boolean;
 
 	constructor(statBlock?: Stats) {
-		this.baseStats = {
-			str: 10,
-			dex: 10,
-			con: 10,
-			int: 10,
-			wis: 10,
-			cha: 10,
-		};
-
-		if (statBlock) {
-			this.baseStats = { ...statBlock };
-		}
-
+		this.baseStats = statBlock || { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 };
 		this.stats = { ...this.baseStats };
+		this.statMods = this.calculateStatMods();
 
-		this.statMods = {
+		this.initiative = this.getStatModifier("dex");
+		this.ac = 10 + this.getStatModifier("dex");
+
+		this.proficiencyBonus = this.calculateProficiencyBonus();
+		this.skills = this.initializeSkills();
+		this.savingThrowProficiencies = this.initializeSavingThrowProficiencies();
+		this.proficiencies = this.initializeProficiencies();
+		this.jackOfAllTrades = false;
+
+		this.initSpellSlots();
+	}
+
+	calculateStatMods(): Stats {
+		return {
 			str: this.getStatModifier("str"),
 			dex: this.getStatModifier("dex"),
 			con: this.getStatModifier("con"),
@@ -159,16 +125,10 @@ export default class DnDCharacter {
 			wis: this.getStatModifier("wis"),
 			cha: this.getStatModifier("cha"),
 		};
+	}
 
-		this.initiative = this.getStatModifier("dex");
-
-		this.ac = 10 + this.getStatModifier("dex");
-
-		this.proficiencyBonus = 2; // Example value, usually determined by character level
-
-		this.modifiers = [];
-
-		this.skills = {
+	initializeSkills(): skills {
+		return {
 			acrobatics: defaultSkill("acrobatics"),
 			animalHandling: defaultSkill("animalHandling"),
 			arcana: defaultSkill("arcana"),
@@ -188,8 +148,10 @@ export default class DnDCharacter {
 			stealth: defaultSkill("stealth"),
 			survival: defaultSkill("survival"),
 		};
+	}
 
-		this.savingThrowProficiencies = {
+	initializeSavingThrowProficiencies(): SavingThrowProficiencies {
+		return {
 			str: SavingThrowProficiencyLevel.None,
 			dex: SavingThrowProficiencyLevel.None,
 			con: SavingThrowProficiencyLevel.None,
@@ -197,15 +159,25 @@ export default class DnDCharacter {
 			wis: SavingThrowProficiencyLevel.None,
 			cha: SavingThrowProficiencyLevel.None,
 		};
+	}
 
-		this.proficiencies = {
+	initializeProficiencies(): Proficiencies {
+		return {
 			armor: [],
 			weapons: [],
 			tools: [],
 			languages: [],
 		};
+	}
 
-		this.jackOfAllTrades = false;
+	calculateProficiencyBonus(): number {
+		return 2 + Math.floor((this.level - 1) / 4);
+	}
+
+	initSpellSlots() {
+		for (let i = 1; i <= 9; i++) {
+			this.spellSlots.set(i, { total: 0, used: 0 });
+		}
 	}
 
 	calculateSkillModifier(skill: keyof skills): number {

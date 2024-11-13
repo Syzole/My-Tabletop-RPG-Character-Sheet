@@ -81,6 +81,20 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
         setFocusItem(selectedItem);
     };
 
+    const sortByName = (character: DnDCharacter) => {
+        console.log("sort by name");
+
+        // Sort and reconstruct the inventory as a new object
+        const sortedInventory = Object.fromEntries(
+            Object.keys(character.inventory)
+                .sort()
+                .map((key) => [ key, character.inventory[ key ] ])
+        );
+
+        console.log(sortedInventory);
+        updateCharacter("inventory", sortedInventory);
+    };
+
     return (
         <div>
             <div className="flex justify-between items-center">
@@ -106,7 +120,9 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
                     <table className="table w-full bg-white border border-gray-200">
                         <thead>
                             <tr>
-                                <th className="text-left text-sm font-medium text-gray-900">Item Name</th>
+                                <th className="text-left text-sm font-medium text-gray-900"
+                                    onClick={ () => sortByName(charecter!) }
+                                >Item Name</th>
                                 <th className="text-left text-sm font-medium text-gray-900">Type</th>
                                 <th className="text-left text-sm font-medium text-gray-900">Quantity</th>
                                 <th className="text-left text-sm font-medium text-gray-900">Actions</th>

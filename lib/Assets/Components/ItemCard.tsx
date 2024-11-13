@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
 interface ItemProps {
     item?: {
@@ -22,6 +22,7 @@ interface ItemProps {
 export function formatPropertyKey(key: string): string {
     if (key === "ac") return "AC";
     if (key === "dmg1") return "Damage";
+    if (key === "dmg2") return "Damage (2 handed)";
     return key
         .replace(/([a-z])([A-Z])/g, "$1 $2")
         .replace(/^./, (str) => str.toUpperCase());
@@ -75,11 +76,23 @@ const ItemCard: React.FC<ItemProps> = ({ item, className, onClick }) => {
                                 { Object.entries(item.properties).map(([ key, value ]) => (
                                     <li key={ key }>
                                         <strong className="">{ formatPropertyKey(key) }</strong>:{ " " }
-                                        { typeof value === "object"
-                                            ? Array.isArray(value)
-                                                ? value.join(", ") // If it's an array, join the values with commas
-                                                : JSON.stringify(value, null, 2) // If it's an object, convert it to a JSON string with indentation
-                                            : value // If it's a primitive value, just display it
+                                        {
+                                            Array.isArray(value) ? (
+                                                <ul className="list-disc list-inside">
+                                                    { value.map((entry, index) => (
+                                                        <li key={ index }>
+                                                            { typeof entry === "string" ? entry : (
+                                                                // if the {@deity Lliira|Faerûnian|scag} is the in the properties.entries, return Lliira or {@condition prone} return prone
+                                                                <>
+                                                                    <strong>{ entry.name }:</strong> { entry.entries.join(" ").replace(/{@([^}]+) ([^|}]+)(\|([^}]+))?}/g, "$2") }
+                                                                </>
+                                                            ) }
+                                                        </li>
+                                                    )) }
+                                                </ul>
+                                            ) : (
+                                                value
+                                            )
                                         }
                                     </li>
                                 )) }

@@ -42,6 +42,8 @@ export function calculateAttackBonus(character: DnDCharacter, weapon: Weapon) {
 
 	let modifier = 0;
 
+	// console.log("weapon", weaponType, isProficient, weapon);
+
 	switch (weapon.rangeType) {
 		case "Melee":
 			modifier = calculateMeleeAttackBonus(character, isProficient, weapon);

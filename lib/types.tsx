@@ -10,7 +10,6 @@ export type Feature = {
 	description: string;
 	properties?: {
 		[ key: string ]: any
-		modifiers?: Modifier[];
 		charges?: number;
 		chargesUsed?: number;
 		dynamic?: { [ key: string ]: string }; // e.g., { "charges": "proficiencyBonus" }
@@ -18,36 +17,37 @@ export type Feature = {
 	};
 	type: types.featureType;
 }
-
-export type Modifier = {
-	// For attack rolls, damage, or other types of effects
-	statAffected: string;    // e.g., "attackBonus", "damageBonus", "ac", etc.
-	condition?: (character: DnDCharacter, target?: any) => boolean;      // e.g., "isRanged", "isMelee", "weaponType == 'Ranged'", etc.
-	value: number | ((character: DnDCharacter) => number) | string;            // e.g., +2 for Archery, +1 for defense, etc.
-};
-
 export interface Weapon {
 	name: string;
 	rangeType: "Melee" | "Ranged";
 	damage: string;
 	damageType: string;
 	properties: { [ key: string ]: any };
+	features?: Feature[]
 }
 
 export interface Armor {
 	name: string;
-	type: "Light" | "Medium" | "Heavy";
+	type: "Light" | "Medium" | "Heavy" | "Other";
 	ac: number;
 	maxDex?: number;
 	strReq?: number;
 	disadvantage?: boolean;
 	weight: number;
+	features?: Feature[]
+}
+
+export interface Shield {
+	name: string;
+	ac: number;
+	weight: number;
+	features?: Feature[]
 }
 
 export interface Item {
 	[ key: string ]: any;
 	name: string;
-	source: string[];
+	source?: string[];
 	type: string;
 	rarity?: string;
 	value?: number;
@@ -118,7 +118,7 @@ export interface skills {
 	survival: skill;
 }
 
-type skill = {
+export type skill = {
 	stat: string;
 	proficient: ProficiencyLevel;
 	advantage: string;
@@ -160,6 +160,48 @@ export type Race = {
 	speed: number;
 	size: string;
 	proficiencies: Proficiencies;
-	features: { [ key: string ]: Feature };
+	features: Map<string, Feature>;
 	languages: string[];
+	modifiers?: Map<string, any>;
+}
+
+export type Spell = {
+	name: string;
+	level: number;
+	school: string;
+	castingTime: string;
+	range: string;
+	components: string[];
+	damagediceOrSavingThrow: string;
+	duration: string;
+	description: string;
+	spellModifier: string;
+}
+
+export enum ClassType {
+	Wizard = "Wizard",
+	Sorcerer = "Sorcerer",
+	Bard = "Bard",
+	Cleric = "Cleric",
+	Druid = "Druid",
+	Paladin = "Paladin",
+	Ranger = "Ranger",
+	Warlock = "Warlock",
+	Fighter = "Fighter",
+	Rogue = "Rogue",
+	Barbarian = "Barbarian",
+	Monk = "Monk"
+}
+
+export enum SpellLevel {
+	Cantrip = 0,
+	Level1 = 1,
+	Level2 = 2,
+	Level3 = 3,
+	Level4 = 4,
+	Level5 = 5,
+	Level6 = 6,
+	Level7 = 7,
+	Level8 = 8,
+	Level9 = 9,
 }
