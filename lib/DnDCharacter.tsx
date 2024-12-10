@@ -1,5 +1,5 @@
 import { equipArmor, unequipArmor, updateAC, handleEquipWeapon } from "./helperFucntions/inventoryFunctions";
-import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skills, defaultSkill, Armor, Race } from "./types";
+import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skill, skills, defaultSkill, Armor, Race } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
 
 export default class DnDCharacter {
@@ -18,6 +18,7 @@ export default class DnDCharacter {
 	baseStats: Stats; //this is the base baseStats
 	stats: Stats; //this is baseStats plus modifiers from items, spells, etc
 	statMods: Stats; //this is the baseStats plus modifiers from items, spells, etc
+	maxStats: Stats = { str: 20, dex: 20, con: 20, int: 20, wis: 20, cha: 20 };
 	equippedArmor?: Armor;
 	proficiencyBonus: number;
 
@@ -210,6 +211,19 @@ export default class DnDCharacter {
 		return Math.floor((this.stats[ stat ] - 10) / 2);
 	}
 
+
+	getProficientSkills(): skills {
+		const proficientSkills: skills = { ...this.skills };
+		const proficientSkillsArray: skill[] = [];
+		for (const skill in this.skills) {
+			if (this.skills[ skill ].proficient) {
+				proficientSkillsArray.push(this.skills[ skill ]);
+			}
+		}
+
+		return proficientSkills;
+	}
+
 	public static fromJSON(json: any): DnDCharacter {
 
 		let charecter: DnDCharacter;
@@ -223,15 +237,4 @@ export default class DnDCharacter {
 		Object.assign(charecter, json);
 		return charecter;
 	}
-
-	// Rest functions
-
-	// shortRest() {
-	// 	shortRest(this);
-	// }
-
-	// longRest() {
-	// 	longRest(this);
-	// }
-
 }

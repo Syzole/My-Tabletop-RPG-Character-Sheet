@@ -54,7 +54,7 @@ export const martialWeapons = [ ...martialMelee, ...martialRanged ];
 
 export const allWeapons = [ ...simpleWeapons, ...martialWeapons ];
 
-export const spellSlotsPerLevel = [
+export const spellSlotsPerLevel = [ // Cantrips are class specific
 	[ 2, 0, 0, 0, 0, 0, 0, 0, 0 ], // 1st level
 	[ 3, 0, 0, 0, 0, 0, 0, 0, 0 ], // 2nd level
 	[ 4, 2, 0, 0, 0, 0, 0, 0, 0 ], // 3rd level
@@ -74,7 +74,7 @@ export const spellSlotsPerLevel = [
 	[ 4, 3, 3, 3, 2, 1, 1, 1, 1 ], // 17th level
 	[ 4, 3, 3, 3, 3, 1, 1, 1, 1 ], // 18th level
 	[ 4, 3, 3, 3, 3, 2, 1, 1, 1 ], // 19th level
-	[ 4, 3, 3, 3, 3, 2, 2, 1, 1 ], // 20th level];
+	[ 4, 3, 3, 3, 3, 2, 2, 1, 1 ], // 20th level
 ];
 
 export const allSkills = new Map([
@@ -101,3 +101,35 @@ export const allSkills = new Map([
 export const arcaneFocuses = [ "Crystal", "Orb", "Rod", "Staff", "Wand" ];
 
 export const toolProficiencies = [ "Artisan's Tools", "Disguise Kit", "Forgery Kit", "Gaming Set", "Herbalism Kit", "Musical Instrument", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools" ];
+
+export const classToSpellCastingModifier = new Map([
+	[ "Bard", "charisma" ],
+	[ "Cleric", "wisdom" ],
+	[ "Druid", "wisdom" ],
+	[ "Paladin", "charisma" ],
+	[ "Ranger", "wisdom" ],
+	[ "Sorcerer", "charisma" ],
+	[ "Warlock", "charisma" ],
+	[ "Wizard", "intelligence" ],
+]);
+
+export const subClassToSpellCastingModifier = new Map([
+	[ "Eldritch Knight", "intelligence" ],
+	[ "Arcane Trickster", "intelligence" ],
+]);
+
+export const classToHitDie = new Map([
+	[ "Barbarian", 12 ],
+	[ "Bard", 8 ],
+	[ "Cleric", 8 ],
+	[ "Druid", 8 ],
+	[ "Fighter", 10 ],
+	[ "Monk", 8 ],
+	[ "Paladin", 10 ],
+	[ "Ranger", 10 ],
+	[ "Rogue", 8 ],
+	[ "Sorcerer", 6 ],
+	[ "Warlock", 8 ],
+	[ "Wizard", 6 ],
+]);
+

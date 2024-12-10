@@ -31,7 +31,7 @@ async function unpackRogueLevelOne(jsonData: CharacterJsonData): Promise<DnDChar
     // Set basic properties
     character.name = "Jhon Doe"; //manually set the name
     character.classLevel = "Rogue 1";
-    character.hitDie = jsonData.hd.faces;
+    character.hitDice = jsonData.hd.faces.toString();
     character.proficiencyBonus = 2; // Standard for level 1
 
     // Assign saving throw proficiencies

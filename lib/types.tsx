@@ -1,11 +1,10 @@
 // types.ts
 
 import * as types from "@prisma/client";
-import DnDCharacter from "./DnDCharacter";
 
 export type Feature = {
 	feature_name: string;
-	source_name: string;
+	source?: string;
 	level?: number;
 	description: string;
 	properties?: {
@@ -30,7 +29,7 @@ export interface Armor {
 	name: string;
 	type: "Light" | "Medium" | "Heavy" | "Other";
 	ac: number;
-	maxDex?: number;
+	maxDex?: number; // max dex bonus from armor
 	strReq?: number;
 	disadvantage?: boolean;
 	weight: number;

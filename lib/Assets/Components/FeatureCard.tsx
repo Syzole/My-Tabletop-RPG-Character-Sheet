@@ -19,30 +19,28 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
     const [ isUpdated, setIsUpdated ] = useState(false);
 
     useEffect(() => {
-        if (feature && feature.properties && feature.properties.dynamic && charecter) {
-            // Create a copy if you need to modify `feature`
+        if (feature && feature.properties && feature.properties.dynamic && charecter && !isUpdated) { // If the feature has dynamic properties, update them
             let updatedFeature = { ...feature };
 
             console.log("FeatureCard useEffect", feature.properties.dynamic);
 
-            // Update the feature with dynamic properties
             for (const [ key, value ] of Object.entries(feature.properties.dynamic)) {
                 updatedFeature.properties![ key ] = charecter[ value ];
             }
 
-            if (charecter && charecter.features) {
-                charecter.features[ feature.feature_name ] = updatedFeature;
-            }
+            const updatedCharecter = { ...charecter, features: { ...charecter.features } };
+            updatedCharecter.features[ feature.feature_name ] = updatedFeature;
 
-            if (updateCharacter && charecter) {
-                updateCharacter("features", charecter.features);
+            if (updateCharacter) {
+                updateCharacter("features", updatedCharecter.features);
             }
 
             setIsUpdated(true);
         } else {
             setIsUpdated(true);
         }
-    }, [ feature ]); // Only re-run when these dependencies change
+    }, [ feature, charecter, updateCharacter ]);
+
 
     if (!feature) {
         return (
