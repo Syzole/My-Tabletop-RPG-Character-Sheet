@@ -6,52 +6,36 @@ import { formatPropertyKey } from "../Components/ItemCard";
 import DnDCharacter from "@/lib/DnDCharacter";
 
 interface FeatureCardProps {
-    feature?: Feature;
+    feature: Feature;
     className?: string; // Allow dynamic class name for positioning or styling
     onClick?: () => void; // Optional click handler
-    updateCharacter?: (key: string, value: any) => void;
-    charecter?: DnDCharacter;
+    updateCharacter: (key: string, value: any) => void;
+    charecter: DnDCharacter;
 }
 
-let keysWeDontWantToDisplay = [ "charges", "chargesUsed", "dynamic" ];
+const keysWeDontWantToDisplay = [ "charges", "chargesUsed", "dynamic" ];
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, updateCharacter, charecter }) => {
-    const [ isUpdated, setIsUpdated ] = useState(false);
 
-    useEffect(() => {
-        if (feature && feature.properties && feature.properties.dynamic && charecter && !isUpdated) { // If the feature has dynamic properties, update them
-            let updatedFeature = { ...feature };
+    const processedFeature = feature && feature.properties && feature.properties.dynamic
+        ? (() => {
+            const updatedFeature = { ...feature };
 
-            console.log("FeatureCard useEffect", feature.properties.dynamic);
-
-            for (const [ key, value ] of Object.entries(feature.properties.dynamic)) {
+            for (const [ key, value ] of Object.entries(feature.properties!.dynamic)) {
                 updatedFeature.properties![ key ] = charecter[ value ];
             }
 
-            const updatedCharecter = { ...charecter, features: { ...charecter.features } };
-            updatedCharecter.features[ feature.feature_name ] = updatedFeature;
-
-            if (updateCharacter) {
-                updateCharacter("features", updatedCharecter.features);
-            }
-
-            setIsUpdated(true);
-        } else {
-            setIsUpdated(true);
-        }
-    }, [ feature, charecter, updateCharacter ]);
+            return updatedFeature;
+        })()
+        : feature;
 
 
     if (!feature) {
         return (
             <div className={ `mt-2 w-64 bg-white p-4 rounded-lg shadow-lg z-10 ${className}` }>
-                <p>No feature selected.</p>
+                <p>{ !feature ? "No Feature " : "Loading..." }</p>
             </div>
         );
-    }
-
-    if (!isUpdated) {
-        return null; // or a loading spinner, etc.
     }
 
     const consumeCharge = (feature: Feature) => {
@@ -108,28 +92,28 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
             { (
                 <div className={ `left-0 w-64 bg-white p-4 rounded-lg shadow-lg z-10` }>
                     <h3 className="text-lg font-semibold text-indigo-600">
-                        { feature.feature_name }
+                        { processedFeature.feature_name }
                     </h3>
                     <p className="text-sm text-gray-600">
-                        <strong>Source:</strong> { feature.source_name }
+                        <strong>Source:</strong> { processedFeature.source }
                     </p>
-                    { feature.level && (
+                    { processedFeature.level && (
                         <p className="text-sm text-gray-600">
-                            <strong>Level:</strong> { feature.level }
+                            <strong>Level:</strong> { processedFeature.level }
                         </p>
                     )
                     }
                     <p className="text-sm text-gray-600">
-                        <strong>Type:</strong> { formatFeatureType(feature.type) }
+                        <strong>Type:</strong> { formatFeatureType(processedFeature.type) }
                     </p>
-                    <p className="text-sm text-gray-600 mt-2">{ feature.description }</p>
+                    <p className="text-sm text-gray-600 mt-2">{ processedFeature.description }</p>
 
                     {/* Optional properties */ }
-                    { feature.properties && Object.keys(feature.properties).length > 0 && (
+                    { processedFeature.properties && Object.keys(processedFeature.properties).length > 0 && (
                         <div className="text-sm text-gray-600 mt-2">
                             <h4 className="text-indigo-600 font-semibold">Properties</h4>
                             <ul>
-                                { Object.entries(feature.properties)
+                                { Object.entries(processedFeature.properties)
                                     // Filter out "charges" and "chargesUsed"
                                     .filter(([ key ]) => !keysWeDontWantToDisplay.includes(key))
                                     .map(([ key, value ]) => (
@@ -146,25 +130,25 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className, onClick, 
                         </div>
                     ) }
 
-                    { (feature.properties && feature.properties.charges) && ( // Show charge controls if feature has charges
+                    { (processedFeature.properties && processedFeature.properties.charges) && ( // Show charge controls if processedFeature has charges
                         <div className="text-sm text-gray-600 mt-2">
-                            <strong>Charges:</strong> { feature.properties.chargesUsed } / { feature.properties.charges }
+                            <strong>Charges:</strong> { processedFeature.properties.chargesUsed } / { processedFeature.properties.charges }
                         </div>
                     ) }
-                    { (feature.properties && feature.properties.charges) && ( // Show charge controls if feature has charges
+                    { (processedFeature.properties && processedFeature.properties.charges) && ( // Show charge controls if processedFeature has charges
                         <div>
                             <div className="justify-between mb-2">
                                 <button className="btn btn-primary mr-2"
-                                    onClick={ () => consumeCharge(feature) }
+                                    onClick={ () => consumeCharge(processedFeature) }
                                     disabled={ !hasCharges }
                                 >Use</button>
                                 <button className="btn btn-accent"
-                                    onClick={ () => incrementCharge(feature) }
-                                    disabled={ !(feature.properties.chargesUsed! > 0) }
+                                    onClick={ () => incrementCharge(processedFeature) }
+                                    disabled={ !(processedFeature.properties.chargesUsed! > 0) }
                                 >+</button>
                             </div>
                             <button className="btn btn-primary"
-                                onClick={ () => recharge(feature) }
+                                onClick={ () => recharge(processedFeature) }
                                 disabled={ hasCharges } >Recharge</button>
                         </div>
                     ) }

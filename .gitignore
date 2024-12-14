@@ -41,8 +41,6 @@ next-env.d.ts
 test.mjs
 
 # my suggestions
-prisma
 data
 characters
 scripts
-components

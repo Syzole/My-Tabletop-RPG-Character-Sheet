@@ -143,11 +143,12 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
                                         >
                                             -
                                         </button>
-                                        <input
-                                            type="number"
+                                        <textarea
                                             value={ item.quantity ? item.quantity : 1 }
                                             onChange={ (e) => handleChangeQuantity(item.name, parseInt(e.target.value)) }
-                                            className="w-12 text-center"
+                                            className="w-12 text-center resize-none overflow-hidden"
+                                            rows={ 1 }
+                                            style={ { minHeight: 'auto' } }
                                         />
                                         <button
                                             onClick={ () => handleIncreaseQuantity(item.name) }

@@ -29,7 +29,7 @@ export default function FocusCol({
     return (
         <>
             { focusItem && (
-                <div className="focus-col-container p-4 border-l border-gray-300 fixed bg-slate-900 top-1/2 -translate-y-1/2 max-h-screen overflow-auto">
+                <div className="focus-col-container p-4 border-l border-gray-300 fixed bg-slate-900 top-1/2 -translate-y-1/2 max-h-screen overflow-auto resize">
                     { isItem(focusItem) && (
                         <>
                             <button

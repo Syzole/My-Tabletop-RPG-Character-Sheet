@@ -5,7 +5,7 @@ import React from "react";
 interface ItemProps {
     item?: {
         name: string;
-        source: string[];
+        source?: string[];
         type: string;
         rarity?: string;
         value?: number;
@@ -17,6 +17,8 @@ interface ItemProps {
     onClick?: () => void;
 
 }
+
+const keysWeDontWantToDisplay = [ "weaponCategory" ];
 
 // Utility function to format the property keys
 export function formatPropertyKey(key: string): string {
@@ -46,7 +48,7 @@ const ItemCard: React.FC<ItemProps> = ({ item, className, onClick }) => {
                 { item.name }
             </h3>
             <p className="text-sm text-gray-600">
-                <strong>Source:</strong> { item.source.join(", ") }
+                <strong>Source:</strong> { item.source ? item.source.join(", ") : " - " }
             </p>
             <p className="text-sm text-gray-600">
                 <strong>Type:</strong> { item.type }
@@ -74,7 +76,7 @@ const ItemCard: React.FC<ItemProps> = ({ item, className, onClick }) => {
                             <h4 className="text-indigo-600 font-semibold">Properties</h4>
                             <ul>
                                 { Object.entries(item.properties).map(([ key, value ]) => (
-                                    <li key={ key }>
+                                    !keysWeDontWantToDisplay.includes(key) && (<li key={ key }>
                                         <strong className="">{ formatPropertyKey(key) }</strong>:{ " " }
                                         {
                                             Array.isArray(value) ? (
@@ -94,7 +96,7 @@ const ItemCard: React.FC<ItemProps> = ({ item, className, onClick }) => {
                                                 value
                                             )
                                         }
-                                    </li>
+                                    </li>)
                                 )) }
                             </ul>
                         </div>

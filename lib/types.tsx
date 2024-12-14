@@ -78,6 +78,14 @@ export interface Stats {
 	cha: number;
 }
 
+export interface StatModFromSource {
+	//this will tell what is the name of the source, what stat it modifies and by how much
+	source: string;
+	stat: keyof Stats;
+	modifier: number;
+	id?: number;
+};
+
 export interface SavingThrowProficiencies {
 	[ key: string ]: SavingThrowProficiencyLevel;
 	str: SavingThrowProficiencyLevel;

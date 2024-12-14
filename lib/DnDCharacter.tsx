@@ -1,5 +1,5 @@
 import { equipArmor, unequipArmor, updateAC, handleEquipWeapon } from "./helperFucntions/inventoryFunctions";
-import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skill, skills, defaultSkill, Armor, Race } from "./types";
+import { SavingThrowProficiencyLevel, Stats, SavingThrowProficiencies, Proficiencies, Item, Feature, skill, skills, defaultSkill, Armor, Race, StatModFromSource } from "./types";
 import { calculateSkillModifier, calculateSavingThrowModifier } from "./utils";
 
 export default class DnDCharacter {
@@ -17,7 +17,8 @@ export default class DnDCharacter {
 
 	baseStats: Stats; //this is the base baseStats
 	stats: Stats; //this is baseStats plus modifiers from items, spells, etc
-	statMods: Stats; //this is the baseStats plus modifiers from items, spells, etc
+	statMods: Stats = { str: 0, dex: 0, con: 0, int: 0, wis: 0, cha: 0 }; //this is the stats that are changed by items, spells, etc eg +2 str from a belt
+	statModsFromSource: { [ key: string ]: StatModFromSource } = {};
 	maxStats: Stats = { str: 20, dex: 20, con: 20, int: 20, wis: 20, cha: 20 };
 	equippedArmor?: Armor;
 	proficiencyBonus: number;
@@ -48,11 +49,11 @@ export default class DnDCharacter {
 	deathsaveFailures?: number;
 	attacksText?: string;
 
-	cp?: number;
-	sp?: number;
-	ep?: number;
-	gp?: number;
-	pp?: number;
+	cp: number = 0;
+	sp: number = 0;
+	ep: number = 0;
+	gp: number = 0;
+	pp: number = 0;
 	inventory: { [ key: string ]: Item } = {};
 	equipment?: string;
 	equippedWeapons: Item[] = [];
@@ -63,7 +64,6 @@ export default class DnDCharacter {
 	flaws?: string;
 
 	featuresTraits?: string;
-
 
 	// all below are optional and flavor text
 	age?: string;
@@ -103,7 +103,6 @@ export default class DnDCharacter {
 	constructor(statBlock?: Stats) {
 		this.baseStats = statBlock || { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 };
 		this.stats = { ...this.baseStats };
-		this.statMods = this.calculateStatMods();
 
 		this.initiative = this.getStatModifier("dex");
 		this.ac = 10 + this.getStatModifier("dex");
