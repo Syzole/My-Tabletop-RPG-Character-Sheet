@@ -25,12 +25,12 @@ export default class DnDCharacter {
 
 	skills: skills;
 	savingThrowProficiencies: SavingThrowProficiencies;
-	proficiencies: Proficiencies;
+	proficiencies: Proficiencies = this.initializeProficiencies();
 	features: { [ key: string ]: Feature } = {};
 
 	initiative: number;
 
-	inspiration?: number;
+	inspiration: number = 0;
 
 	passivePerception?: number;
 	otherProficiencies?: string;
@@ -110,7 +110,6 @@ export default class DnDCharacter {
 		this.proficiencyBonus = this.calculateProficiencyBonus();
 		this.skills = this.initializeSkills();
 		this.savingThrowProficiencies = this.initializeSavingThrowProficiencies();
-		this.proficiencies = this.initializeProficiencies();
 		this.jackOfAllTrades = false;
 
 		this.initSpellSlots();
@@ -163,10 +162,10 @@ export default class DnDCharacter {
 
 	initializeProficiencies(): Proficiencies {
 		return {
-			armor: [],
-			weapons: [],
-			tools: [],
-			languages: [],
+			armor: new Set<string>(),
+			weapons: new Set<string>(),
+			tools: new Set<string>(),
+			languages: new Set<string>(),
 		};
 	}
 

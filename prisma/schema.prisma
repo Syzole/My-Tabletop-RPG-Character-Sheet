@@ -23,48 +23,46 @@ model Item {
 }
 
 model Class {
-  name                       String          @id
+  name                       String
+  version                    String
+  source                     String[]
+  hitDice                    Int
+  savingThrowProf            String[]
+  skillsProf                 Json
   startingProficiencies      Json
-  startingEquipment          Json
-  multiclassing              Json
-  cantripProgression         Int[]
-  casterProgression          String?
-  classFeatures              String[]
-  classTableGroups           Json?
-  hd                         Int
+  startingEquipmentOptions   Json
+  multiclassing              Json?
   optionalfeatureProgression Json?
-  page                       Int
-  proficiency                String[]
-  source                     String
-  spellcastingAbility        String?
-  spellsKnownProgression     Int[]
-  subclassTitle              String
+  Spellcasting               Json?
   Class_Feature              Class_Feature[]
   Subclass                   Subclass[]
 
+  @@id([name, version])
   @@map("Classes")
 }
 
 model Class_Feature {
+  feature_name String
   source_name  String
+  version      String
   level        Int
   type         featureType
   description  String
   properties   Json?
-  feature_name String
-  class        Class       @relation(fields: [source_name], references: [name])
+  class        Class       @relation(fields: [source_name, version], references: [name, version])
 
   @@id([feature_name, source_name, level])
   @@map("Class Features")
 }
 
 model Subclass {
+  subclass_name     String             @id
   description       String?
   class_name        String
+  version           String
   properties        Json?
-  subclass_name     String             @id
   subclass_features Subclass_Feature[]
-  classes           Class              @relation(fields: [class_name], references: [name], onDelete: Cascade)
+  classes           Class              @relation(fields: [class_name, version], references: [name, version], onDelete: Cascade)
 
   @@map("Subclasses")
 }

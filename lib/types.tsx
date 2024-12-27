@@ -5,24 +5,24 @@ import * as types from "@prisma/client";
 export type Feature = {
 	feature_name: string;
 	source?: string;
-	level?: number;
 	description: string;
 	properties?: {
 		[ key: string ]: any
 		charges?: number;
 		chargesUsed?: number;
 		dynamic?: { [ key: string ]: string }; // e.g., { "charges": "proficiencyBonus" }
-		recharge?: "Short" | "Long" | "Other" | "N/A"; // short or long rest
+		recharge?: "Short" | "Long" | "Other" | "Dawn" | "N/A"; // short or long rest
 	};
 	type: types.featureType;
 }
+
 export interface Weapon {
 	name: string;
 	rangeType: "Melee" | "Ranged";
 	damage: string;
 	damageType: string;
 	properties: { [ key: string ]: any };
-	features?: Feature[]
+	features?: { [ key: string ]: Feature };
 }
 
 export interface Armor {
@@ -33,14 +33,14 @@ export interface Armor {
 	strReq?: number;
 	disadvantage?: boolean;
 	weight: number;
-	features?: Feature[]
+	features?: { [ key: string ]: Feature };
 }
 
 export interface Shield {
 	name: string;
 	ac: number;
 	weight: number;
-	features?: Feature[]
+	features?: { [ key: string ]: Feature };
 }
 
 export interface Item {
@@ -52,7 +52,7 @@ export interface Item {
 	value?: number;
 	weight?: number;
 	quantity: number;
-	features?: Feature[];
+	features?: { [ key: string ]: Feature };
 	properties: { [ key: string ]: any };
 }
 
@@ -97,10 +97,10 @@ export interface SavingThrowProficiencies {
 }
 
 export interface Proficiencies {
-	armor: string[];
-	weapons: string[];
-	tools: string[];
-	languages: string[];
+	armor: Set<string>;
+	weapons: Set<string>;
+	tools: Set<string>;
+	languages: Set<string>;
 }
 
 export interface skills {
@@ -167,9 +167,9 @@ export type Race = {
 	speed: number;
 	size: string;
 	proficiencies: Proficiencies;
-	features: Map<string, Feature>;
+	features: { [ key: string ]: Feature };
 	languages: string[];
-	modifiers?: Map<string, any>;
+	modifiers?: { [ key: string ]: any };
 }
 
 export type Spell = {

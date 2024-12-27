@@ -9,7 +9,7 @@ import InventoryBox from "./InventoryManager";
 
 export default function Inventory({ charecter, updateCharacter, setFocusItem }:
     {
-        charecter?: DnDCharacter,
+        charecter: DnDCharacter,
         updateCharacter: (field: string, value: any) => void,
         setFocusItem: (value: any) => void
     }) {
@@ -96,7 +96,7 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
     };
 
     return (
-        <div>
+        <div className="max-h-[525px] overflow-y-auto size-full">
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold mb-3">Inventory</h2>
                 <button
@@ -106,12 +106,12 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
                     Manage Inventory
                 </button>
             </div>
-            <div className="d-and-d-character-sheet container-xl mt-5 mb-5 justify-center items-start max-h-[450px] overflow-y-auto h-full">
+            <div className="d-and-d-character-sheet container-xl mt-5 mb-5 justify-center items-start">
                 {/* Search Input */ }
                 <input
                     type="text"
                     placeholder="Search"
-                    className="input w-1/2 h-12 p-4 mb-4"
+                    className="input w-1/2 h-12 p-4 mb-4 !bg-slate-300 max-w-fit"
                     value={ searchQuery }
                     onChange={ (e) => setSearchQuery(e.target.value) }
                 />
@@ -120,7 +120,7 @@ export default function Inventory({ charecter, updateCharacter, setFocusItem }:
                     <table className="table w-full bg-white border border-gray-200">
                         <thead>
                             <tr>
-                                <th className="text-left text-sm font-medium text-gray-900"
+                                <th className="text-left text-sm font-medium text-gray-900 hover:underline cursor-pointer"
                                     onClick={ () => sortByName(charecter!) }
                                 >Item Name</th>
                                 <th className="text-left text-sm font-medium text-gray-900">Type</th>

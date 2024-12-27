@@ -10,7 +10,7 @@ interface ItemProps {
         rarity?: string;
         value?: number;
         weight?: number;
-        quantity?: number;
+        quantity: number;
         properties: { [ key: string ]: any };
     };
     className?: string; // Add className prop for dynamic positioning
