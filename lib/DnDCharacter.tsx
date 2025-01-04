@@ -36,14 +36,14 @@ export default class DnDCharacter {
 	otherProficiencies?: string;
 
 	ac: number;
-	speed?: number;
+	speed: number = 30;
 
-	maxHp?: number;
-	hp?: number;
-	tempHp?: number;
+	maxHp: number = 0;
+	hp: number = 0;
+	tempHp: number = 0;
 
-	hitDiceMax?: string;
-	hitDice?: string;
+	hitDiceMax: Map<string, number> = new Map();
+	hitDice: Map<string, number> = new Map();
 
 	deathsaveSuccesses?: number;
 	deathsaveFailures?: number;
@@ -58,10 +58,10 @@ export default class DnDCharacter {
 	equipment?: string;
 	equippedWeapons: Item[] = [];
 
-	personalityTraits?: string;
-	ideals?: string;
-	bonds?: string;
-	flaws?: string;
+	personalityTraits: string = "";
+	ideals: string = "";
+	bonds: string = "";
+	flaws: string = "";
 
 	featuresTraits?: string;
 

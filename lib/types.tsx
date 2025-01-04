@@ -212,3 +212,27 @@ export enum SpellLevel {
 	Level8 = 8,
 	Level9 = 9,
 }
+
+
+//TODO: come back and adjust the savingThrowProf and starting profs to use existing types
+export type classSkeleton = {
+	name: string,
+	source: string[],
+	version: string,
+	hitDie: number,
+	savingThrowProf: string[],
+	skillsProf: {
+		from: string[],
+		count: number,
+	},
+	startingProficiencies: {
+		armor: string[],
+		weapons: string[],
+		tools: string[],
+		languages: string[]
+	},
+	startingEquipmentOptions: {
+		[ key: string ]: any;
+	}
+
+}

@@ -10,7 +10,7 @@ This project is currently in progress. We are actively working on adding new fea
 
 ## Open Source
 
-This project is open source and contributions are welcome. Feel free to fork the repository, submit issues, and make pull requests. We believe in the power of community and collaboration to make this project the best it can be.
+This project is open source and contributions are welcome. Feel free to fork the repository, submit issues, and make pull requests. I believe in the power of community and collaboration(aka friendship) to make this project the best it can be.
 
 ## How to Contribute
 
