@@ -42,8 +42,8 @@ export default class DnDCharacter {
 	hp: number = 0;
 	tempHp: number = 0;
 
-	hitDiceMax: Map<string, number> = new Map();
-	hitDice: Map<string, number> = new Map();
+	hitDiceMax: { [ key: number ]: number } = {};
+	hitDice: { [ key: number ]: number } = {};
 
 	deathsaveSuccesses?: number;
 	deathsaveFailures?: number;

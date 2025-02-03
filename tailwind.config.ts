@@ -11,7 +11,7 @@ const config: Config = {
 	daisyui: {
 		themes: [
 			"light",
-			"dark",
+			// "dark",
 			// "cupcake",
 			// "bumblebee",
 			// "emerald",

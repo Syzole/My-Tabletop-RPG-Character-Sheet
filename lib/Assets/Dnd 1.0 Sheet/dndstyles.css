@@ -360,7 +360,7 @@ textarea{
   font-size: 14px;
 }
 
-.d-and-d-character-sheet .d-and-d-equipment-indent::first-line, .d-and-d-character-sheet .d-and-d-equipment-indent::nth-line(-n+2) {
+.d-and-d-character-sheet .d-and-d-equipment-indent::first-line {
   text-indent: 200px;
 }
 

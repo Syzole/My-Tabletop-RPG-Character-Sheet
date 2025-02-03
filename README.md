@@ -1,4 +1,4 @@
-This is a start of a new project that is intended to make a digital charecter sheet for DND specifaclly 5e.
+This is a start of a new project that is intended to make a digital charecter sheet for, DND specifaclly 5e.
 
 ## Project Overview
 
@@ -21,3 +21,7 @@ This project is open source and contributions are welcome. Feel free to fork the
 5. Submit a pull request to the main repository.
 
 Thank you for your interest in contributing to this project!
+
+## Notes
+
+I am working on making some test charecter data public, so that you can test the app with some real data. I will be adding a folder called "test_data" or something similar to the project. This will contain some json files that will be used to test the app, that anyone can use to test the app when developing.

@@ -17,11 +17,12 @@
 				"name": "next"
 			}
 		],
+		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./*"]
 		},
-		"target": "ES2017"
+		"target": "ES2020"
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "seed.js", "test.mjs", "lib/mongodb.js"],
+	"include": ["lib/types.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "seed.js", "test.mjs", "lib/mongodb.js"],
 	"exclude": ["node_modules"]
 }

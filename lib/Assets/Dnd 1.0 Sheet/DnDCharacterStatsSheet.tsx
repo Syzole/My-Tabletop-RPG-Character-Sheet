@@ -49,10 +49,10 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 
 		// Convert proficiency object to a readable string
 		return [
-			"Armor: " + (proficiencies.armor.length > 0 ? proficiencies.armor.join(", ") : "None"),
-			"Weapons: " + (proficiencies.weapons.length > 0 ? proficiencies.weapons.join(", ") : "None"),
-			"Tools: " + (proficiencies.tools.length > 0 ? proficiencies.tools.join(", ") : "None"),
-			"Languages: " + (proficiencies.languages.length > 0 ? proficiencies.languages.join(", ") : "None"),
+			"Armor: " + (proficiencies.armor.size > 0 ? Array.from(proficiencies.armor).join(", ") : "None"),
+			"Weapons: " + (proficiencies.weapons.size > 0 ? Array.from(proficiencies.weapons).join(", ") : "None"),
+			"Tools: " + (proficiencies.tools.size > 0 ? Array.from(proficiencies.tools).join(", ") : "None"),
+			"Languages: " + (proficiencies.languages.size > 0 ? Array.from(proficiencies.languages).join(", ") : "None"),
 		].join("\n");
 	};
 
@@ -383,7 +383,7 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 								</label>
 							</div>
 							<div className="row mt-1 flex">
-								<div className="col-6 pr-1">
+								<div className="col-6 pr-1 flex text-center">
 									<div
 										className="d-and-d-box white mb-0"
 										style={ { paddingBottom: "5px" } }
@@ -394,14 +394,14 @@ export default function DnDCharacterStatsSheet({ character: initialCharacter }: 
 												type="text"
 												style={ { width: "calc(100% - 25px)" } }
 												className="d-and-d-linput"
-												defaultValue={ character.hitDiceMax ? character.hitDiceMax : "" }
+												defaultValue={ character.hitDiceMax ? Object.entries(character.hitDiceMax).map(([ key, value ]) => `${value}d${key}`).join(", ") : "" }
 												onChange={ (e) => updateCharacter("hitDiceMax", e.target.defaultValue) }
 											/>
 										</div>
 										<input
 											type="text"
 											className="d-and-d-cinput"
-											defaultValue={ character.hitDice ? character.hitDice : "" }
+											defaultValue={ character.hitDice ? Object.entries(character.hitDice).map(([ key, value ]) => `${value}d${key}`).join(", ") : "" }
 											onChange={ (e) => updateCharacter("hitDice", e.target.defaultValue) }
 										/>
 										<label

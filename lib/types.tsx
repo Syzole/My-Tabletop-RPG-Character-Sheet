@@ -1,4 +1,4 @@
-// types.ts
+// types.tsx
 
 import * as types from "@prisma/client";
 
@@ -219,7 +219,7 @@ export type classSkeleton = {
 	name: string,
 	source: string[],
 	version: string,
-	hitDie: number,
+	hitDice: number,
 	savingThrowProf: string[],
 	skillsProf: {
 		from: string[],
