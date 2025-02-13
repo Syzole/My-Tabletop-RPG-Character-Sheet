@@ -25,6 +25,3 @@ Thank you for your interest in contributing to this project!
 ## Notes
 
 I am working on making some test charecter data public, so that you can test the app with some real data. I will be adding a folder called "test_data" or something similar to the project. This will contain some json files that will be used to test the app, that anyone can use to test the app when developing.
-
-##Progress :D
-![Screenshot 2024-12-11 163315](https://github.com/user-attachments/assets/497367d3-f225-4cc4-aceb-832f6e82c861)
