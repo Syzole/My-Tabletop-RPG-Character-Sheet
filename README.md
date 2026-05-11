@@ -1,0 +1,1 @@
+This is a fresh start to the DND project since it became to complex to manage all the dynamic features so Im trying to do it over again with my additional knowledge and Skills :D
