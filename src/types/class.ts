@@ -48,6 +48,8 @@ export interface Class {
 
   features: Record<string, Feature>;
 
+  subclassLevel: number;
+
   spellCasterLevel?: number;
 	spellCastingAbility?: statName;
 }

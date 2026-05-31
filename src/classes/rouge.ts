@@ -230,5 +230,6 @@ export const rogue: Class = {
     startingGold: "4d4 x 10 gp",
   },
 
+  subclassLevel: 3,
   features: roguePHBFeatures,
 };
