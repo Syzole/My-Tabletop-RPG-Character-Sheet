@@ -43,6 +43,6 @@ next-env.d.ts
 
 #my stuff
 temp
-src/mocks/test.json
+src/mocks
 src/scripts
 src/data
