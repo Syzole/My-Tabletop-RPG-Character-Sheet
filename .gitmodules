@@ -1,0 +1,3 @@
+[submodule "src/private-assets"]
+	path = src/private-assets
+	url = syzole@atom-server:/home/syzole/git-repos/rpg-private-data.git
