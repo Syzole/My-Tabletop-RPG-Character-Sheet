@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync": "git pull origin main && git submodule update --remote --merge && cd src/private-assets && git checkout main"
   },
   "dependencies": {
     "next": "^16.2.6",

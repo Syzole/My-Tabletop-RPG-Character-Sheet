@@ -6,7 +6,7 @@ import { armorType } from "@/types/armor";
 import { AttackType } from "@/types/damage";
 import { statName } from "@/types/stats";
 import { SkillName } from "@/types/skills";
-import { roguePHBFeatures } from "@/data/classes/generated/rogue.phb.features";
+import { roguePHBFeatures } from "@/private-assets/data/classes/generated/rogue.phb.features";
 
 export const rogue: Class = {
   name: "Rogue",
