@@ -18,13 +18,12 @@ export type Size = "Tiny" | "Small" | "Medium" | "Large" | "Huge";
  *   - features: shallow overlay by feature name; partial fields overwrite
  */
 export interface SpeciesPatch {
-	resistances?: DamageType[];
-	speed?: Partial<Speed>;
-	abilityScoreIncreases?: Partial<Stats>;
-	languages?: string[];
-	features?: Record<string, Partial<Feature>>;
+  resistances?: DamageType[];
+  speed?: Partial<Speed>;
+  abilityScoreIncreases?: Partial<Stats>;
+  languages?: string[];
+  features?: Record<string, Partial<Feature>>;
 }
-
 
 /**
  * A species (5e 2024 terminology for what older books called "race").
@@ -36,20 +35,20 @@ export interface SpeciesPatch {
  * `choices` once and applies each picked option's patch.
  */
 export interface Species {
-	name: string;
-	source: string;
-	size: Size;
-	speed: Speed;
-	abilityScoreIncreases: Partial<Stats>;
-	features: Record<string, Feature>;
-	languages: Set<string>;
-	proficiencies?: Partial<Proficiencies>;
-	resistances?: DamageType[];
-	choices?: ChoiceGroup[];
-	subspecies?: Record<string, Subspecies>;
+  name: string;
+  source: string;
+  size: Size;
+  speed: Speed;
+  abilityScoreIncreases: Partial<Stats>;
+  features: Record<string, Feature>;
+  languages: Set<string>;
+  proficiencies?: Partial<Proficiencies>;
+  resistances?: DamageType[];
+  choices?: ChoiceGroup[];
+  subspecies?: Record<string, Subspecies>;
 }
 
-// 
+//
 export type Subspecies = { name: string; source: string } & Partial<
-	Omit<Species, "name" | "source" | "subspecies">
+  Omit<Species, "name" | "source" | "subspecies">
 >;

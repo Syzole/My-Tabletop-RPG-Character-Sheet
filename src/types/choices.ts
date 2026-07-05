@@ -1,8 +1,10 @@
+import { SpeciesPatch } from "./species";
+
 /** One picker option presented to the player at character creation. */
 export interface ChoiceOption {
-	id: string;
-	label: string;
-	apply: string;
+  id: string;
+  label: string;
+  apply: SpeciesPatch;
 }
 
 /**
@@ -14,9 +16,9 @@ export interface ChoiceOption {
  *     multi-pick group.
  */
 export interface ChoiceGroup {
-	id: string;
-	name: string;
-	count?: number;
-	unique?: boolean;
-	options: ChoiceOption[];
+  id: string;
+  name: string;
+  count?: number;
+  unique?: boolean;
+  options: ChoiceOption[];
 }
