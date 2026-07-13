@@ -5,64 +5,66 @@ import { SavingThrows } from "@/types/savingThrows";
 import { Skills } from "@/types/skills";
 import { CharacterSpellcasting } from "@/types/spellcasting";
 import { Stats } from "@/types/stats";
-import { Speed } from "./speed";
-import { Species } from "./species";
+import { Speed } from "@/types/speed";
+import { Species } from "@/types/species";
 
 export interface Character {
-	name: string;
-	playerName: string;
-	race: Species; 
-	background: string; //TODO: make Background type
-	alignment: string;
-	class: string; // TODO: make Class type array
-	/** Roguish Archetype, Sacred Oath, etc. Must match keys in SUBCLASS_FEATURE_MAP[class]. */
-	subclass?: string;
-	level: number;
-	experiencePoints?: number;
+  name: string;
+  playerName: string;
+  race: Species;
+  background: string; //TODO: make Background type
+  alignment: string;
+  class: string; // TODO: make Class type array
+  /** Roguish Archetype, Sacred Oath, etc. Must match keys in SUBCLASS_FEATURE_MAP[class]. */
+  subclass?: string;
+  level: number;
+  experiencePoints?: number;
 
-	baseStats: Stats;
+  baseStats: Stats;
 
-	proficiencyBonus: number; //TODO: Move to a live calculation based on level
-	inspiration: boolean;
-	savingThrows: SavingThrows;
-	skills: Skills;
+  proficiencyBonus: number; //TODO: Move to a live calculation based on level
+  inspiration: boolean;
+  savingThrows: SavingThrows;
+  skills: Skills;
 
-	speed: Speed;
-	proficiencies: Proficiencies;
+  speed: Speed;
+  proficiencies: Proficiencies;
 
-	hitPoints: {
-		current: number;
-		max: number;
-		temporary: number;
-	};
+  hitPoints: {
+    current: number;
+    max: number;
+    temporary: number;
+  };
 
-	deathSaves: {
-		successes: number;
-		failures: number;
-		isStabilized: boolean;
-	};
+  deathSaves: {
+    successes: number;
+    failures: number;
+    isStabilized: boolean;
+  };
 
-	hitDice: Record<string, { total: number; used: number }>; // Map of dice type (e.g., "d6", "d8", "d10") to {total, used}
+  hitDice: Record<string, { total: number; used: number }>; // Map of dice type (e.g., "d6", "d8", "d10") to {total, used}
 
-	equipment: Record<string, Items.Item>; // Changed to a record for easier access name
-	armor?: Items.Armor; // Single Armor object, since a character can typically wear only one armor at a time
+  equipment: Record<string, Items.Item>; // Changed to a record for easier access name
+  armor?: Items.Armor; // Single Armor object, since a character can typically wear only one armor at a time
 
-	currency: {
-		copper: number;
-		silver: number;
-		gold: number;
-		platinum: number;
-		electrum: number;
-	};
+  currency: {
+    copper: number;
+    silver: number;
+    gold: number;
+    platinum: number;
+    electrum: number;
+  };
 
-	//some flavor text
-	personalityTraits?: string[];
-	ideals?: string[];
-	bonds?: string[];
-	flaws?: string[];
+  //some flavor text
+  personalityTraits?: string[];
+  ideals?: string[];
+  bonds?: string[];
+  flaws?: string[];
 
-	/** Sheet overlay: class / feat / homebrew / mutable fields (e.g. charges). Merged last under "Character sheet" in FEATURE_SOURCE_ORDER. */
-	features?: Record<string, Feature>;
+  /** Sheet overlay: class / feat / homebrew / mutable fields (e.g. charges). Merged last under "Character sheet" in FEATURE_SOURCE_ORDER. */
+  // features?: Record<string, Feature>;
 
-	spellcasting?: CharacterSpellcasting;
+  feats?: Record<string, Feature>;
+
+  spellcasting?: CharacterSpellcasting;
 }
