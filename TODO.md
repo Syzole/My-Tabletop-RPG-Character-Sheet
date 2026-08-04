@@ -1,6 +1,6 @@
 - Add statbased charges to features
-- Add spell casting system, mainly find a way to diff warlock pact from other classes
-- Move consumeCharge, incrementCharge, recharge to a utils function
+- Add spell casting system, mainly find a way to diff warlock pact from other classes - Done
+- Move consumeCharge, incrementCharge, recharge to a utils function - Done
 - Add more strucute to the character object, such as saying what classes the character has and what levels they have in each class
 - For the character object, help split features based on class, feats, race, background, etc.
 - Create a "race" object that can be used to create a character with a specific race
