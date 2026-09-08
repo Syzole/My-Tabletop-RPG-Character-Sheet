@@ -1,5 +1,14 @@
 import type { Feature } from "@/types/feature";
 
+/** Deep-clone a catalog feature into a mutable character-owned instance. */
+export function cloneFeatureInstance(feature: Feature): Feature {
+	const clone = structuredClone(feature);
+	if (clone.charges != null && clone.chargesUsed == null) {
+		clone.chargesUsed = 0;
+	}
+	return clone;
+}
+
 export function isFeatureUnlockedAtLevel(feature: Feature, level: number): boolean {
 	if (feature.unlocksAtLevel == null) return true;
 	return level >= feature.unlocksAtLevel;
@@ -18,8 +27,8 @@ export function getUnlockedFeaturesByLevel(
 }
 
 /**
- * Merges every feature from `available` that is unlocked at `level` into `current`.
- * Names not present in `current` before the merge are listed in `newlyUnlocked`.
+ * Clones every unlocked feature from `available` that is not already in `current`.
+ * Existing owned entries are left untouched (charges, selections, etc.).
  */
 export function grantUnlockedFeatures(
 	current: Record<string, Feature>,
@@ -30,8 +39,9 @@ export function grantUnlockedFeatures(
 	const newlyUnlocked: string[] = [];
 	for (const [name, feat] of Object.entries(available)) {
 		if (!isFeatureUnlockedAtLevel(feat, level)) continue;
-		if (features[name] === undefined) newlyUnlocked.push(name);
-		features[name] = feat;
+		if (features[name] !== undefined) continue;
+		newlyUnlocked.push(name);
+		features[name] = cloneFeatureInstance(feat);
 	}
 	return { features, newlyUnlocked };
 }

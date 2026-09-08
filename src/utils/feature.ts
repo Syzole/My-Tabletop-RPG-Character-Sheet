@@ -1,15 +1,16 @@
 import { Feature } from "@/types/feature";
 import useCharacterStore from "@/stores/CharacterStore";
 import { Character } from "@/types/character";
-import { mergeFeaturesFromAllSources } from "@/constants/featureSources";
+import {
+  mergeFeaturesFromAllSources,
+  updateFeatureInSources,
+} from "@/constants/featureSources";
 import { dedupeFeatureUpgrades } from "@/utils/featureUpgrades";
-//due to reacts very fun nature of needs to make a new objec to re render that is what I must do
+
 function saveFeature(feature: Feature) {
-  const { character, updateCharacterField } = useCharacterStore.getState();
-  updateCharacterField("features", {
-    ...character?.features,
-    [feature.name]: feature,
-  });
+  const { character, setCharacter } = useCharacterStore.getState();
+  if (!character) return;
+  setCharacter(updateFeatureInSources(character, feature));
 }
 
 export function consumeCharge(feature: Feature) {

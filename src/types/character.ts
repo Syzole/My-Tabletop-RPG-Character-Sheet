@@ -61,8 +61,14 @@ export interface Character {
   bonds?: string[];
   flaws?: string[];
 
-  /** Sheet overlay: class / feat / homebrew / mutable fields (e.g. charges). Merged last under "Character sheet" in FEATURE_SOURCE_ORDER. */
-  // features?: Record<string, Feature>;
+  /**
+   * Owned class + subclass feature instances (cloned from catalogs at create / level-up).
+   * Mutable fields like chargesUsed live here — catalogs stay read-only.
+   */
+  features?: Record<string, Feature>;
+
+  /** Owned background feature instances (cloned at create when background data grants them). */
+  backgroundFeatures?: Record<string, Feature>;
 
   feats?: Record<string, Feature>;
 

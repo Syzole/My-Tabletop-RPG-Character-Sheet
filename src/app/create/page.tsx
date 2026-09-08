@@ -9,9 +9,9 @@ import {
 	CUSTOM_BACKGROUND_KEY,
 	type BackgroundSelectionKey,
 } from "@/constants/backgrounds";
-import { CLASS_STARTING_INFO } from "@/data/classStartingInfo";
-import { species as SPECIES_DATA } from "@/data/species";
-import { CLASS_FEATURE_MAP, SUBCLASS_FEATURE_MAP } from "@/data/classes";
+import { CLASS_STARTING_INFO } from "@/private-assets/data/classStartingInfo";
+import { species as SPECIES_DATA } from "@/private-assets/data/species";
+import { CLASS_FEATURE_MAP, SUBCLASS_FEATURE_MAP } from "@/private-assets/data/classes";
 import useCharacterStore from "@/stores/CharacterStore";
 import type { SkillName } from "@/types/skills";
 import { defaultStats } from "@/types/stats";

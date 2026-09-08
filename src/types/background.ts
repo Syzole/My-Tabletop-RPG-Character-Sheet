@@ -24,4 +24,6 @@ export interface Background {
 		}>;
 	};
 	feat?: Feature;
+	/** Optional feature map when a background grants multiple named features. */
+	features?: Record<string, Feature>;
 }

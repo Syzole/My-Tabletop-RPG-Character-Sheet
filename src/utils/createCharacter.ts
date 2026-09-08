@@ -16,6 +16,7 @@ import { defaultSkills, type SkillName } from "@/types/skills";
 import { defaultStats, type Stats } from "@/types/stats";
 import { resolveSpecies } from "@/utils/species";
 import { getModifier } from "@/utils/stats";
+import { copyUnlockedClassFeatures } from "@/constants/featureSources";
 
 /** Minimal hit-die labels by class display name — extend when you add classes. */
 const DEFAULT_HIT_DIE: Partial<Record<string, string>> = {
@@ -311,6 +312,11 @@ export function createCharacter(input: CreateCharacterInput): Character {
       platinum: 0,
       electrum: 0,
     },
-    features: {},
+    features: copyUnlockedClassFeatures({
+      class: classDisplayName,
+      subclass: input.subclass?.trim() || undefined,
+      level,
+    }).features,
+    backgroundFeatures: {},
   };
 }

@@ -3,6 +3,7 @@ import { AttackType, DamageType } from "./damage";
 import { WeaponCategories, WeaponProperties } from "./weapon";
 import { armorType } from "./armor";
 import { WeaponType } from "@/types/weapon";
+import type { Feature } from "@/types/feature";
 
 export interface Item {
 	name?: string;
@@ -17,6 +18,12 @@ export interface Item {
 	requiresAttunement?: boolean;
 	isAttuned?: boolean; // Track attunement status
 	statModifiers?: Partial<Stats>;
+
+	/**
+	 * Features this item grants while equipped / attuned.
+	 * Derived into the sheet via the Items feature source — not copied onto the character.
+	 */
+	grantsFeatures?: Record<string, Feature>;
 
 	// Enhanced fields
 	magic?: boolean;

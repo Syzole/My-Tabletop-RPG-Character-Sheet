@@ -45,6 +45,9 @@ export default function DnDCharacterStatsSheet({ characterProp }: DnDCharacterSt
 
     if (!character) return <div>Loading...</div>;
 
+
+    console.log("character", character);
+
     return (
         <div className="d-and-d-character-sheet container-xl mt-5 mb-5 flex flex-col">
             <div className="row mb-4 flex justify-center items-center">
